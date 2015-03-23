@@ -1,5 +1,6 @@
 import zipfile
 from lxml import etree
+import dataterms
 
 def get_epub_info(fname):
     ns = {
@@ -15,17 +16,17 @@ def get_epub_info(fname):
     txt = zip.read('META-INF/container.xml')
     tree = etree.fromstring(txt)
     cfname = tree.xpath('n:rootfiles/n:rootfile/@full-path',namespaces=ns)[0]
-    print cfname
+    #print cfname
 
     # grab the metadata block from the contents metafile
     cf = zip.read(cfname)
     tree = etree.fromstring(cf)
     p = tree.xpath('/pkg:package/pkg:metadata',namespaces=ns)[0]
-    print p
+    #print p
 
     # repackage the data
     res = {}
-    for s in ['title','language','creator','date','identifier']:
+    for s in dataterms.DataTerms:
         #check if the element exists before extracting 1st element from the list
         if p.xpath('dc:%s/text()'%(s),namespaces=ns):
             res[s] = p.xpath('dc:%s/text()'%(s),namespaces=ns)[0]
