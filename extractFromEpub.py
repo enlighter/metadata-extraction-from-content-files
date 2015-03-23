@@ -26,6 +26,7 @@ def get_epub_info(fname):
     # repackage the data
     res = {}
     for s in ['title','language','creator','date','identifier']:
+        #check if the element exists before extracting 1st element from the list
         if p.xpath('dc:%s/text()'%(s),namespaces=ns):
             res[s] = p.xpath('dc:%s/text()'%(s),namespaces=ns)[0]
 
