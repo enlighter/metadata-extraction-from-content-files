@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Event delegation</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Event delegation"><div class="titlepage"><div><div><h1 class="title"><a id="ch10lvl1sec77"/>Event delegation</h1></div></div></div><p>Recall that to implement <a id="id816" class="indexterm"/>
+<a id="id817" class="indexterm"/>event delegation by hand, we check the <code class="literal">target</code> property of the <code class="literal">event</code> object to see if it matches the element that we want to trigger the behavior. The event target represents the innermost, or most deeply nested, element that is receiving the event. With our sample HTML this time, however, we're presented with a new challenge. The <code class="literal">&lt;div class="photo"&gt;</code> elements are unlikely to be the event target since they contain other elements, such as the image itself and the image details.</p><p>What we need is the <code class="literal">.closest()</code> method, <a id="id818" class="indexterm"/>which works its way up the DOM from parent to parent until it finds an <a id="id819" class="indexterm"/>
+<a id="id820" class="indexterm"/>element that matches a given selector expression. If no elements are found, it acts like any other DOM traversal method, returning a new empty jQuery object. We can use <code class="literal">.closest()</code> to find <code class="literal">&lt;div class="photo"&gt;</code> from any element it contains as follows:</p><div class="informalexample"><pre class="programlisting">// Unfinished code
+$(document).ready(function() {
+  $('#gallery').on('mouseover mouseout', function(event) {
+    var $target = $(event.target).closest('div.photo');
+    var $details = $target.find('.details');
+    var $related = $(event.relatedTarget)
+                   .closest('div.photo');
+
+    if (event.type == 'mouseover' &amp;&amp; $target.length) {
+      $details.fadeTo('fast', 0.7);
+    } else if (event.type == 'mouseout' &amp;&amp; !$related.length) {
+      $details.fadeOut('fast');
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.5</em></span>
+</p><p>Note that we also needed to change the <a id="id821" class="indexterm"/>event types from <code class="literal">mouseenter</code> and <a id="id822" class="indexterm"/>
+<code class="literal">mouseleave</code> to <a id="id823" class="indexterm"/>
+<code class="literal">mouseover</code> and <code class="literal">mouseout</code>, because the <a id="id824" class="indexterm"/>former types are only triggered when the mouse first enters the gallery <code class="literal">&lt;div&gt;</code> and finally leaves it, we need the handlers to be fired whenever the mouse enters any of the photos <span class="emphasis"><em>within</em></span> that wrapping <code class="literal">&lt;div&gt;</code>. But the latter types introduce yet another in that the detail <code class="literal">&lt;div&gt;</code> will fade in and out repeatedly unless we include an additional check for the <code class="literal">event</code> object's <code class="literal">relatedTarget</code> property. Even with the additional code, repeated quick mouse movements over and out of photos are handled unsatisfactorily, leaving an occasional detail <code class="literal">&lt;div&gt;</code> visible when it should have faded out.</p><div class="section" title="Using jQuery's delegation capabilities"><div class="titlepage"><div><div><h2 class="title"><a id="ch10lvl2sec118"/>Using jQuery's delegation capabilities</h2></div></div></div><p>Event delegation can be <a id="id825" class="indexterm"/>frustratingly difficult to manage by hand when tasks become more complex. Fortunately, jQuery's <code class="literal">.on()</code> method has delegation built into it, which can smooth over the rough spots for us. Using this capability, our code can return to the simplicity it had in <span class="emphasis"><em>Listing 10.4</em></span>:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#gallery').on('mouseenter mouseleave', 'div.photo',
+  function(event) {
+    var $details = $(this).find('.details');
+    if (event.type == 'mouseenter') {
+      $details.fadeTo('fast', 0.7);
+    } else {
+      $details.fadeOut('fast');
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.6</em></span>
+</p><p>The selector, <code class="literal">#gallery</code>, remains the same as in <span class="emphasis"><em>Listing 10.5</em></span>, but the event types return to the <code class="literal">mouseenter</code> and <code class="literal">mouseleave</code> of <span class="emphasis"><em>Listing 10.4</em></span>. When we pass in <code class="literal">'div.photo'</code> as the second argument to <code class="literal">.on()</code>, jQuery <a id="id826" class="indexterm"/>maps the <code class="literal">this</code> keyword to the element(s) matched by that selector within <code class="literal">'#gallery'</code>.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="note17"/>Note</h3><p>Some developers prefer to use the <code class="literal">.delegate()</code> and <code class="literal">.undelegate()</code> methods, which offer a slightly <a id="id827" class="indexterm"/>
+<a id="id828" class="indexterm"/>different syntax for the same capability we are seeing here.</p></div></div></div><div class="section" title="Choosing a delegation scope"><div class="titlepage"><div><div><h2 class="title"><a id="ch10lvl2sec119"/>Choosing a delegation scope</h2></div></div></div><p>Because all of the photo elements <a id="id829" class="indexterm"/>we are dealing with are contained inside <code class="literal">&lt;div id="gallery"&gt;</code>, we have used <code class="literal">#gallery</code> as our delegation scope in the previous example. However, any element that is an ancestor of all of the photos could be used as this scope. For example, we could bind our handler to <code class="literal">document</code>, which is the common ancestor of everything on the page:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  $(document).on('mouseenter mouseleave', 'div.photo',</strong></span>
+<span class="strong"><strong>  function(event) {</strong></span>
+    var $details = $(this).find('.details');
+    if (event.type == 'mouseenter') {
+      $details.fadeTo('fast', 0.7);
+    } else {
+      $details.fadeOut('fast');
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.7</em></span>
+</p><p>It can be convenient to attach event handlers directly to <code class="literal">document</code> when setting up event delegation. Since all page elements descend from <code class="literal">document</code>, we don't need to worry about picking the right container. However, this convenience comes at a potential performance cost.</p><p>In a DOM of deeply nested elements, relying on events to bubble all the way up a multitude of ancestor elements could be costly. Regardless of which elements we are actually observing (by passing in their selector as the second argument of <code class="literal">.on()</code>), if we bind our handler to <code class="literal">document</code> then an event happening anywhere on the page needs to be examined. In <span class="emphasis"><em>Listing 10.6</em></span>, for example, whenever the mouse enters any element on the page, jQuery needs to check to see <a id="id830" class="indexterm"/>if it is entering a <code class="literal">&lt;div class="photo"&gt;</code> element or not. This can grow costly on large pages, especially if delegation is used a lot. By being more specific in our delegation context, this work can be reduced.</p></div><div class="section" title="Delegating early"><div class="titlepage"><div><div><h2 class="title"><a id="ch10lvl2sec120"/>Delegating early</h2></div></div></div><p>Despite these efficiency <a id="id831" class="indexterm"/>concerns, there are reasons we may yet choose to use <code class="literal">document</code> as our delegation context. In general, we can only bind event handlers once the DOM elements they are attached to are loaded, which is why we typically place our code inside <code class="literal">$(document).ready()</code>. However, the <code class="literal">document</code> element is available immediately, so we don't need to wait for the whole DOM to be ready before we bind to it. Even if the script is referenced in the <code class="literal">&lt;head&gt;</code> of the document, as it is in our example, we can call <code class="literal">.on()</code> right away, as follows:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $(document).on('mouseenter mouseleave', 'div.photo', 
+  function(event) {
+    var $details = $(this).find('.details');
+    if (event.type == 'mouseenter') {
+      $details.fadeTo('fast', 0.7);
+    } else {
+      $details.fadeOut('fast');
+    }
+  });
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 10.8</em></span>
+</p><p>Because we're not waiting for the entire DOM to be ready, we can be assured that the <code class="literal">mouseenter</code> and <code class="literal">mouseleave</code> behaviors will apply to all <code class="literal">&lt;div class="photo"&gt;</code> elements as soon as they are rendered on the page.</p><p>To see the benefit of this technique, consider a <code class="literal">click</code> handler directly bound to a link. Suppose this handler performs some actions, and also prevents the default action of the link (navigating to another page). If we were to wait until the whole document was ready, we would run the risk of the user clicking that link before the handler was registered and thereby leaving the current page rather than getting the enhanced treatment provided by the script. In contrast, binding a delegated event handler to <code class="literal">document </code>gives us the benefit of binding the event early <a id="id832" class="indexterm"/>without the cost of having to scan through a complex DOM structure.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip57"/>Tip</h3><p>
+<span class="strong"><strong>Immediately invoked function expression</strong></span>
+</p><p>In place of <code class="literal">$(document).ready()</code>, we're using an <span class="strong"><strong>immediately invoked function expression</strong></span> (<span class="strong"><strong>IIFE</strong></span>) to <a id="id833" class="indexterm"/>act as a closure, as discussed in <a class="link" href="ch08.html" title="Chapter&#xA0;8.&#xA0;Developing Plugins">Chapter 8,</a> <span class="emphasis"><em>Developing Plugins</em></span>. This allows us to avoid potential naming conflicts with other scripts when we define variables and functions inside of it (since variables are scoped within functions).</p></div></div></div></div></body></html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Removing an event handler</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Removing an event handler"><div class="titlepage"><div><div><h1 class="title"><a id="ch03lvl1sec27"/>Removing an event handler</h1></div></div></div><p>There are times when we will <a id="id242" class="indexterm"/>be done with an event handler we previously registered. Perhaps the state of the page has changed such that the action no longer makes sense. It is typically possible to handle this situation with conditional statements inside our event handlers, but it may be more elegant to unbind the handler entirely.</p><p>Suppose that we want our collapsible style switcher to remain expanded whenever the page is not using the normal style. While the <span class="strong"><strong>Narrow Column</strong></span> or <span class="strong"><strong>Large Print</strong></span> button is selected, clicking on the background of the style switcher should do nothing. We can accomplish this by calling the the <code class="literal">.off()</code> method to remove the collapsing handler when one of the non-default style switcher buttons is clicked:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#switcher').click(function(event) {
+    if (!$(event.target).is('button')) {
+      $('#switcher button').toggleClass('hidden');
+    }
+  });
+<span class="strong"><strong>  $('#switcher-narrow, #switcher-large').click(function() {</strong></span>
+<span class="strong"><strong>    $('#switcher').off('click');</strong></span>
+<span class="strong"><strong>  });</strong></span>
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.18</em></span>
+</p><p>Now when a button such as <span class="strong"><strong>Narrow Column</strong></span> is clicked, the <code class="literal">click</code> handler on the style switcher <code class="literal">&lt;div&gt;</code> is removed, and clicking on the background of the box no longer collapses it. However, the buttons don't work anymore! They are affected by the <code class="literal">click</code> event of the style switcher <code class="literal">&lt;div&gt;</code> as well, because we rewrote the button-handling code to use event delegation. This means that when we call <code class="literal">$('#switcher').off('click')</code>, both behaviors are removed.</p><div class="section" title="Giving namespaces to event handlers"><div class="titlepage"><div><div><h2 class="title"><a id="ch03lvl2sec37"/>Giving namespaces to event handlers</h2></div></div></div><p>We need to make our <code class="literal">.off()</code> call more specific so that it does not remove both of the click handlers we have registered. <a id="id243" class="indexterm"/>One way of doing this is to use <span class="strong"><strong>event </strong></span>
+<a id="id244" class="indexterm"/>
+<span class="strong"><strong>namespacing</strong></span>. We can introduce additional information when an event is bound that allows us to identify that particular handler later. To use namespacing, we need to return to the non-shorthand method of binding event handlers, the <code class="literal">.on()</code> method itself.</p><p>The first parameter we pass to <code class="literal">.on()</code> is the name of the event we want to watch for. We can use a special syntax here, though, that allows us to subcategorize the event:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  $('#switcher').on('click.collapse', function(event) {</strong></span>
+    if (!$(event.target).is('button')) {
+      $('#switcher button').toggleClass('hidden');
+    }
+  });
+  $('#switcher-narrow, #switcher-large').click(function() {
+<span class="strong"><strong>    $('#switcher').off('click.collapse');</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.19</em></span>
+</p><p>The <code class="literal">.collapse</code> suffix is <a id="id245" class="indexterm"/>invisible to the event handling system; <code class="literal">click</code> events are handled by this function, just as if we wrote <code class="literal">.on('click')</code>. However, the addition of the namespace means that we can <a id="id246" class="indexterm"/>unbind just this handler without affecting the separate <code class="literal">click</code> handler we wrote for the buttons.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip20"/>Tip</h3><p>There are other ways of making our <code class="literal">.off()</code> call more specific, as we will see in a moment. However, event namespacing is a useful tool in our arsenal. It is especially handy in the creation of plugins, as we'll see in later chapters.</p></div></div></div><div class="section" title="Rebinding events"><div class="titlepage"><div><div><h2 class="title"><a id="ch03lvl2sec38"/>Rebinding events</h2></div></div></div><p>Now clicking on the <span class="strong"><strong>Narrow Column</strong></span> or <span class="strong"><strong>Large Print</strong></span> button causes the style switcher collapsing functionality to be <a id="id247" class="indexterm"/>disabled. However, we want the behavior to return when the <span class="strong"><strong>Default</strong></span> button is pressed. To do this, we will need to <span class="strong"><strong>rebind</strong></span> the handler whenever <span class="strong"><strong>Default</strong></span> is clicked.</p><p>First, we should give our handler function a name so that we can use it more than once without repeating ourselves:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  var toggleSwitcher = function(event) {</strong></span>
+    if (!$(event.target).is('button')) {
+      $('#switcher button').toggleClass('hidden');
+    }
+  };
+<span class="strong"><strong>  $('#switcher').on('click.collapse', toggleSwitcher);</strong></span>
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.20</em></span>
+</p><p>Note that we are using a new syntax here for defining a function. Rather than use a <span class="strong"><strong>function declaration</strong></span> (defining the function by leading with the <code class="literal">function</code> keyword and naming it), we <a id="id248" class="indexterm"/>use an <a id="id249" class="indexterm"/>
+<span class="strong"><strong>anonymous function expression</strong></span>, assigning a no-name function to a local variable. Aside from a couple of subtle differences that don't apply in this case, the two syntaxes are functionally equivalent. Here, our use of the function expression is a stylistic choice to make our event handlers and other function definitions resemble each other more closely.</p><p>Also, recall that we are passing <code class="literal">.on()</code> a <span class="strong"><strong>function</strong></span>
+<a id="id250" class="indexterm"/>
+<span class="strong"><strong> reference</strong></span> as its second argument. It is important to remember when referring to a function that we must omit parentheses after the function name; parentheses would cause the function to be <span class="emphasis"><em>called</em></span> rather than <span class="emphasis"><em>referenced</em></span>.</p><p>Now that the function can be <a id="id251" class="indexterm"/>referenced, we can bind it again later without repeating the function definition:</p><div class="informalexample"><pre class="programlisting">// Unfinished code
+$(document).ready(function() {
+  var toggleSwitcher = function(event) {
+    if (!$(event.target).is('button')) {
+      $('#switcher button').toggleClass('hidden');
+    }
+  };
+  $('#switcher').on('click.collapse', toggleSwitcher);
+  $('#switcher-narrow, #switcher-large').click(function() {
+    $('#switcher').off('click.collapse');
+  });
+  $('#switcher-default').click(function() {
+    $('#switcher')
+<span class="strong"><strong>      .on('click.collapse', toggleSwitcher);</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.21</em></span>
+</p><p>Now the toggle behavior is bound when the document is loaded, unbound when <span class="strong"><strong>Narrow Column</strong></span> or <span class="strong"><strong>Large Print</strong></span> is clicked, and rebound when <span class="strong"><strong>Normal</strong></span> is clicked after that.</p><p>Since we have named the function, we no longer need to use namespacing. The <code class="literal">.off()</code> method can take a function as a second argument; in this case, it unbinds only that specific handler. However, we have run into another problem. Remember that when a handler is bound to an event in jQuery, previous handlers remain in effect. In this case, each time <span class="strong"><strong>Normal</strong></span> is clicked, another copy of the <code class="literal">toggleSwitcher</code> handler is bound to the style switcher. In other words, the function is called an extra time for each additional click until the user clicks <span class="strong"><strong>Narrow</strong></span> or <span class="strong"><strong>Large Print</strong></span>, which unbinds all of the <code class="literal">toggleSwitcher</code> handlers at once.</p><p>When an even number of <a id="id252" class="indexterm"/>
+<code class="literal">toggleSwitcher</code> handlers are bound, clicks on the style switcher (but not on a button) appear to have no effect. In fact, the <code class="literal">hidden</code> class is being toggled multiple times, ending <a id="id253" class="indexterm"/>up in the same state it was when it began. To remedy this problem, we can unbind the handler when a user clicks on <span class="emphasis"><em>any</em></span> button, and rebind only after ensuring that the clicked button's ID is <code class="literal">switcher-default</code>:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var toggleSwitcher = function(event) {
+    if (!$(event.target).is('button')) {
+      $('#switcher button').toggleClass('hidden');
+    }
+  };
+<span class="strong"><strong>  $('#switcher').on('click', toggleSwitcher);</strong></span>
+  $('#switcher button').click(function() {
+<span class="strong"><strong>    $('#switcher').off('click', toggleSwitcher);</strong></span>
+<span class="strong"><strong>    if (this.id == 'switcher-default') {</strong></span>
+<span class="strong"><strong>      $('#switcher').on('click', toggleSwitcher);</strong></span>
+<span class="strong"><strong>    }</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.22</em></span>
+</p><p>A shortcut is also available for the situation in which we want to unbind an event handler immediately after the first time it is triggered. This shortcut, called <code class="literal">.one()</code>, is used as follows:</p><div class="informalexample"><pre class="programlisting">$('#switcher').one('click', toggleSwitcher);</pre></div><p>This would cause the toggle action to occur only once.</p></div></div></body></html>

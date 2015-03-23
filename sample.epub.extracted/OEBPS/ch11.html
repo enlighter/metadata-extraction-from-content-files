@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter&#xA0;11.&#xA0;Advanced Effects</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="chapter" title="Chapter&#xA0;11.&#xA0;Advanced Effects"><div class="titlepage"><div><div><h1 class="title"><a id="ch11"/>Chapter&#xA0;11.&#xA0;Advanced Effects</h1></div></div></div><p>Since learning about jQuery's animation capabilities, we have found many uses for them. We can hide and reveal objects on the page with ease, we can gracefully resize elements, and we can smoothly reposition items. This effects library is very versatile, however, and contains even more techniques and specialized abilities than we have seen so far.</p><p>In <a class="link" href="ch04.html" title="Chapter&#xA0;4.&#xA0;Styling and Animating">Chapter 4</a>, <span class="emphasis"><em>Styling and Animating</em></span>, we learned about jQuery's basic animation capabilities. In this more advanced chapter, we will cover:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">Ways to gather information about the state of animations</li><li class="listitem" style="list-style-type: disc">Methods for interrupting active animations</li><li class="listitem" style="list-style-type: disc">Global effect options that can affect all animations on the page at once</li><li class="listitem" style="list-style-type: disc">Deferred objects, which allow us to act once animations have concluded</li><li class="listitem" style="list-style-type: disc">Easing, which alters the rate at which animations occur</li></ul></div><div class="section" title="Animation revisited"><div class="titlepage"><div><div><h1 class="title"><a id="ch11lvl1sec84"/>Animation revisited</h1></div></div></div><p>To refresh our memories about <a id="id880" class="indexterm"/>jQuery's effect methods and set up a baseline from which to build in this chapter, we will start with a simple hover animation. Using a document with a number of photo thumbnails on it, we will make each photo "grow" slightly when the user's mouse is over it, and shrink back to its original size when the mouse leaves. The HTML tags we'll use also contain some textual information that is hidden for now, which we will use later in the chapter:</p><div class="informalexample"><pre class="programlisting">&lt;div class="team"&gt;
+  &lt;div class="member"&gt;
+    &lt;img class="avatar" src="photos/rey.jpg" alt="" /&gt;
+    &lt;div class="name"&gt;Rey Bango&lt;/div&gt;
+    &lt;div class="location"&gt;Florida&lt;/div&gt;
+    &lt;p class="bio"&gt;Rey Bango is a consultant living in South Florida, specializing in web application development...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="member"&gt;
+    &lt;img class="avatar" src="photos/scott.jpg" alt="" /&gt;
+    &lt;div class="name"&gt;Scott Gonz&#xE1;lez&lt;/div&gt;
+    &lt;div class="location"&gt;North Carolina&lt;/div&gt;
+    &lt;div class="position"&gt;jQuery UI Development Lead&lt;/div&gt;
+    &lt;p class="bio"&gt;Scott is a web developer living in Raleigh, NC...&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;!-- Code continues ... --&gt;
+&lt;/div&gt;</pre></div><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip59"/>Tip</h3><p>
+<span class="strong"><strong>Downloadable code examples</strong></span>
+</p><p>As with many of the HTML, CSS, and JavaScript examples in this book, the preceding markup is merely a fragment of the complete document. To experiment with the examples, you can download them from the Packt Publishing website at <a class="ulink" href="http://www.packtpub.com/support">http://www.packtpub.com/support</a>. In addition, the examples can be viewed in an interactive browser at <a class="ulink" href="http://book.learningjquery.com/">http://book.learningjquery.com/</a>.</p></div></div><p>The text associated with each image is initially <a id="id881" class="indexterm"/>hidden by the CSS by moving each <code class="literal">&lt;div&gt;</code> to the left of its <code class="literal">overflow: hidden</code> container:</p><div class="informalexample"><pre class="programlisting">.member {
+  position: relative;
+  overflow: hidden;
+}
+
+.member div {
+  position: absolute;
+  left: -300px;
+  width: 250px;
+}</pre></div><p>The HTML and CSS together produce a vertically-arranged list of images:</p><div class="mediaobject"><img src="graphics/3145OS_11_01.jpg" alt="Animation revisited"/></div><p>To alter the size of the image, we will <a id="id882" class="indexterm"/>increase its height and width from <code class="literal">75</code> pixels to <code class="literal">85</code> pixels. At <a id="id883" class="indexterm"/>the same time, to keep the image centered, we will decrease its padding from <code class="literal">5</code> pixels to <code class="literal">0</code> pixels:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.member').on('mouseenter mouseleave', function(event) {
+    var size = event.type == 'mouseenter' ? 85 : 75;
+    var padding = event.type == 'mouseenter' ? 0 : 5;
+    $(this).find('img').animate({
+      width: size,
+      height: size,
+      paddingTop: padding,
+      paddingLeft: padding
+    });
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 11.1</em></span>
+</p><p>Here we repeat a pattern we saw in <a class="link" href="ch10.html" title="Chapter&#xA0;10.&#xA0;Advanced Events">Chapter 10</a>, <span class="emphasis"><em>Advanced Events</em></span>, because much of the work we are performing when the mouse enters the region is the same as when it leaves; we are combining the handlers for <code class="literal">mouseenter</code> and <code class="literal">mouseleave</code> into one function rather than calling <code class="literal">.hover()</code> with two separate callbacks. Inside this joint handler, we determine the values of <code class="literal">size</code> and <code class="literal">padding</code> based on which of the two events is being triggered, and pass these property values on to the <code class="literal">.animate()</code> method.</p><p>Now when the mouse cursor is <a id="id884" class="indexterm"/>over an image, it is slightly larger than the rest:</p><div class="mediaobject"><img src="graphics/3145OS_11_02.jpg" alt="Animation revisited"/></div></div></div></body></html>

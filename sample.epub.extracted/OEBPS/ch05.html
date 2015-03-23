@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter&#xA0;5.&#xA0;Manipulating the DOM</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="chapter" title="Chapter&#xA0;5.&#xA0;Manipulating the DOM"><div class="titlepage"><div><div><h1 class="title"><a id="ch05"/>Chapter&#xA0;5.&#xA0;Manipulating the DOM</h1></div></div></div><p>The Web experience is a partnership between web servers and web browsers. Traditionally, it has been the domain of the server to produce an HTML document that is ready for consumption by the browser. The techniques we have seen in this book have shifted this arrangement slightly by using CSS techniques to alter the appearance of that HTML document on the fly. To really flex our JavaScript muscles, though, we'll need to learn to alter the document itself.</p><p>In this chapter, we will cover:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">Modifying the document using the interface provided by the <span class="strong"><strong>Document Object Model</strong></span> (<span class="strong"><strong>DOM</strong></span>)</li><li class="listitem" style="list-style-type: disc">Creating elements and text on a page</li><li class="listitem" style="list-style-type: disc">Moving or deleting elements</li><li class="listitem" style="list-style-type: disc">Transforming a document by adding, removing, or modifying attributes and properties</li></ul></div><div class="section" title="Manipulating attributes and properties"><div class="titlepage"><div><div><h1 class="title"><a id="ch05lvl1sec38"/>Manipulating attributes and properties</h1></div></div></div><p>Throughout the first four chapters of this book, we have been using the <code class="literal">.addClass()</code> and <code class="literal">.removeClass()</code> <a id="id360" class="indexterm"/>methods to demonstrate how we can change the appearance of elements on a page. Although we discuss these methods informally in terms of manipulating the <code class="literal">class</code> attribute, jQuery actually modifies a DOM property called <code class="literal">className</code>. The <code class="literal">.addClass()</code> <a id="id361" class="indexterm"/>method creates or adds to the property, while <code class="literal">.removeClass()</code> deletes or shortens it. Add to these the <code class="literal">.toggleClass()</code> <a id="id362" class="indexterm"/>method, which alternates between adding and removing class names, and we have an efficient and robust way of handling classes. These methods are particularly helpful in that they avoid adding a class if it already exists on an element (so we don't end up with <code class="literal">&lt;div class="first first"&gt;</code>, for example), and correctly handle cases where multiple classes are applied to a single element, such as <code class="literal">&lt;div class="first second"&gt;</code>.</p><div class="section" title="Non-class attributes"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec53"/>Non-class attributes</h2></div></div></div><p>We may need to access or <a id="id363" class="indexterm"/>change several other attributes or properties from <a id="id364" class="indexterm"/>time to time. For manipulating attributes such as <code class="literal">id</code>, <code class="literal">rel</code>, and <code class="literal">href</code>, jQuery provides the <code class="literal">.attr()</code> and <code class="literal">.removeAttr()</code> methods. These methods make changing an attribute a simple matter. In addition, jQuery lets us modify more than one attribute at a time, similar to the way we worked with multiple CSS properties using the <code class="literal">.css()</code> method in <a class="link" href="ch04.html" title="Chapter&#xA0;4.&#xA0;Styling and Animating">Chapter 4</a>, <span class="emphasis"><em>Styling and Animating</em></span>.</p><p>For example, we can easily set the <code class="literal">id</code>, <code class="literal">rel</code>, and <code class="literal">title</code> attributes for links all at once. Let's start with some sample HTML:</p><div class="informalexample"><pre class="programlisting">&lt;h1 id="f-title"&gt;Flatland: A Romance of Many Dimensions&lt;/h1&gt;
+&lt;div id="f-author"&gt;by Edwin A. Abbott&lt;/div&gt;
+&lt;h2&gt;Part 1, Section 3&lt;/h2&gt;
+&lt;h3 id="f-subtitle"&gt;
+   Concerning the Inhabitants of Flatland
+&lt;/h3&gt;
+&lt;div id="excerpt"&gt;an excerpt&lt;/div&gt;
+&lt;div class="chapter"&gt;
+  &lt;p class="square"&gt;Our Professional Men and Gentlemen are
+    Squares (to which class I myself belong) and Five-Sided 
+    Figures or &lt;a 
+    href="http://en.wikipedia.org/wiki/Pentagon"&gt;Pentagons
+    &lt;/a&gt;.
+  &lt;/p&gt;
+  &lt;p class="nobility hexagon"&gt;Next above these come the 
+    Nobility, of whom there are several degrees, beginning at 
+    Six-Sided Figures, or &lt;a 
+    href="http://en.wikipedia.org/wiki/Hexagon"&gt;Hexagons&lt;/a&gt;, 
+    and from thence rising in the number of their sides till 
+    they receive the honourable title of &lt;a 
+    href="http://en.wikipedia.org/wiki/Polygon"&gt;Polygonal&lt;/a&gt;, 
+    or many-Sided. Finally when the number of the sides 
+    becomes so numerous, and the sides themselves so small, 
+    that the figure cannot be distinguished from a &lt;a 
+    href="http://en.wikipedia.org/wiki/Circle"&gt;circle&lt;/a&gt;, he 
+    is included in the Circular or Priestly order; and this is 
+    the highest class of all.
+  &lt;/p&gt;
+  &lt;p&gt;&lt;span class="pull-quote"&gt;It is a &lt;span class="drop"&gt;Law 
+    of Nature&lt;/span&gt; with us that a male child shall have 
+    &lt;strong&gt;one more side&lt;/strong&gt; than his father&lt;/span&gt;, so 
+    that each generation shall rise (as a rule) one step in 
+    the scale of development and nobility. Thus the son of a 
+    Square is a Pentagon; the son of a Pentagon, a Hexagon; 
+    and so on.
+  &lt;/p&gt;
+&lt;!-- . . . code continues . . . --&gt;
+&lt;/div&gt;</pre></div><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip27"/>Tip</h3><p>
+<span class="strong"><strong>Downloadable code examples</strong></span>
+</p><p>As with many of the HTML, CSS, and JavaScript examples in this book, the previous markup is merely a fragment of the complete document. To experiment with the examples, you can download them from the Packt Publishing website at <a class="ulink" href="http://www.packtpub.com/support">http://www.packtpub.com/support</a>. In addition, the examples can be viewed in an interactive browser at <a class="ulink" href="http://book.learningjquery.com/">http://book.learningjquery.com/</a>.</p></div></div><p>Now we can iterate through each of the links inside <code class="literal">&lt;div class="chapter"&gt;</code> and apply attributes to them one by one. <a id="id365" class="indexterm"/>If we need to set a single attribute value for all of the links, <a id="id366" class="indexterm"/>we can do so with a single line of code within our <code class="literal">$(document).ready()</code> handler:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.chapter a').attr({rel: 'external'});
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.1</em></span>
+</p><p>Much like the <code class="literal">.css()</code> <a id="id367" class="indexterm"/>method, <code class="literal">.attr()</code> <a id="id368" class="indexterm"/>can accept a pair of parameters, the first specifying the attribute name and the second being its new value. More typically, though, we supply an object of key-value pairs, as we have in <span class="emphasis"><em>Listing 5.1</em></span>. The following syntax allows us to easily expand our example to modify multiple attributes at once:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.chapter a').attr({
+    rel: 'external',
+<span class="strong"><strong>    title: 'Learn more at Wikipedia'</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.2</em></span>
+</p><div class="section" title="Value callbacks"><div class="titlepage"><div><div><h3 class="title"><a id="ch05lvl3sec09"/>Value callbacks</h3></div></div></div><p>The straightforward technique for passing <code class="literal">.attr()</code> a simple object of constants is sufficient when we want <a id="id369" class="indexterm"/>
+<a id="id370" class="indexterm"/>the attribute or attributes to have the same value for each matched element. Often, though, the attributes we add or change must have different values each time. One common example is that for any given document, each <code class="literal">id</code> value must be unique if we want our JavaScript code to behave predictably. To set a unique <code class="literal">id</code> value for each link, we can harness another feature of jQuery methods such as <code class="literal">.css()</code> and <code class="literal">.each()</code>&#x2014;<span class="strong"><strong>value callbacks</strong></span>.</p><p>A value callback is simply a function that is supplied instead of the value for an argument. This function is then invoked once per element in the matched set. Whatever data is returned from the function is used as the new value for the attribute. For example, we can use the following <a id="id371" class="indexterm"/>
+<a id="id372" class="indexterm"/>technique to generate a different <code class="literal">id</code> value for each element:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.chapter a').attr({
+    rel: 'external',
+    title: 'Learn more at Wikipedia',
+<span class="strong"><strong>    id: function(index, oldValue) {</strong></span>
+<span class="strong"><strong>      return 'wikilink-' + index;</strong></span>
+<span class="strong"><strong>    }</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.3</em></span>
+</p><p>Each time our value callback is fired, it is passed a pair of parameters. The first is an integer indicating the iteration count; we're using it here to give the first link an <code class="literal">id</code> value of <code class="literal">wikilink-0</code>, the second <code class="literal">wikilink-1</code>, and so on. The second parameter, which is unused in <span class="emphasis"><em>Listing 5.3</em></span>, contains the value of the attribute prior to modification.</p><p>We are using the <code class="literal">title</code> attribute <a id="id373" class="indexterm"/>to invite people to learn more about the linked term at Wikipedia. In the HTML tags we have used so far, all of the links point to Wikipedia. However, to account for other types of links, we should make the selector expression a little more specific:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  $('div.chapter a[href*="wikipedia"]').attr({</strong></span>
+    rel: 'external',
+    title: 'Learn more at Wikipedia',
+    id: function(index, oldValue) {
+      return 'wikilink-' + index;
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.4</em></span>
+</p><p>To complete our tour of the <code class="literal">.attr()</code> <a id="id374" class="indexterm"/>method, we'll enhance the <code class="literal">title</code> attribute of these links to be more specific about the link destination. Once again, a value callback is the right tool for the job:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.chapter a[href*="wikipedia"]').attr({
+    rel: 'external',
+<span class="strong"><strong>    title: function() {</strong></span>
+<span class="strong"><strong>      return 'Learn more about ' + $(this).text()</strong></span>
+<span class="strong"><strong>        + ' at Wikipedia.';</strong></span>
+<span class="strong"><strong>    },</strong></span>
+    id: function(index, oldValue) {
+      return 'wikilink-' + index;
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.5</em></span>
+</p><p>This time we've taken advantage of the context of value callbacks. Just as with event handlers, the keyword <code class="literal">this</code> points to the DOM element we're manipulating each time the callback is invoked. Here, we're wrapping the element in a jQuery object so that we can use the <code class="literal">.text()</code> method <a id="id375" class="indexterm"/>(introduced in <a class="link" href="ch04.html" title="Chapter&#xA0;4.&#xA0;Styling and Animating">Chapter 4</a>, <span class="emphasis"><em>Styling and Animating</em></span>) to retrieve the textual content of the link. <a id="id376" class="indexterm"/>
+<a id="id377" class="indexterm"/>This makes each link title different from the rest, as we can see in the following screenshot:</p><div class="mediaobject"><img src="graphics/3145OS_05_01.jpg" alt="Value callbacks"/></div></div></div><div class="section" title="DOM element properties"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec54"/>DOM element properties</h2></div></div></div><p>As mentioned briefly previously, <a id="id378" class="indexterm"/>there is a subtle distinction between HTML <span class="strong"><strong>attributes</strong></span> and DOM <span class="strong"><strong>properties</strong></span>. Attributes are the values given in quotation marks in the HTML source for the page, while properties are the values as accessed by JavaScript. We can observe attributes and properties easily in a developer tool like Chrome's:</p><div class="mediaobject"><img src="graphics/3145OS_05_02.jpg" alt="DOM element properties"/></div><p>The Chrome Developer Tools' elements inspector shows us that the highlighted <code class="literal">&lt;p&gt;</code> element has an attribute called <code class="literal">class</code> <a id="id379" class="indexterm"/>with the value <code class="literal">square</code>. In the right panel, we can see that this element has a corresponding property called <code class="literal">className</code> with the value <code class="literal">square</code>. This illustrates one of the rare situations in which an attribute and its equivalent property have different names.</p><p>In most cases, attributes and <a id="id380" class="indexterm"/>properties are functionally interchangeable, and jQuery takes care of the naming inconsistencies for us. However, at times we do need to be mindful of the differences between the two. Some DOM properties, such as <code class="literal">nodeName</code>, <code class="literal">nodeType</code>, <code class="literal">selectedIndex</code>, and <code class="literal">childNodes</code>, have no equivalent attribute, and therefore are not accessible via <code class="literal">.attr()</code>. Moreover, data types may differ: the <code class="literal">checked</code> attribute, for example, has a string value, while the <code class="literal">checked</code> property has a Boolean value. For these Boolean attributes, it is best to test and set the <span class="emphasis"><em>property</em></span> rather than the <span class="emphasis"><em>attribute</em></span> to ensure consistent cross-browser behavior.</p><p>We can get and set properties from jQuery using the <code class="literal">.prop()</code> method:</p><div class="informalexample"><pre class="programlisting">// Get the current value of the "checked" property
+var currentlyChecked = $('.my-checkbox').prop('checked');
+
+// Set a new value for the "checked" property
+$('.my-checkbox').prop('checked', false);</pre></div><p>The <code class="literal">.prop()</code> method <a id="id381" class="indexterm"/>has all the same features as <code class="literal">.attr()</code>, such as accepting an object of multiple values to set <a id="id382" class="indexterm"/>at the same time and taking value callback functions.</p></div><div class="section" title="The value of form controls"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec55"/>The value of form controls</h2></div></div></div><p>Perhaps the most troublesome difference between attributes and properties arises when trying to get or set the value of a form control. For text inputs, the <code class="literal">value</code> attribute is equivalent to the <code class="literal">defaultValue </code>
+<a id="id383" class="indexterm"/>property, not the <code class="literal">value</code> property. For <code class="literal">select</code> elements, the value is usually obtained via the element's <code class="literal">selectedIndex</code> property or the <a id="id384" class="indexterm"/>
+<code class="literal">selected</code> property of its <code class="literal">option</code> elements.</p><p>Because of these discrepancies, we should avoid using <code class="literal">.attr()</code>&#x2014;and, in the case of <code class="literal">select</code> elements, even <code class="literal">.prop()</code>&#x2014;to get or set form element values. Instead, we can use the <code class="literal">.val()</code> method, which jQuery provides for these occasions:</p><div class="informalexample"><pre class="programlisting">// Get the current value of a text input
+var inputValue = $('#my-input').val();
+// Get the current value of a select list
+var selectValue = $('#my-select').val();
+//Set the value of a single select list
+$('#my-single-select').val('value3');
+// Set the value of a multiple select list
+$('#my-multi-select').val(['value1', 'value2']);</pre></div><p>As with <code class="literal">.attr()</code> and <code class="literal">.prop()</code>,<code class="literal"> .val() </code>can take a function for its setter argument. With its multi-purpose <code class="literal">.val()</code> method, jQuery yet again makes developing for the web much easier.</p></div></div></div></body></html>

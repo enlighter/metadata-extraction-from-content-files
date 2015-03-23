@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Ajax methods</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Ajax methods"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec124"/>Ajax methods</h1></div></div></div><p>We can retrieve information from the server without requiring a page refresh by calling one of these Ajax methods. Ajax methods are discussed in detail in <a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>.</p><div class="section" title="Issuing requests"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec191"/>Issuing requests</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Ajax method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.ajax([url], options)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Makes an <a id="id1489" class="indexterm"/>Ajax request <a id="id1490" class="indexterm"/>using the provided set of options. This is a low-level method that is often called via other convenience methods.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.load(url, [data], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Makes an <a id="id1491" class="indexterm"/>Ajax request to <code class="literal">url</code> and places the response into the matched elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.get(url, [data], [callback], [returnType])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Makes an <a id="id1492" class="indexterm"/>Ajax request to <code class="literal">url</code> using the <code class="literal">GET</code> method.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.getJSON(url, [data], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Makes an Ajax <a id="id1493" class="indexterm"/>request to <code class="literal">url</code>, interpreting the response as a JSON data structure.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.getScript(url, [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Makes an <a id="id1494" class="indexterm"/>Ajax request to <code class="literal">url</code>, executing the response as JavaScript.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.post(url, [data], [callback], [returnType])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Makes an <a id="id1495" class="indexterm"/>Ajax <a id="id1496" class="indexterm"/>request to <code class="literal">url</code> using the <code class="literal">POST</code> method.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Request monitoring"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec192"/>Request monitoring</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Ajax method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.ajaxComplete(handler)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Binds <a id="id1497" class="indexterm"/>
+<code class="literal">handler</code> <a id="id1498" class="indexterm"/>to be called when any Ajax transaction completes.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.ajaxError(handler)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Binds <code class="literal">handler</code> <a id="id1499" class="indexterm"/>to be called when any Ajax transaction completes with an error.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.ajaxSend(handler)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Binds <a id="id1500" class="indexterm"/>
+<code class="literal">handler</code> to be called when any Ajax transaction begins.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.ajaxStart(handler)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Binds <code class="literal">handler</code> <a id="id1501" class="indexterm"/>to be called when any Ajax transaction begins, and no others are active.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.ajaxStop(handler)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Binds <a id="id1502" class="indexterm"/>
+<code class="literal">handler</code> to be called when any Ajax transaction ends, and no others are still active.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.ajaxSuccess(handler)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Binds <code class="literal">handler</code> <a id="id1503" class="indexterm"/>to be called when any Ajax transaction completes successfully.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Configuration"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec193"/>Configuration</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Ajax method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.ajaxSetup(options) </code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets <a id="id1504" class="indexterm"/>default options for all subsequent Ajax transactions.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.ajaxPrefilter([dataTypes], handler)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Modifies the options on each Ajax request before it is processed by <code class="literal">$.ajax()</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.ajaxTransport(transportFunction)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Defines a new transport mechanism for Ajax transactions.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Utilities"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec194"/>Utilities</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Ajax method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.serialize()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Encodes the <a id="id1505" class="indexterm"/>values of a set of form controls into a query string.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.serializeArray()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Encodes the values of a set of form controls into a JavaScript data structure.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.param(obj)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Encodes an arbitrary object of key-value pairs into a query string.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.globalEval(code)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Evaluates the given JavaScript string in the global context.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.parseJSON(json)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Converts the <a id="id1506" class="indexterm"/>given JSON string into a JavaScript object.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.parseXML(xml)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Converts the given XML string into an XML document.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.parseHTML(html)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Converts the given HTML string into a set of DOM elements.</p>
+</td></tr></tbody></table></div></div></div></body></html>

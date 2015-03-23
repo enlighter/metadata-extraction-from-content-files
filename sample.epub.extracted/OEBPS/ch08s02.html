@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Adding new global functions</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Adding new global functions"><div class="titlepage"><div><div><h1 class="title"><a id="ch08lvl1sec64"/>Adding new global functions</h1></div></div></div><p>Some of the built-in capabilities of jQuery are provided via what we have been calling global functions. As we've seen, <a id="id629" class="indexterm"/>these are actually methods of the jQuery object, but practically speaking, they are functions within a <code class="literal">jQuery</code> namespace.</p><p>A prime example of this technique is the <a id="id630" class="indexterm"/>
+<code class="literal">$.ajax()</code> function. Everything that <code class="literal">$.ajax()</code> does could be accomplished with a regular global function called <code class="literal">ajax()</code>, but this approach would leave us open for function name conflicts. By placing the function within the <code class="literal">jQuery</code> namespace, we only have to worry about conflicts with other jQuery methods. This <code class="literal">jQuery</code> namespace<a id="id631" class="indexterm"/> also signals to those who might use the plugin that the jQuery library is required.</p><p>Many of the global functions provided by the core jQuery library are utility methods; that is, they provide shortcuts for tasks that are frequently needed, but not difficult to do by hand. The array-handling <a id="id632" class="indexterm"/>functions <code class="literal">$.each()</code>, <code class="literal">$.map()</code>, and <code class="literal">$.grep()</code> are good examples of these. To illustrate the creation of such utility methods, we'll add two trivial functions to their number.</p><p>To add a function to the <a id="id633" class="indexterm"/>
+<code class="literal">jQuery</code> namespace, <a id="id634" class="indexterm"/>we can just assign the new function as a property of the <code class="literal">jQuery</code> object:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.sum = function(array) {
+    // Code goes here
+  };
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.1</em></span>
+</p><p>Now, in any code that uses this plugin, we can write:</p><div class="informalexample"><pre class="programlisting">$.sum();</pre></div><p>This will work just like a basic function call, and the code inside the function will be executed.</p><p>This <code class="literal">sum</code> method will <a id="id635" class="indexterm"/>accept an array, add the values in the array together, and return the result. The code for our plugin is quite brief:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.sum = function(array) {
+<span class="strong"><strong>    var total = 0;</strong></span>
+
+<span class="strong"><strong>    $.each(array, function(index, value) {</strong></span>
+<span class="strong"><strong>      value = $.trim(value);</strong></span>
+<span class="strong"><strong>      value = parseFloat(value) || 0;</strong></span>
+
+<span class="strong"><strong>      total += value;</strong></span>
+<span class="strong"><strong>    });</strong></span>
+<span class="strong"><strong>    return total;</strong></span>
+  };
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.2</em></span>
+</p><p>Note that here, we have used the <a id="id636" class="indexterm"/>
+<code class="literal">$.each()</code> method to iterate over the array's values. We could certainly use a simple <a id="id637" class="indexterm"/>
+<code class="literal">for()</code> loop here, but since we can be assured that the jQuery library has been loaded before our plugin, we can use the syntax we've grown comfortable with. Also, a nice <a id="id638" class="indexterm"/>feature of <code class="literal">$.each()</code> <a id="id639" class="indexterm"/>is that its first parameter can also accept an object.</p><p>To test our plugins, we'll build a simple table with an inventory of groceries:</p><div class="informalexample"><pre class="programlisting">&lt;table id="inventory"&gt;
+  &lt;thead&gt;
+    &lt;tr class="one"&gt;
+      &lt;th&gt;Product&lt;/th&gt; &lt;th&gt;Quantity&lt;/th&gt; &lt;th&gt;Price&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tfoot&gt;
+    &lt;tr class="two" id="sum"&gt;
+      &lt;td&gt;Total&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr id="average"&gt;
+      &lt;td&gt;Average&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href="spam.html" data-tooltip-text="Nutritious and delicious!"&gt;Spam&lt;/a&gt;&lt;/td&gt; &lt;td&gt;4&lt;/td&gt; &lt;td&gt;2.50&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href="egg.html" data-tooltip-text="Farm fresh or scrambled!"&gt;Egg&lt;/a&gt;&lt;/td&gt; &lt;td&gt;12&lt;/td&gt; &lt;td&gt;4.32&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;&lt;a href="gourmet-spam.html" data-tooltip-text="Chef Hermann's recipe."&gt;Gourmet Spam&lt;/a&gt;&lt;/td&gt; &lt;td&gt;14&lt;/td&gt; &lt;td&gt;7.89&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip43"/>Tip</h3><p>
+<span class="strong"><strong>Downloadable code examples</strong></span>
+</p><p>As with many of the HTML, CSS, and JavaScript examples in this book, the previous markup is merely a fragment of the complete document. To experiment with the examples, we can download them from the Packt Publishing website at <a class="ulink" href="http://www.packtpub.com/support">http://www.packtpub.com/support</a>. In addition, the examples can be viewed in an interactive browser at <a class="ulink" href="http://book.learningjquery.com/">http://book.learningjquery.com/</a>.</p></div></div><p>Now we'll write a short script that <a id="id640" class="indexterm"/>populates the appropriate table footer cell with the sum of all quantities:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $inventory = $('#inventory tbody');
+  var quantities = $inventory.find('td:nth-child(2)')
+    .map(function(index, qty) {
+      return $(qty).text();
+    }).get();
+
+  var sum = $.sum(quantities);
+  $('#sum').find('td:nth-child(2)').text(sum);
+});</pre></div><p>
+<span class="emphasis"><em>Listing 8.3</em></span>
+</p><p>A look at the rendered HTML page verifies that our plugin is working correctly:</p><div class="mediaobject"><img src="graphics/3145_08_01.jpg" alt="Adding new global functions"/></div><div class="section" title="Adding multiple functions"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec90"/>Adding multiple functions</h2></div></div></div><p>If our plugin needs to provide more than one global function, we could declare them independently. Here we'll <a id="id641" class="indexterm"/>revise our plugin, adding a function to compute the average of an array of numbers:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.sum = function(array) {
+    var total = 0;
+
+    $.each(array, function(index, value) {
+      value = $.trim(value);
+      value = parseFloat(value) || 0;
+
+      total += value;
+    });
+    return total;
+  };
+<span class="strong"><strong>  $.average = function(array) {</strong></span>
+<span class="strong"><strong>    if ($.isArray(array)) {</strong></span>
+<span class="strong"><strong>      return $.sum(array) / array.length;</strong></span>
+<span class="strong"><strong>    }</strong></span>
+<span class="strong"><strong>    return '';</strong></span>
+<span class="strong"><strong>  };</strong></span>
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.4</em></span>
+</p><p>For convenience and brevity, we're using the <a id="id642" class="indexterm"/>
+<code class="literal">$.sum()</code> plugin to assist us in returning the value for <a id="id643" class="indexterm"/>
+<code class="literal">$.average()</code>. To decrease the chance of errors, we also check the argument to make sure it is an array before computing the average.</p><p>Now that a second method is defined, we can call it in the same fashion:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $inventory = $('#inventory tbody');
+  var prices = $inventory.find('td:nth-child(3)')
+    .map(function(index, qty) {
+    return $(qty).text();
+  }).get();
+
+  var average = $.average(prices);
+  $('#average').find('td:nth-child(3)').text(average.toFixed(2));
+});</pre></div><p>
+<span class="emphasis"><em>Listing 8.5</em></span>
+</p><p>The average now appears in the third column:</p><div class="mediaobject"><img src="graphics/3145_08_02.jpg" alt="Adding multiple functions"/></div><div class="section" title="Extending the global jQuery object"><div class="titlepage"><div><div><h3 class="title"><a id="ch08lvl3sec20"/>Extending the global jQuery object</h3></div></div></div><p>We can also employ an <a id="id644" class="indexterm"/>
+<a id="id645" class="indexterm"/>alternate syntax in defining our functions using the <code class="literal">$.extend()</code> function:</p><div class="informalexample"><pre class="programlisting">(function($) {
+<span class="strong"><strong>  $.extend({</strong></span>
+    sum: function(array) {
+      var total = 0;
+
+      $.each(array, function(index, value) {
+        value = $.trim(value);
+        value = parseFloat(value) || 0;
+
+        total += value;
+      });
+      return total;
+    },
+    average: function(array) {
+      if ($.isArray(array)) {
+        return $.sum(array) / array.length;
+      }
+      return '';
+    }
+<span class="strong"><strong>  });</strong></span>
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.6</em></span>
+</p><p>When called this way, <code class="literal">$.extend()</code> adds or replaces properties of the global jQuery object. This, therefore, produces the same results as the previous technique.</p></div><div class="section" title="Isolating functions within namespaces"><div class="titlepage"><div><div><h3 class="title"><a id="ch08lvl3sec21"/>Isolating functions within namespaces</h3></div></div></div><p>Our plugin now creates <a id="id646" class="indexterm"/>two separate global functions within the <code class="literal">jQuery</code> namespace. We risk a different kind of namespace pollution here, though; we could still have a conflict with function names defined in other jQuery plugins. To avoid this, it is best to encapsulate all the global functions for a given plugin into a single object:</p><div class="informalexample"><pre class="programlisting">(function($) {
+<span class="strong"><strong>  $.mathUtils = {</strong></span>
+    sum: function(array) {
+      var total = 0;
+
+      $.each(array, function(index, value) {
+        value = $.trim(value);
+        value = parseFloat(value) || 0;
+
+        total += value;
+      });
+      return total;
+    },
+    average: function(array) {
+      if ($.isArray(array)) {
+        return $.mathUtils.sum(array) / array.length;
+      }
+      return '';
+    }
+<span class="strong"><strong>  };</strong></span>
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.7</em></span>
+</p><p>This pattern essentially creates another namespace for our global functions, called <code class="literal">jQuery.mathUtils</code>. Though we will still informally call these functions global, they are now methods of the <code class="literal">mathUtils</code> <a id="id647" class="indexterm"/>object, which is itself a property of the global jQuery object. We, therefore, have to include the plugin name in our function calls:</p><div class="informalexample"><pre class="programlisting">$.mathUtils.sum(sum);
+$.mathUtils.average(average);</pre></div><p>With this technique (and a sufficiently unique plugin name), we are protected from namespace collisions in our global functions. We now have the basics of plugin development in our bag of tricks. After saving our functions in a file called <code class="literal">jquery.mathutils.js</code>, we can include this script and use the functions from other scripts on the page.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip44"/>Tip</h3><p>
+<span class="strong"><strong>Choosing a namespace</strong></span>
+</p><p>For functions that are solely for personal use, it often makes more sense to place them within our own project's global namespace. So, instead of using <code class="literal">jQuery</code>, we may instead choose to expose one global object of our own. We could, for example, have a global object called <code class="literal">ljQ</code> and define the <code class="literal">ljQ.mathUtils.sum()</code> and <code class="literal">ljQ.mathUtils.average()</code> methods instead of <code class="literal">$.mathUtils.sum()</code> and <code class="literal">$.mathUtils.average()</code>. This way we completely remove the chance of namespace collisions with third-party plugins that we choose to include.</p></div></div><p>So we've now seen the namespace protection and guaranteed library availability that jQuery plugins grant. These <a id="id648" class="indexterm"/>are just organizational benefits, though. To really tap into the power of jQuery plugins, we need to learn how to create new methods on individual jQuery object instances.</p></div></div></div></body></html>

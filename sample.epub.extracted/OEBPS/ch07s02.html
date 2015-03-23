@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Using a plugin</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Using a plugin"><div class="titlepage"><div><div><h1 class="title"><a id="ch07lvl1sec57"/>Using a plugin</h1></div></div></div><p>Using a jQuery plugin is very <a id="id537" class="indexterm"/>straightforward. We need to simply obtain the plugin code, reference the plugin from our HTML, and invoke the new capabilities from our own scripts.</p><p>We can easily demonstrate these tasks using the jQuery Cycle plugin. This plugin, by Mike Alsup, allows us to quickly transform a static set of page elements into an interactive slideshow. Like many popular plugins, it can handle complex, advanced needs well, but can also hide this complexity when our requirements are more straightforward.</p><div class="section" title="Downloading and referencing the Cycle plugin"><div class="titlepage"><div><div><h2 class="title"><a id="ch07lvl2sec75"/>Downloading and referencing the Cycle plugin</h2></div></div></div><p>We can find the Cycle <a id="id538" class="indexterm"/>
+<a id="id539" class="indexterm"/>plugin using the jQuery Plugin Registry, or on the plugin's home page at <a class="ulink" href="http://www.malsup.com/jquery/cycle/">http://www.malsup.com/jquery/cycle/</a>. This page directs us to the download instructions, which yield an archive containing both the full Cycle plugin and the smaller Cycle Lite. For our purposes here, we'll use the full version in the file called <code class="literal">jquery.cycle.all.js</code>.</p><p>Once we have the plugin in our site's directory, we can reference it in the document, making sure that it appears <span class="emphasis"><em>after</em></span> the main jQuery source file and <span class="emphasis"><em>before</em></span> our scripts that need to use the plugin:</p><div class="informalexample"><pre class="programlisting">&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;jQuery Book Browser&lt;/title&gt;
+  &lt;link rel="stylesheet" href="07.css" type="text/css" /&gt;
+  &lt;script src="jquery.js"&gt;&lt;/script&gt;
+  &lt;script src="jquery.cycle.all.js"&gt;&lt;/script&gt;
+  &lt;script src="07.js"&gt;&lt;/script&gt;
+&lt;/head&gt;</pre></div><p>We have now loaded our first plugin. As we can see, this is no more complicated than setting up jQuery itself. The plugin's capabilities are now ours to use in our scripts.</p></div><div class="section" title="Calling a plugin method"><div class="titlepage"><div><div><h2 class="title"><a id="ch07lvl2sec76"/>Calling a plugin method</h2></div></div></div><p>The Cycle plugin operates on any <a id="id540" class="indexterm"/>set of sibling elements on a page. To show it in action, we'll set up some simple HTML containing book cover images and related information in a list, adding it to the body of our HTML document as follows:</p><div class="informalexample"><pre class="programlisting">&lt;ul id="books"&gt;
+  &lt;li&gt;
+    &lt;img src="images/jq-game.jpg" alt="jQuery Game Development 
+      Essentials" /&gt;
+    &lt;div class="title"&gt;jQuery Game Development Essentials&lt;/div&gt;
+    &lt;div class="author"&gt;Salim Arsever&lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;img src="images/jqmobile-cookbook.jpg" alt="jQuery Mobile 
+      Cookbook" /&gt;
+    &lt;div class="title"&gt;jQuery Mobile Cookbook&lt;/div&gt;
+    &lt;div class="author"&gt;Chetan K Jain&lt;/div&gt;
+  &lt;/li&gt;
+  ...
+&lt;/ul&gt;</pre></div><p>Some light styling in our CSS file <a id="id541" class="indexterm"/>presents the book covers one after the other as shown in the following screenshot:</p><div class="mediaobject"><img src="graphics/3145_07_01.jpg" alt="Calling a plugin method"/></div><p>The Cycle plugin will <a id="id542" class="indexterm"/>work its magic on this list, transforming it into an attractive animated slideshow. This transformation can be invoked by calling the <code class="literal">.cycle()</code> method on the appropriate container in the <a id="id543" class="indexterm"/>DOM as follows:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#books').cycle();
+});</pre></div><p>
+<span class="emphasis"><em>Listing 7.1</em></span>
+</p><p>This syntax could hardly be more simple. As we would with any built-in jQuery method, we apply <code class="literal">.cycle()</code> to a jQuery object instance, which in turn points to the DOM elements we want to manipulate. Even without providing any arguments to it, <code class="literal">.cycle()</code> does a lot of work for us. The styles on the page are altered to present only one list item at a time, and a new item is shown using a cross-fading transition every four seconds:</p><div class="mediaobject"><img src="graphics/3145_07_02.jpg" alt="Calling a plugin method"/></div><p>This simplicity is typical of well-written jQuery plugins. A straightforward method call is all it takes to achieve professional and useful results. However, again like many other plugins, Cycle offers a large number of options for customizing and fine-tuning its behavior.</p></div><div class="section" title="Specifying plugin method parameters"><div class="titlepage"><div><div><h2 class="title"><a id="ch07lvl2sec77"/>Specifying plugin method parameters</h2></div></div></div><p>Passing parameters to <a id="id544" class="indexterm"/>plugin methods is no different than doing so with native jQuery methods. In many cases, parameters are passed as a single object of key-value pairs (as we saw with <code class="literal">$.ajax()</code> in <a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>). The choices of options to provide can be quite daunting; <code class="literal">.cycle()</code> alone has over 50 potential configuration options. The documentation for each plugin details the effect of each option, often with detailed examples.</p><p>The Cycle plugin allows us to alter the speed and style of the animation between slides, affect how and when slide transitions are triggered, and react to completed animations using callbacks. To demonstrate some of these capabilities, we'll provide three simple options to the method call from Listing 7.1 as follows:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#books').cycle({
+<span class="strong"><strong>    timeout: 2000,</strong></span>
+<span class="strong"><strong>    speed: 200,</strong></span>
+<span class="strong"><strong>    pause: true</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 7.2</em></span>
+</p><p>The <code class="literal">timeout</code> option <a id="id545" class="indexterm"/>specifies the number of milliseconds to wait between each slide transition (2000). In contrast, <code class="literal">speed</code> determines the number of milliseconds the transitions themselves will take (200). When set to <code class="literal">true</code>, the <code class="literal">pause</code> option causes the slideshow to suspend itself when the mouse is inside the cycling region, which is especially useful when the cycling items are clickable.</p></div><div class="section" title="Modifying parameter defaults"><div class="titlepage"><div><div><h2 class="title"><a id="ch07lvl2sec78"/>Modifying parameter defaults</h2></div></div></div><p>The Cycle plugin is able to <a id="id546" class="indexterm"/>do an impressive task even with no supplied arguments. To accomplish this, it needs a sensible set of defaults to use when options are not supplied.</p><p>A common pattern, and the one followed by Cycle, is to gather all of the defaults into a single object. In the case of Cycle, the <a id="id547" class="indexterm"/>
+<code class="literal">$.fn.cycle.defaults</code> object contains all of the default options. When a plugin collects its defaults in a publicly-visible location like this, we can alter them in our own scripts. This can make our code more concise when calling the plugin multiple times since we don't have to specify the new value for the option each time. Redefining the defaults is simple, as can be seen in the following code:</p><div class="informalexample"><pre class="programlisting">
+<span class="strong"><strong>$.fn.cycle.defaults.timeout = 10000;</strong></span>
+<span class="strong"><strong>$.fn.cycle.defaults.random = true;</strong></span>
+
+$(document).ready(function() {
+  $('#books').cycle({
+    timeout: 2000,
+    speed: 200,
+<span class="strong"><strong>    pause: true</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 7.3</em></span>
+</p><p>Here we've set two defaults, <code class="literal">timeout</code> and <code class="literal">random</code>, prior to invoking <code class="literal">.cycle()</code>. Since we declare a value of 2000 for <code class="literal">timeout</code> in our <code class="literal">.cycle()</code> call, our new default of 10000 will be ignored. On the other <a id="id548" class="indexterm"/>hand, the new default of <code class="literal">true</code> for <code class="literal">random</code> does take effect, causing the slides to transition in a random order.</p></div></div></body></html>

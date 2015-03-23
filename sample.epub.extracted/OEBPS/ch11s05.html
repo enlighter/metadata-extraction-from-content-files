@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Using deferred objects</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Using deferred objects"><div class="titlepage"><div><div><h1 class="title"><a id="ch11lvl1sec88"/>Using deferred objects</h1></div></div></div><p>At times we come across situations in <a id="id904" class="indexterm"/>which we want to act when a process completes, but we don't necessarily know how long the process will take or even if it will be successful. To handle these cases, jQuery offers us <span class="strong"><strong>deferred objects</strong></span>. A deferred object encapsulates an operation that takes some time to complete.</p><p>A new deferred object can be created at any time by calling the <code class="literal">$.Deferred()</code> constructor. Once we have such an <a id="id905" class="indexterm"/>object, we can perform long-lasting operations and then call the <a id="id906" class="indexterm"/>
+<a id="id907" class="indexterm"/>
+<code class="literal">.resolve()</code> or <code class="literal">.reject()</code> methods on the object to indicate the operation was successful or unsuccessful. It is somewhat unusual to do this manually, however. Typically, rather than creating our own deferred objects by hand, jQuery or its plugins will create the object and take care of resolving or rejecting it. We just need to learn how to use the object that is created.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="note19"/>Note</h3><p>Rather than detailing how the <code class="literal">$.Deferred()</code> constructor operates, we will focus here on how jQuery effects take advantage of deferred objects. In <a class="link" href="ch13.html" title="Chapter&#xA0;13.&#xA0;Advanced Ajax">Chapter 13</a>, <span class="emphasis"><em>Advanced Ajax</em></span>, we will further explore deferred objects in the context of Ajax requests.</p></div></div><p>Every deferred object makes a promise to provide data to other code. This promise is represented as another object with its own set of methods. From any deferred object, we can obtain its promise object by calling its <code class="literal">.promise()</code> method. Then, we can call methods of the promise to attach handlers that are executed when the promise is fulfilled:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">The <code class="literal">.done()</code> method <a id="id908" class="indexterm"/>attaches a handler that is called when the deferred object is resolved successfully</li><li class="listitem" style="list-style-type: disc">The <code class="literal">.fail()</code> method <a id="id909" class="indexterm"/>attaches a handler that is called when the deferred object is rejected</li><li class="listitem" style="list-style-type: disc">The <code class="literal">.always()</code> method <a id="id910" class="indexterm"/>attaches a handler that is called when the deferred object completes its task, either by being resolved or by being rejected</li></ul></div><p>These handlers are much like the callbacks we provide to <code class="literal">.on()</code>, in that they are functions called when some event happens. We can also attach multiple handlers to the same promise and all will be called at the appropriate time. There are a few important differences, however. Promise handlers will only ever be called once; the deferred object cannot resolve a second time. A promise handler will also be called immediately if the deferred object is already resolved at the time we attach the handler.</p><p>In <a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>, <a id="id911" class="indexterm"/>we saw a very simple example of how jQuery's Ajax system uses deferred objects. Now we will put this powerful tool to use once again by investigating the deferred objects that jQuery's animation system creates.</p><div class="section" title="Animation promises"><div class="titlepage"><div><div><h2 class="title"><a id="ch11lvl2sec129"/>Animation promises</h2></div></div></div><p>Every jQuery collection has a set of <a id="id912" class="indexterm"/>deferred objects associated with it tracking the status of queued operations on the elements in the collection. By calling the <code class="literal">.promise()</code> method on the jQuery object, we get a promise object that is resolved when a queue completes. In particular, we can use this promise to take action upon the completion of all of the animations running on any of the matched elements.</p><p>Just as we have a <code class="literal">showDetails()</code> <a id="id913" class="indexterm"/>function to display the member name and location information, we can write a <a id="id914" class="indexterm"/>
+<code class="literal">showBio()</code> function for bringing the biographical information into view. But first, we'll append a new <code class="literal">&lt;div&gt;</code> tag to the <code class="literal">&lt;body&gt;</code> tag and set up two options objects:</p><div class="informalexample"><pre class="programlisting">var $movable = $('&lt;div id="movable"&gt;&lt;/div&gt;')
+  .appendTo('body');
+var bioBaseStyles = {
+  display: 'none',
+  height: '5px',
+  width: '25px'
+},
+bioEffects = {
+  duration: 800,
+  easing: 'easeOutQuart',
+  specialEasing: {
+    opacity: 'linear'
+  }
+};</pre></div><p>
+<span class="emphasis"><em>Listing 11.9</em></span>
+</p><p>This new <code class="literal">movable</code> <code class="literal">&lt;div&gt;</code> element is the one that we will actually animate after injecting it with a copy of a biography. Having a wrapper element like this is particularly useful when animating an element's width and height. We can set its <code class="literal">overflow</code> property to <code class="literal">hidden</code> and set an explicit width and height for the biographies within it to avoid the continual reflowing of text that would have occurred if we had instead animated the biography <code class="literal">&lt;div&gt; </code>elements themselves.</p><p>We'll use the <a id="id915" class="indexterm"/>
+<code class="literal">showBio()</code> function to determine what the movable <code class="literal">&lt;div&gt;</code>'s starting and ending styles should be based on the member that is clicked. Note that we're using the <code class="literal">$.extend()</code> method to merge the set of <a id="id916" class="indexterm"/>base styles that remain constant with the <code class="literal">top</code> and <code class="literal">left</code> properties that vary depending on the member's position. Then, it's just a matter of using <code class="literal">.css()</code> to set the starting styles and <code class="literal">.animate()</code> for the ending styles:</p><div class="informalexample"><pre class="programlisting">function showBio() {
+  var $member = $(this).parent(),
+      $bio = $member.find('p.bio'),
+      startStyles = $.extend(bioBaseStyles, $member.offset()),
+      endStyles = {
+        width: $bio.width(),
+        top: $member.offset().top + 5,
+        left: $member.width() + $member.offset().left - 5,
+        opacity: 'show'
+      };
+  $movable
+    .html($bio.clone())
+    .css(startStyles)
+    .animate(endStyles, bioEffects)
+    .animate({height: $bio.height()}, {easing: 'easeOutQuart'});
+}</pre></div><p>
+<span class="emphasis"><em>Listing 11.10</em></span>
+</p><p>We're queuing two <code class="literal">.animate()</code> methods so that the biography first flies from the left as it grows wider and fully opaque, and then slides down to its full height once it is in position.</p><p>In <a class="link" href="ch04.html" title="Chapter&#xA0;4.&#xA0;Styling and Animating">Chapter 4</a>, <span class="emphasis"><em>Styling and Animating</em></span>, we saw that callback functions in jQuery's animation methods are called when the animation completes for each element in the collection. We want to show the member's biography after the other <code class="literal">&lt;div&gt;</code> elements appear. Before jQuery introduced the <code class="literal">.promise()</code> method, this would have been an onerous task, requiring us to count down from the total number of elements each time the callback was executed until the last time, at which point we could execute the code to animate the biography. </p><p>Now we can simply chain the <code class="literal">.promise()</code> and <code class="literal">.done()</code> methods to the <code class="literal">.each()</code> method inside our <a id="id917" class="indexterm"/>
+<code class="literal">showDetails()</code> function:</p><div class="informalexample"><pre class="programlisting">function showDetails() {
+  var $member = $(this).parent();
+  if ($member.hasClass('active')) {
+    return;
+  }
+  $movable.fadeOut();
+  $('div.member.active')
+    .removeClass('active')
+    .children('div').fadeOut();
+  $member.addClass('active');
+  $member.find('div').css({
+    display: 'block',
+    left: '-300px',
+    top: 0
+  }).each(function(index) {
+    $(this).animate({
+      left: 0,
+      top: 25 * index
+    }, {
+      duration: 'slow',
+      specialEasing: {
+        top: 'easeInQuart'
+      }
+    });
+  }).promise().done(showBio);
+}</pre></div><p>
+<span class="emphasis"><em>Listing 11.11</em></span>
+</p><p>The <code class="literal">.done()</code> method takes a reference to our <code class="literal">showBio()</code> function as its argument. Now a click on an image brings all of that <a id="id918" class="indexterm"/>member's information into view with an attractive animation sequence:</p><div class="mediaobject"><img src="graphics/3145OS_11_05.jpg" alt="Animation promises"/></div><div class="mediaobject"><img src="graphics/3145OS_11_06.jpg" alt="Animation promises"/></div><p>Notice that we also slipped in <code class="literal">$movable.fadeOut()</code> near the top of the function. This has no visible effect the first time <code class="literal">showDetails()</code> is called, but in subsequent calls, it nicely fades the currently visible biography <a id="id919" class="indexterm"/>away along with the other information before the new information is animated into view.</p></div></div></body></html>

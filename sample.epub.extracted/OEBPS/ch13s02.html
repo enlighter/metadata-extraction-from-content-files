@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Handling Ajax errors</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Handling Ajax errors"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec101"/>Handling Ajax errors</h1></div></div></div><p>Introducing any kind of <a id="id1047" class="indexterm"/>network interaction into an application brings along some degree of uncertainty. The user's connection could drop in the middle of an operation or a temporary server issue could interrupt communications. Because of these reliability concerns, we should always plan for the worst case and prepare for error scenarios.</p><p>The <code class="literal">$.ajax()</code> function <a id="id1048" class="indexterm"/>can take a callback function named <code class="literal">error</code> to be called in these situations. In this callback, we should provide some kind of feedback to the user indicating that an error has occurred:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $ajaxForm = $('#ajax-form'),
+      $response = $('#response'),
+      noresults = 'There were no search results.',
+<span class="strong"><strong>      failed = 'Sorry, but the request could not ' +</strong></span>
+<span class="strong"><strong>        'reach its destination. Try again later.';</strong></span>
+
+  $ajaxForm.on('submit', function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: 'http://book.learningjquery.com/api/',
+      dataType: 'jsonp',
+      data: {
+        title: $('#title').val()
+      },
+<span class="strong"><strong>      success: response,</strong></span>
+<span class="strong"><strong>      error: function() {</strong></span>
+<span class="strong"><strong>        $response.html(failed);</strong></span>
+<span class="strong"><strong>      }</strong></span>
+    });
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 13.5</em></span>
+</p><p>The error callback can be <a id="id1049" class="indexterm"/>triggered for a number of reasons. Among these are:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">The server returned an error status code, such as <span class="strong"><strong>403 Forbidden</strong></span>, <span class="strong"><strong>404 Not Found</strong></span>, or <span class="strong"><strong>500 Internal Server Error</strong></span>.</li><li class="listitem" style="list-style-type: disc">The server returned a redirection status code, such as <span class="strong"><strong>301 Moved Permanently</strong></span>. An exception is <span class="strong"><strong>304 Not Modified</strong></span>, which does not trigger an error because the browser can handle this condition correctly.</li><li class="listitem" style="list-style-type: disc">The data returned by the server could not be parsed as specified (for example, it is not valid JSON data when <code class="literal">dataType</code> is <code class="literal">json</code>).</li><li class="listitem" style="list-style-type: disc">The <code class="literal">.abort()</code> method is called on the <code class="literal">XMLHttpRequest</code> object.</li></ul></div><p>Detecting and responding to these conditions is important in providing the best possible user experience. We saw in <a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>, that the error code, if any, is provided to us in <a id="id1050" class="indexterm"/>the <code class="literal">.status</code> property of the <code class="literal">jqXHR</code> object that is passed to the error callback. We can use the value of <code class="literal">jqXHR.status</code> to react differently to different kinds of errors if that is appropriate.</p><p>However, the server errors are only useful when they are actually observed. Some errors are immediately detected, but other conditions can cause a long delay between the request and eventual error response.</p><p>When a reliable server timeout mechanism is not available, we can enforce our own client-side request timeout. By providing a time in milliseconds to the timeout option, we tell <code class="literal">$.ajax()</code> to trigger<code class="literal"> .abort()</code> on its own if that amount of time elapses before a response is received:</p><div class="informalexample"><pre class="programlisting">$.ajax({
+  url: 'http://book.learningjquery.com/api/',
+  dataType: 'jsonp',
+  data: {
+    title: $('#title').val()
+  },
+<span class="strong"><strong>  timeout: 15000,</strong></span>
+  success: response,
+  error: function() {
+    $response.html(failed);
+  }
+});</pre></div><p>
+<span class="emphasis"><em>Listing 13.6</em></span>
+</p><p>With the timeout in place, <a id="id1051" class="indexterm"/>we can be assured that within 15 seconds either the data will be loaded or the user will receive an error message.</p></div></body></html>

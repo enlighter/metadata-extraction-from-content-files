@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Making our first jQuery-powered web page</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Making our first jQuery-powered web page"><div class="titlepage"><div><div><h1 class="title"><a id="ch01lvl1sec10"/>Making our first jQuery-powered web page</h1></div></div></div><p>Now that we have covered the range of features available to us with jQuery, we can examine how to put the library into action. To get started, we need to download a copy of jQuery.</p><div class="section" title="Downloading jQuery"><div class="titlepage"><div><div><h2 class="title"><a id="ch01lvl2sec06"/>Downloading jQuery</h2></div></div></div><p>No installation is required. To use <a id="id24" class="indexterm"/>jQuery, we just need a publicly available copy of the file, no matter whether that copy is on an external site or our own. Since JavaScript is an interpreted language, there is no compilation or build phase to worry about. Whenever we need a page to have jQuery available, we will simply refer to the file's location from a <code class="literal">&lt;script&gt;</code> element in the HTML document.</p><p>The official jQuery <a id="id25" class="indexterm"/>website (<a class="ulink" href="http://jquery.com/)">http://jquery.com/)</a> always has the most up-to-date stable version of the library, which can be downloaded right from the home page of the site. Several versions of jQuery may be available at any given moment; the most appropriate for us as site developers will be the latest uncompressed version of the library. This can be replaced with a compressed version in production environments.</p><p>As jQuery's popularity has grown, companies have made the file freely available through their <span class="strong"><strong>Content Delivery </strong></span>
+<a id="id26" class="indexterm"/>
+<span class="strong"><strong>Networks</strong></span> (<span class="strong"><strong>CDNs</strong></span>). Most notably, Google (<a class="ulink" href="https://developers.google.com/speed/libraries/devguide">https://developers.google.com/speed/libraries/devguide</a>), Microsoft (<a class="ulink" href="http://www.asp.net/ajaxlibrary/cdn.ashx">http://www.asp.net/ajaxlibrary/cdn.ashx</a>), and the jQuery project itself (<a class="ulink" href="http://code.jquery.com">http://code.jquery.com</a>) offer the file on powerful, low-latency servers distributed around the world for fast download regardless of the user's location. While a CDN-hosted copy of jQuery has speed advantages due to server distribution and caching, using a local copy can be convenient during development. Throughout this book, we'll use a copy of the file stored on our own system, which will allow us to run our code whether we're connected to the Internet or not.</p></div><div class="section" title="Deciding on the version of jQuery to use"><div class="titlepage"><div><div><h2 class="title"><a id="ch01lvl2sec07"/>Deciding on the version of jQuery to use</h2></div></div></div><p>Historically, this has been an easy <a id="id27" class="indexterm"/>question to answer. The best version of jQuery to use is usually the most recent one. However, with the release of jQuery Version 2.0, a small amount of extra consideration should be given to the decision. Version 2.0 of jQuery no longer supports old versions of Internet Explorer (6, 7, and 8) in order to provide faster, cleaner support for more modern browsers.</p><p>The jQuery development team knows that support for these older Internet Explorer versions remains important, however. For this reason, the 1.x Versions of jQuery continue to be actively developed and maintained. For our purposes in this book, we will be using jQuery 1.10, which is appropriate for most projects. All of our examples, though, should also work with jQuery 2.0.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="note02"/>Note</h3><p>For projects that include code <a id="id28" class="indexterm"/>written for versions of jQuery prior to 1.9, developers may choose to use the jQuery Migrate plugin (<a class="ulink" href="http://jquery.com/upgrade-guide/1.9/#jquery-migrate-plugin">http://jquery.com/upgrade-guide/1.9/#jquery-migrate-plugin</a>) to allow compatibility with jQuery 1.10</p></div></div></div><div class="section" title="Setting up jQuery in an HTML document"><div class="titlepage"><div><div><h2 class="title"><a id="ch01lvl2sec08"/>Setting up jQuery in an HTML document</h2></div></div></div><p>There are three pieces to most <a id="id29" class="indexterm"/>examples of jQuery usage: the HTML document, CSS files to style it, and JavaScript files to act on it. For our first example, we'll use a <a id="id30" class="indexterm"/>page with a book excerpt that has a number of classes applied to portions of it. This page includes a reference to the latest version of the jQuery library, which we have downloaded, renamed <code class="literal">jquery.js</code>, and placed in our local project directory:</p><div class="informalexample"><pre class="programlisting">&lt;!DOCTYPE html&gt;
+
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="utf-8"&gt;
+    &lt;title&gt;Through the Looking-Glass&lt;/title&gt;
+
+    &lt;link rel="stylesheet" href="01.css"&gt;
+
+    &lt;script src="jquery.js"&gt;&lt;/script&gt;
+    &lt;script src="01.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;  
+    &lt;h1&gt;Through the Looking-Glass&lt;/h1&gt;
+    &lt;div class="author"&gt;by Lewis Carroll&lt;/div&gt;
+
+    &lt;div class="chapter" id="chapter-1"&gt;
+      &lt;h2 class="chapter-title"&gt;1. Looking-Glass House&lt;/h2&gt;
+      &lt;p&gt;There was a book lying near Alice on the table,
+        and while she sat watching the White King (for she
+        was still a little anxious about him, and had the
+        ink all ready to throw over him, in case he fainted
+        again), she turned over the leaves, to find some
+        part that she could read, &lt;span class="spoken"&gt;
+        "&#x2014;for it's all in some language I don't know,"
+        &lt;/span&gt; she said to herself.&lt;/p&gt;
+      &lt;p&gt;It was like this.&lt;/p&gt;
+      &lt;div class="poem"&gt;
+        &lt;h3 class="poem-title"&gt;YKCOWREBBAJ&lt;/h3&gt;
+        &lt;div class="poem-stanza"&gt;
+          &lt;div&gt;sevot yhtils eht dna ,gillirb sawT'&lt;/div&gt;
+          &lt;div&gt;;ebaw eht ni elbmig dna eryg diD&lt;/div&gt;
+          &lt;div&gt;,sevogorob eht erew ysmim llA&lt;/div&gt;
+          &lt;div&gt;.ebargtuo shtar emom eht dnA&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;p&gt;She puzzled over this for some time, but at last
+        a bright thought struck her. &lt;span class="spoken"&gt;
+        "Why, it's a Looking-glass book, of course! And if
+        I hold it up to a glass, the words will all go the
+        right way again."&lt;/span&gt;&lt;/p&gt;
+      &lt;p&gt;This was the poem that Alice read.&lt;/p&gt;
+      &lt;div class="poem"&gt;
+        &lt;h3 class="poem-title"&gt;JABBERWOCKY&lt;/h3&gt;
+        &lt;div class="poem-stanza"&gt;
+          &lt;div&gt;'Twas brillig, and the slithy toves&lt;/div&gt;
+          &lt;div&gt;Did gyre and gimble in the wabe;&lt;/div&gt;
+          &lt;div&gt;All mimsy were the borogoves,&lt;/div&gt;
+          &lt;div&gt;And the mome raths outgrabe.&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre></div><p>Immediately following the <a id="id31" class="indexterm"/>normal HTML preamble, the stylesheet is <a id="id32" class="indexterm"/>loaded. For this example, we'll use a simple one:</p><div class="informalexample"><pre class="programlisting">body {
+  background-color: #fff;
+  color: #000;
+  font-family: Helvetica, Arial, sans-serif;
+}
+h1, h2, h3 {
+  margin-bottom: .2em;
+}
+.poem {
+  margin: 0 2em;
+}
+.highlight {
+  background-color: #ccc;
+  border: 1px solid #888;
+  font-style: italic;
+  margin: 0.5em 0;
+  padding: 0.5em;
+}</pre></div><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip02"/>Tip</h3><p>
+<span class="strong"><strong>Downloading the example code</strong></span>
+</p><p>You can download the example code files for all Packt books you have purchased from your account at <a class="ulink" href="http://www.packtpub.com">http://www.packtpub.com</a>. If you purchased this book elsewhere, you can visit <a class="ulink" href="http://www.packtpub.com/support">http://www.packtpub.com/support</a> and register to have the files e-mailed directly to you.</p></div></div><p>After the stylesheet is referenced, the JavaScript files are included. It is important that the script tag for the jQuery library be <a id="id33" class="indexterm"/>placed before the tag for our custom scripts; otherwise, the jQuery framework will not be available when our code attempts to reference it.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="note03"/>Note</h3><p>Throughout rest of this book, only the relevant portions of HTML and CSS files will be printed. The files in their entirety are available from the book's companion website <a class="ulink" href="http://book.learningjquery.com">http://book.learningjquery.com</a>.</p></div></div><p>Now we have a page that <a id="id34" class="indexterm"/>looks like this:</p><div class="mediaobject"><img src="graphics/3145OS_01_01.jpg" alt="Setting up jQuery in an HTML document"/></div><p>We will use jQuery to apply a new style to the poem text.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="note04"/>Note</h3><p>This example is to demonstrate a simple use of jQuery. In real-world situations, this type of styling could be performed purely with CSS.</p></div></div></div><div class="section" title="Adding our jQuery code"><div class="titlepage"><div><div><h2 class="title"><a id="ch01lvl2sec09"/>Adding our jQuery code</h2></div></div></div><p>Our custom code will go in the <a id="id35" class="indexterm"/>second, currently empty, JavaScript file, which we included from the HTML using <code class="literal">&lt;script src="01.js"&gt;&lt;/script&gt;</code>. For this example, we only need three lines of code:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.poem-stanza').addClass('highlight');
+});</pre></div><p>We'll next step through this script piece by piece to see how it works.</p><div class="section" title="Finding the poem text"><div class="titlepage"><div><div><h3 class="title"><a id="ch01lvl3sec02"/>Finding the poem text</h3></div></div></div><p>The fundamental operation in jQuery is <a id="id36" class="indexterm"/>selecting a part of the document. This is done with the <code class="literal">$()</code> function. Typically, it takes a string as a parameter, which can contain any CSS selector expression. In this case, we wish to find all of the <code class="literal">&lt;div&gt;</code> elements in the document that have the poem-stanza class applied to them, so the selector is very simple. However, we will cover much more sophisticated options through the course of the book. We will walk through many ways of locating parts of a document in <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>.</p><p>When called, the <code class="literal">$()</code> function returns a new jQuery object instance, which is the basic building block we will be working with from now on. This object encapsulates zero or more DOM elements and allows us to interact with them in many different ways. In this case, we wish to modify the appearance of these parts of the page and we will accomplish this by changing the classes applied to the poem text.</p></div><div class="section" title="Injecting the new class"><div class="titlepage"><div><div><h3 class="title"><a id="ch01lvl3sec03"/>Injecting the new class</h3></div></div></div><p>The <code class="literal">.addClass()</code> method, like most <a id="id37" class="indexterm"/>jQuery methods, is named self-descriptively; it applies a CSS class to the part of the <a id="id38" class="indexterm"/>page that we have selected. Its only parameter is the name of the class to add. This method, and its counterpart, <code class="literal">.removeClass()</code>, <a id="id39" class="indexterm"/>will allow us to easily observe jQuery in action as we explore the different selector expressions available to us. For now, our example simply adds the <code class="literal">highlight</code> class, which our stylesheet has defined as italicized text with a gray background and a border. </p><p>Note that no iteration is necessary to add the class to all the poem stanzas. As we discussed, jQuery uses implicit iteration within methods such as <code class="literal">.addClass()</code>, so a single function call is all it takes to alter all the selected parts of the document.</p></div><div class="section" title="Executing the code"><div class="titlepage"><div><div><h3 class="title"><a id="ch01lvl3sec04"/>Executing the code</h3></div></div></div><p>Taken together, <code class="literal">$()</code> and <code class="literal">.addClass()</code> are enough for us to accomplish our goal of changing the appearance <a id="id40" class="indexterm"/>of the poem text. However, if this line of code is inserted alone in the document header, it will have no effect. JavaScript code is generally run as soon as it is encountered in the browser, and at the time the header is being processed, no HTML is yet present to style. We need to delay the execution of the code until after the DOM is available for our use.</p><p>With the <code class="literal">$(document).ready()</code> construct, jQuery allows us to schedule function calls for firing once the DOM is loaded&#x2014;without necessarily waiting for images to fully render. While this event scheduling is possible without the aid of jQuery, <code class="literal">$(document).ready()</code> <a id="id41" class="indexterm"/>provides an especially elegant cross-browser solution that includes the following features:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">It uses the browser's native DOM-ready implementations when available and adds a <code class="literal">window.onload</code> event handler as a safety net</li><li class="listitem" style="list-style-type: disc">It allows for multiple calls to <code class="literal">$(document).ready()</code> and executes them in the order in which they are called</li><li class="listitem" style="list-style-type: disc">It executes functions passed to <code class="literal">$(document).ready()</code> even if it is called after the browser event has already occurred</li><li class="listitem" style="list-style-type: disc">It handles the event scheduling asynchronously to allow scripts to delay if necessary</li><li class="listitem" style="list-style-type: disc">It simulates a DOM-ready event in some older browsers by repeatedly checking for the existence of a DOM method that typically becomes available at the same time that the DOM as a whole is ready</li></ul></div><p>The <code class="literal">.ready()</code> method's parameter <a id="id42" class="indexterm"/>can accept a reference to an already defined function, as shown in the following code snippet:</p><div class="informalexample"><pre class="programlisting">function addHighlightClass()  {
+  $('div.poem-stanza').addClass('highlight');
+}
+
+$(document).ready(addHighlightClass);</pre></div><p>
+<span class="emphasis"><em>Listing 1.1</em></span>
+</p><p>However, as demonstrated in the original version of the script and repeated in <span class="emphasis"><em>Listing 1.2</em></span>, the method can also accept an anonymous function:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() { 
+  $('div.poem-stanza').addClass('highlight'); 
+});</pre></div><p>
+<span class="emphasis"><em>Listing 1.2</em></span>
+</p><p>This anonymous function idiom is convenient in jQuery code for methods that take a function as an argument when that function isn't reusable. Moreover, the closure it creates can be an advanced and powerful tool. It may also have unintended consequences and ramifications on memory use, <a id="id43" class="indexterm"/>however, if not dealt with carefully. The topic of closures is discussed fully in <a class="link" href="apa.html" title="Appendix&#xA0;A.&#xA0;JavaScript Closures">Appendix A</a>, <span class="emphasis"><em>JavaScript Closures</em></span>.</p></div></div><div class="section" title="The finished product"><div class="titlepage"><div><div><h2 class="title"><a id="ch01lvl2sec10"/>The finished product</h2></div></div></div><p>Now that our JavaScript is in place, the page looks like this:</p><div class="mediaobject"><img src="graphics/3145OS_01_02.jpg" alt="The finished product"/></div><p>The poem stanzas are now italicized and enclosed in boxes, as specified by the <code class="literal">01.css</code> stylesheet, due to the insertion of the <code class="literal">highlight</code> class by the JavaScript code.</p></div></div></body></html>

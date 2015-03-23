@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Error handling</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Error handling"><div class="titlepage"><div><div><h1 class="title"><a id="ch06lvl1sec50"/>Error handling</h1></div></div></div><p>So far, we have only dealt with successful responses to Ajax requests, loading the page with new content when everything goes as planned. Responsible developers, however, should account for the possibility of network or data errors and report them appropriately. Developing Ajax applications in a local <a id="id512" class="indexterm"/>environment can lull developers into a sense of complacency since, aside from a possible mistyped URL, Ajax errors just don't happen locally. The Ajax convenience methods such as <code class="literal">$.get()</code> and <code class="literal">.load()</code> do not provide an error callback argument themselves, so we need to look elsewhere for a solution to this problem.</p><p>Aside from using the <code class="literal">global .ajaxError()</code> <a id="id513" class="indexterm"/>method, we can react to errors by capitalizing on jQuery's deferred object system. We will discuss deferred objects more fully in <a class="link" href="ch11.html" title="Chapter&#xA0;11.&#xA0;Advanced Effects">Chapter 11</a>, <span class="emphasis"><em>Advanced Effects</em></span>, but for now we'll simply note that we can chain <code class="literal">.done()</code>, <code class="literal">.always()</code>, and <code class="literal">.fail()</code> methods to any Ajax function except <code class="literal">.load()</code>, and <a id="id514" class="indexterm"/>use these methods to attach the relevant callbacks. For example, if we take the code from <span class="emphasis"><em>Listing 6.16</em></span> and change the URL to one that doesn't exist, we can test the <code class="literal">.fail()</code> method:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#letter-e a').click(function(event) {
+    event.preventDefault();
+    var requestData = {term: $(this).text()};
+    $.get('z.php', requestData, function(data) {
+      $('#dictionary').html(data);
+<span class="strong"><strong>    }).fail(function(jqXHR) {</strong></span>
+<span class="strong"><strong>      $('#dictionary')</strong></span>
+<span class="strong"><strong>      .html('An error occurred: ' + jqXHR.status)</strong></span>
+<span class="strong"><strong>      .append(jqXHR.responseText);</strong></span>
+    });
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 6.17</em></span>
+</p><p>Now, clicking on any of the links for terms beginning with E will produce an error message. The exact content of <code class="literal">jqXHR.responseText</code> will vary depending on the server configuration:</p><div class="mediaobject"><img src="graphics/3145OS_06_12.jpg" alt="Error handling"/></div><p>The <code class="literal">.status</code> property contains a <a id="id515" class="indexterm"/>numeric code provided by the server. These codes are defined in the HTTP specification, and when a <code class="literal">.fail()</code> handler is triggered, they will represent an error condition such as:</p><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Response code</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>400</p>
+</td><td style="text-align: left" valign="top">
+<p>Bad request</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>401</p>
+</td><td style="text-align: left" valign="top">
+<p>Unauthorized</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>403</p>
+</td><td style="text-align: left" valign="top">
+<p>Forbidden</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>404</p>
+</td><td style="text-align: left" valign="top">
+<p>Not found</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>500</p>
+</td><td style="text-align: left" valign="top">
+<p>Internal server error</p>
+</td></tr></tbody></table></div><p>A complete list of response codes can be found on the W3C's site: <a class="ulink" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</a>.</p><p>We will examine error handling more closely in <a class="link" href="ch13.html" title="Chapter&#xA0;13.&#xA0;Advanced Ajax">Chapter 13</a>, <span class="emphasis"><em>Advanced Ajax</em></span>.</p></div></body></html>

@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>DOM manipulation methods</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="DOM manipulation methods"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec123"/>DOM manipulation methods</h1></div></div></div><p>The DOM manipulation methods are discussed in detail in <a class="link" href="ch05.html" title="Chapter&#xA0;5.&#xA0;Manipulating the DOM">Chapter 5</a>, <span class="emphasis"><em>Manipulating the DOM</em></span>.</p><div class="section" title="Attributes and properties"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec182"/>Attributes and properties</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.attr(key)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1413" class="indexterm"/>attribute <a id="id1414" class="indexterm"/>named <code class="literal">key</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.attr(key, value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the attribute <a id="id1415" class="indexterm"/>named <code class="literal">key</code> to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.attr(key, fn)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the <a id="id1416" class="indexterm"/>attribute named <code class="literal">key</code> to the result of <code class="literal">fn </code>(called separately on each matched element).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.attr(obj)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets attribute <a id="id1417" class="indexterm"/>values given as key-value pairs.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.removeAttr(key)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes the <a id="id1418" class="indexterm"/>attribute named <code class="literal">key</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.prop(key)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1419" class="indexterm"/>property named <code class="literal">key</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.prop(key, value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the <a id="id1420" class="indexterm"/>property named <code class="literal">key</code> to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.prop(key, fn)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the <a id="id1421" class="indexterm"/>property named <code class="literal">key</code> to the result of <code class="literal">fn </code>(called separately on each matched element).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.prop(obj)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets property <a id="id1422" class="indexterm"/>values given as key-value pairs.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.removeProp(key)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes the <a id="id1423" class="indexterm"/>property named <code class="literal">key</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.addClass(class)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Adds the given <a id="id1424" class="indexterm"/>class to each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.removeClass(class)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes the <a id="id1425" class="indexterm"/>given class from each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.toggleClass(class)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes <a id="id1426" class="indexterm"/>the given class if present, and adds it if not, for each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.hasClass(class)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Returns <code class="literal">true</code> if any of <a id="id1427" class="indexterm"/>the matched elements has the given class.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.val()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1428" class="indexterm"/>
+<a id="id1429" class="indexterm"/>value attribute of the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.val(value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the value <a id="id1430" class="indexterm"/>attribute of each element to <code class="literal">value</code>.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Content"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec183"/>Content</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.html()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1431" class="indexterm"/>
+<a id="id1432" class="indexterm"/>HTML content <a id="id1433" class="indexterm"/>of the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.html(value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the HTML <a id="id1434" class="indexterm"/>content of each matched element to value.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.text()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1435" class="indexterm"/>textual content of all matched elements as a single string.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.text(value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the textual <a id="id1436" class="indexterm"/>content of each matched element to <code class="literal">value</code>.</p>
+</td></tr></tbody></table></div></div><div class="section" title="CSS"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec184"/>CSS</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.css(key)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1437" class="indexterm"/>CSS attribute <a id="id1438" class="indexterm"/>named <code class="literal">key</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.css(key, value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the<a id="id1439" class="indexterm"/> CSS <a id="id1440" class="indexterm"/>attribute named <code class="literal">key</code> to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.css(obj)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets CSS <a id="id1441" class="indexterm"/>attribute values given as key-value pairs.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Dimensions"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec185"/>Dimensions</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.offset()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets<a id="id1442" class="indexterm"/> the <a id="id1443" class="indexterm"/>
+<a id="id1444" class="indexterm"/>top and left pixel coordinates of the first matched element, relative to the viewport.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.position()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the top <a id="id1445" class="indexterm"/>and left pixel coordinates of the first matched element, relative to the element returned by <code class="literal">.offsetParent()</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.scrollTop()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the vertical <a id="id1446" class="indexterm"/>scroll position of the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.scrollTop(value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the vertical <a id="id1447" class="indexterm"/>scroll position of all matched elements to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.scrollLeft()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1448" class="indexterm"/>horizontal scroll position of the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.scrollLeft(value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the <a id="id1449" class="indexterm"/>horizontal scroll position of all matched elements to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.height()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1450" class="indexterm"/>height of the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.height(value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the <a id="id1451" class="indexterm"/>height of all matched elements to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.width()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1452" class="indexterm"/>width of the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.width(value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the <a id="id1453" class="indexterm"/>width of all matched elements to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.innerHeight()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1454" class="indexterm"/>height of the first matched element, including padding, but not border.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.innerWidth()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1455" class="indexterm"/>width of the first matched element, including padding, but not border.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.outerHeight(includeMargin)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the height <a id="id1456" class="indexterm"/>of the first matched element, including padding, border, and optional margin.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.outerWidth(includeMargin)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the width <a id="id1457" class="indexterm"/>of the first matched element, including padding, border, and optional margin.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Insertion"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec186"/>Insertion</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.append(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts <a id="id1458" class="indexterm"/>
+<a id="id1459" class="indexterm"/>
+<code class="literal">content</code> at the end of the interior of each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.appendTo(selector)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts the <a id="id1460" class="indexterm"/>matched <a id="id1461" class="indexterm"/>elements at the end of the interior of the elements matched by <code class="literal">selector</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.prepend(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts <code class="literal">content</code> <a id="id1462" class="indexterm"/>at the beginning of the interior of each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.prependTo(selector)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts the <a id="id1463" class="indexterm"/>matched elements at the beginning of the interior of the elements matched by <code class="literal">selector</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.after(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts <a id="id1464" class="indexterm"/>
+<code class="literal">content</code> after each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.insertAfter(selector)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts the matched <a id="id1465" class="indexterm"/>elements after each of the elements matched by <code class="literal">selector</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.before(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts <code class="literal">content</code> <a id="id1466" class="indexterm"/>before each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.insertBefore(selector)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Inserts the <a id="id1467" class="indexterm"/>matched elements before each of the elements matched by <code class="literal">selector</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.wrap(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Wraps each of the <a id="id1468" class="indexterm"/>matched elements within <code class="literal">content</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.wrapAll(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Wraps all of the <a id="id1469" class="indexterm"/>matched elements as a single unit within <code class="literal">content</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.wrapInner(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Wraps the <a id="id1470" class="indexterm"/>interior contents of each of the matched elements within <code class="literal">content</code>.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Replacement"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec187"/>Replacement</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.replaceWith(content)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Replaces the <a id="id1471" class="indexterm"/>
+<a id="id1472" class="indexterm"/>matched elements with <code class="literal">content</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.replaceAll(selector)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Replaces <a id="id1473" class="indexterm"/>the <a id="id1474" class="indexterm"/>elements matched by <code class="literal">selector</code> with the matched elements.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Removal"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec188"/>Removal</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.empty()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes the <a id="id1475" class="indexterm"/>
+<a id="id1476" class="indexterm"/>child nodes of each matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.remove([selector])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes <a id="id1477" class="indexterm"/>the <a id="id1478" class="indexterm"/>matched nodes (optionally filtered by <code class="literal">selector</code>) from the DOM.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.detach([selector])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes the <a id="id1479" class="indexterm"/>matched nodes (optionally filtered by <code class="literal">selector</code>) from the DOM, preserving jQuery data attached to them.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.unwrap()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes the <a id="id1480" class="indexterm"/>element's parent.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Copying"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec189"/>Copying</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.clone([withHandlers], [deepWithHandlers])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Makes a <a id="id1481" class="indexterm"/>
+<a id="id1482" class="indexterm"/>copy of all matched elements, <a id="id1483" class="indexterm"/>optionally also copying event handlers.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Data"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec190"/>Data</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Manipulation method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.data(key)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the data <a id="id1484" class="indexterm"/>
+<a id="id1485" class="indexterm"/>item named <code class="literal">key</code> <a id="id1486" class="indexterm"/>associated with the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.data(key, value)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Sets the <a id="id1487" class="indexterm"/>data item named <code class="literal">key</code> associated with each matched element to <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.removeData(key)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes the <a id="id1488" class="indexterm"/>data item named <code class="literal">key</code> associated with each matched element.</p>
+</td></tr></tbody></table></div></div></div></body></html>

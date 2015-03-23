@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Ajax and events</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Ajax and events"><div class="titlepage"><div><div><h1 class="title"><a id="ch06lvl1sec51"/>Ajax and events</h1></div></div></div><p>Suppose we wanted to allow <a id="id516" class="indexterm"/>each dictionary term name to control the display of the definition <a id="id517" class="indexterm"/>that follows; clicking on the term name would show or hide the associated definition. With the techniques we have seen so far, this should be pretty straightforward:</p><div class="informalexample"><pre class="programlisting">// Unfinished code
+$(document).ready(function() {
+  $('h3.term').click(function() {
+    $(this).siblings('.definition').slideToggle();
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 6.18</em></span>
+</p><p>When a term is clicked, this code finds siblings of the element that have a class of <code class="literal">definition</code>, and slides them up or down as appropriate.</p><p>All seems in order, but a click does <a id="id518" class="indexterm"/>nothing with this code. Unfortunately, the terms have not yet been added to the document when we attach the <code class="literal">click</code> handlers. Even if we managed to attach <code class="literal">click</code> handlers to these items, once we clicked on a different letter the handlers would no longer be attached.</p><p>This is a common problem with areas of a page populated by Ajax. A popular solution is to rebind handlers each time the page area is refreshed. This can be cumbersome, however, as the event-binding code <a id="id519" class="indexterm"/>needs to be called each time anything causes the DOM structure of the page to change.</p><p>An often superior alternative was introduced in <a class="link" href="ch03.html" title="Chapter&#xA0;3.&#xA0;Handling Events">Chapter 3</a>, <span class="emphasis"><em>Handling Events</em></span>. We can implement <span class="strong"><strong>event delegation</strong></span>, actually binding the event to an ancestor element that never changes. In this case, we'll attach the <code class="literal">click</code> handler to the <code class="literal">&lt;body&gt;</code> element, using <code class="literal">.on()</code> to catch our clicks that way:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('body').on('click', 'h3.term', function() {
+    $(this).siblings('.definition').slideToggle();
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 6.19</em></span>
+</p><p>When used this way, the <code class="literal">.on()</code> method <a id="id520" class="indexterm"/>tells the browser to observe all clicks anywhere in the document. If (and only if) the clicked element matches the <code class="literal">h3.term</code> selector, then the handler is executed. Now the toggling behavior will take place on any term, even if it is added by a later Ajax transaction.</p></div></body></html>

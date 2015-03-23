@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Effect methods</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Effect methods"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec122"/>Effect methods</h1></div></div></div><p>These effect methods may be used to perform <a id="id1386" class="indexterm"/>animations on DOM elements. The effect methods are discussed in detail in <a class="link" href="ch04.html" title="Chapter&#xA0;4.&#xA0;Styling and Animating">Chapter 4</a>, <span class="emphasis"><em>Styling and Animating</em></span>.</p><div class="section" title="Predefined effects"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec179"/>Predefined effects</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Effect method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.show()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Displays <a id="id1387" class="indexterm"/>the matched elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.hide()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Hides the <a id="id1388" class="indexterm"/>matched elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.show(speed, [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Displays the <a id="id1389" class="indexterm"/>matched elements by animating <code class="literal">height</code>, <code class="literal">width</code>, and <code class="literal">opacity</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.hide(speed, [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Hides the <a id="id1390" class="indexterm"/>matched elements by animating <code class="literal">height</code>, <code class="literal">width</code>, and <code class="literal">opacity</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.toggle([speed], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Displays or <a id="id1391" class="indexterm"/>hides the matched elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.slideDown([speed], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Displays the <a id="id1392" class="indexterm"/>matched elements with a sliding motion.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.slideUp([speed], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Hides the matched <a id="id1393" class="indexterm"/>elements with a sliding motion.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.slideToggle([speed], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Displays or hides <a id="id1394" class="indexterm"/>the matched elements with a sliding motion.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.fadeIn([speed], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Displays the <a id="id1395" class="indexterm"/>matched elements by fading them to opaque.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.fadeOut([speed], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Hides the <a id="id1396" class="indexterm"/>matched elements by fading them to transparent.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.fadeToggle([speed], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Displays or hides the <a id="id1397" class="indexterm"/>matched elements with a fading animation.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.fadeTo(speed, opacity, [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Adjusts the <a id="id1398" class="indexterm"/>opacity of the matched elements.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Custom animations"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec180"/>Custom animations</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Effect method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.animate(properties, [speed], [easing], [callback])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Performs<a id="id1399" class="indexterm"/> a <a id="id1400" class="indexterm"/>custom animation of the specifiedCSS properties.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.animate(properties, options)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>A lower-level <a id="id1401" class="indexterm"/>interface to <code class="literal">.animate()</code>, allowing control over the animation queue.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Queue manipulation"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec181"/>Queue manipulation</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Effect method</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.queue([queueName])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Retrieves the <a id="id1402" class="indexterm"/>queue <a id="id1403" class="indexterm"/>of functions on the first matched element.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.queue([queueName], callback)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Adds <code class="literal">callback</code> <a id="id1404" class="indexterm"/>to the end of the queue.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.queue([queueName], newQueue)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Replaces the <a id="id1405" class="indexterm"/>queue with a new one.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.dequeue([queueName])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Executes the next <a id="id1406" class="indexterm"/>function on the queue.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.clearQueue([queueName])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Empties the <a id="id1407" class="indexterm"/>queue of all pending functions.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.stop([clearQueue], [jumpToEnd])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Stops the<a id="id1408" class="indexterm"/> currently running animation, then starts queued animations, if any.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.finish([queueName])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Stops the currently <a id="id1409" class="indexterm"/>running animation and immediately advances all queued animations to their target values.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.delay(duration, [queueName])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Waits <code class="literal">duration</code> <a id="id1410" class="indexterm"/>milliseconds before executing the next item in the queue.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.promise([queueName], [target])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Returns a <a id="id1411" class="indexterm"/>promise <a id="id1412" class="indexterm"/>object to be resolved once all queued actions on the collection have finished.</p>
+</td></tr></tbody></table></div></div></div></body></html>

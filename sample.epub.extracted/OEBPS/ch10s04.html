@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Throttling events</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Throttling events"><div class="titlepage"><div><div><h1 class="title"><a id="ch10lvl1sec79"/>Throttling events</h1></div></div></div><p>A major issue with the infinite <a id="id860" class="indexterm"/>scrolling feature as we've implemented it in <span class="emphasis"><em>Listing 10.10</em></span> is its performance impact. While our code is brief, the <code class="literal">checkScrollPosition()</code> function <a id="id861" class="indexterm"/>does need to do some work to measure the dimensions of the page and window. This effort can accumulate rapidly, because in some browsers the <code class="literal">scroll</code> event is triggered repeatedly during the scrolling of the window. The result of this combination could be choppy or sluggish performance.</p><p>Several native events have the potential for frequent triggering. Common culprits include <code class="literal">scroll</code>, <code class="literal">resize</code>, and <code class="literal">mousemove</code>. To account for this, we will implement <span class="strong"><strong>event throttling</strong></span>. This technique involves limiting our expensive calculations so that they only occur after some of the event occurrences, rather than each one. We can update our code from <span class="emphasis"><em>Listing 10.13</em></span> to implement this technique as follows:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var timer = 0;
+  $(window).scroll(function() {
+    if (!timer) {
+      timer = setTimeout(function() {
+        checkScrollPosition();
+        timer = 0;
+      }, 250);
+    }
+  }).trigger('scroll');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.14</em></span>
+</p><p>Rather than setting <code class="literal">checkScrollPosition()</code> directly as the <code class="literal">scroll</code> event handler, we are using the JavaScript <code class="literal">setTimeout</code> function to defer the call by 250 milliseconds. More importantly, we are checking for a running timer first before doing any work. Since checking the value of a simple variable is extremely fast, most of the calls to our event handler will return almost immediately. The <code class="literal">checkScrollPosition()</code> call will only happen when a timer completes, <a id="id862" class="indexterm"/>which will at most be every 250 milliseconds.</p><p>We can easily adjust the <code class="literal">setTimeout()</code> value to a comfortable number that strikes a reasonable compromise between <a id="id863" class="indexterm"/>instant feedback and low performance impact. Our script is now a good web citizen.</p><div class="section" title="Other ways to perform throttling"><div class="titlepage"><div><div><h2 class="title"><a id="ch10lvl2sec123"/>Other ways to perform throttling</h2></div></div></div><p>The throttling technique <a id="id864" class="indexterm"/>we've implemented is efficient and simple, but it is not the only solution. Depending on the performance characteristics of the action being throttled and typical interaction with the page, we may for instance want to institute a single timer for the page rather than create one when an event begins:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var scrolled = false;
+  $(window).scroll(function() {
+    scrolled = true;
+  });
+  setInterval(function() {
+    if (scrolled) {
+      checkScrollPosition();
+      scrolled = false;
+    }
+  }, 250);
+  checkScrollPosition();
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.15</em></span>
+</p><p>Unlike our previous throttling code, this polling solution uses a single call to the JavaScript <code class="literal">setInterval()</code> <a id="id865" class="indexterm"/>function to begin checking the state of the <code class="literal">scrolled</code> variable every 250 milliseconds. Any time a scroll event occurs, <code class="literal">scrolled</code> is set to <code class="literal">true</code>, ensuring that the next time the interval passes, <code class="literal">checkScrollPosition()</code> will be called. The result is similar to that of <span class="emphasis"><em>Listing 10.14</em></span>.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip58"/>Tip</h3><p>A third solution for limiting the amount of processing performed during frequently-repeated events is <span class="strong"><strong>debouncing</strong></span>. This technique, named after the post-processing required to handle repeated signals sent by electrical switches, ensures that only a single, final event is acted upon even when many have occurred. We will see an example of this technique in <a class="link" href="ch13.html" title="Chapter&#xA0;13.&#xA0;Advanced Ajax">Chapter 13</a>, <span class="emphasis"><em>Advanced Ajax</em></span>.</p></div></div></div></div></body></html>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Storing data alongside DOM elements</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Storing data alongside DOM elements"><div class="titlepage"><div><div><h1 class="title"><a id="ch12lvl1sec94"/>Storing data alongside DOM elements</h1></div></div></div><p>Our code works, but it is quite slow. The culprit is the comparator function, which is performing a fair amount of work. This comparator will be called many times during the course of a sort, which means that every extra moment it spends on processing will be magnified.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip61"/>Tip</h3><p>
+<span class="strong"><strong>Array sorting performance</strong></span>
+</p><p>The actual sort algorithm used by JavaScript is not defined by the standard. It may be a simple sort like a <span class="strong"><strong>bubble </strong></span>
+<a id="id965" class="indexterm"/>
+<span class="strong"><strong>sort</strong></span> (worst case of &#x398;(<span class="emphasis"><em>n</em></span><sup>2</sup>) in computational complexity terms) or a more sophisticated approach like <span class="strong"><strong>quick sort</strong></span> (<a id="id966" class="indexterm"/>which is &#x398;(<span class="emphasis"><em>n</em></span> log <span class="emphasis"><em>n</em></span>) on average). It is safe to say, though, that doubling the number of items in an array will more than double the number of times the comparator function is called.</p></div></div><p>The remedy for our slow comparator is to <span class="strong"><strong>pre-compute</strong></span> the keys for the comparison. We can do most of the expensive work in an initial loop and store the result with jQuery's <code class="literal">.data()</code> method, <a id="id967" class="indexterm"/>which sets or retrieves arbitrary information associated with page elements. Then we can simply examine the keys within the comparator function, and our sort is markedly faster:</p><div class="informalexample"><pre class="programlisting">$headers.on('click', function(event) {
+  event.preventDefault();
+    var column = $(this).index();
+    var rows = $table1.find('tbody &gt; tr').each(function() {
+<span class="strong"><strong>    var key = $(this).children('td').eq(column).text();</strong></span>
+<span class="strong"><strong>    $(this).data('sortKey', $.trim(key).toUpperCase());</strong></span>
+  }).get();
+  rows.sort(function(a, b) {
+<span class="strong"><strong>    var keyA = $(a).data('sortKey');</strong></span>
+<span class="strong"><strong>    var keyB = $(b).data('sortKey');</strong></span>
+    if (keyA &lt; keyB) return -1;
+    if (keyA &gt; keyB) return 1;
+    return 0;
+  });
+  $.each(rows, function(index, row) {
+    $table1.children('tbody').append(row);
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 12.3</em></span>
+</p><p>The <code class="literal">.data()</code> method, <a id="id968" class="indexterm"/>paired with its complement <a id="id969" class="indexterm"/>
+<code class="literal">.removeData()</code>, provides a data storage mechanism that is a convenient alternative to <span class="strong"><strong>expando </strong></span>
+<a id="id970" class="indexterm"/>
+<span class="strong"><strong>properties</strong></span>, or non-standard properties added directly to DOM elements. Using <code class="literal">.data()</code> instead of expando properties avoids potential problems with memory leaks in older versions of Internet Explorer.</p><div class="section" title="Performing additional precomputation"><div class="titlepage"><div><div><h2 class="title"><a id="ch12lvl2sec137"/>Performing additional precomputation</h2></div></div></div><p>Now we want to apply the same kind of sorting behavior to the <span class="strong"><strong>Author(s)</strong></span> column of our table. Because its table header cell has the <code class="literal">sort-alpha</code> class, the <span class="strong"><strong>Author(s)</strong></span> column can be sorted with our existing code. Ideally, though, authors should be sorted by last name, not first. Since some books have multiple authors, and some authors have middle names or initials listed, we need outside guidance to determine what part of the text to use as our sort key. We can supply this guidance by wrapping the relevant part of the cell in a tag:</p><div class="informalexample"><pre class="programlisting">&lt;td&gt;David &lt;span class="sort-key"&gt;Mercer&lt;/span&gt;&lt;/td&gt;</pre></div><p>Now we have to modify our sorting code to take this tag into account without disturbing the existing behavior for the <code class="literal">Title</code> column, which is already working well. By prepending the marked sort key to the key we have previously calculated, we can sort first on the last name if it is called out, but on the whole string as a fallback:</p><div class="informalexample"><pre class="programlisting">var rows = $table1.find('tbody &gt; tr').each(function() {
+  var $cell = $(this).children('td').eq(column);
+  var key = $cell.find('span.sort-key').text() + ' ';
+  key += $.trim($cell.text()).toUpperCase();
+  $(this).data('sortKey', key);
+}).get();</pre></div><p>
+<span class="emphasis"><em>Listing 12.4</em></span>
+</p><p>Sorting by the <span class="strong"><strong>Author(s)</strong></span> column now uses the provided key, thereby sorting by last name:</p><div class="mediaobject"><img src="graphics/3145OS_12_04.jpg" alt="Performing additional precomputation"/></div><p>If two last names are identical, the sort uses the entire string as a tiebreaker for positioning.</p></div><div class="section" title="Storing non-string data"><div class="titlepage"><div><div><h2 class="title"><a id="ch12lvl2sec138"/>Storing non-string data</h2></div></div></div><p>Our user should be able to sort <a id="id971" class="indexterm"/>not just by the <span class="strong"><strong>Title</strong></span> and <span class="strong"><strong>Author(s)</strong></span> columns, but the <span class="strong"><strong>Publish Date</strong></span> and <span class="strong"><strong>Price</strong></span> columns as well. Since we streamlined our comparator function, it can handle all kinds of data, but first the computed keys will need to be adjusted for other data types. For example, in the case of prices, we need to strip off the leading <code class="literal">$</code> character and parse the rest so that we can compare them numerically:</p><div class="informalexample"><pre class="programlisting">var key = parseFloat($cell.text().replace(/^[^\d.]*/, ''));
+if (isNaN(key)) {
+  key = 0;
+}</pre></div><p>The regular expression used here removes any leading characters other than numbers and decimal points, passing the result on to <a id="id972" class="indexterm"/>
+<code class="literal">parseFloat()</code>. The result of <code class="literal">parseFloat()</code> then needs to be checked, because if no number can be extracted from the text, <code class="literal">NaN</code> (<span class="strong"><strong>Not a Number</strong></span>) is returned. <a id="id973" class="indexterm"/>This can wreak havoc on <code class="literal">.sort()</code>, so we set any non-number to <code class="literal">0</code>.</p><p>For the date cells, we can use the JavaScript <code class="literal">Date</code> object:</p><div class="informalexample"><pre class="programlisting">var key = Date.parse('1 ' + $cell.text());</pre></div><p>The dates in this table contain a month and year only; <code class="literal">Date.parse()</code> requires a fully-specified date. To accommodate this, we prepend the string with <code class="literal">1</code>, so that <code class="literal">September 2010</code> becomes <code class="literal">1 September 2010</code>. Now that we have a complete date, <code class="literal">Date.parse()</code> can convert it into a <span class="strong"><strong>timestamp</strong></span>, <a id="id974" class="indexterm"/>which can be sorted using our normal comparator.</p><p>We can place these expressions into <a id="id975" class="indexterm"/>three separate functions, so that later we can call the appropriate one based on the class applied to the table header:</p><div class="informalexample"><pre class="programlisting">$headers
+  .each(function() {
+    var keyType = this.className.replace(/^sort-/,'');
+    $(this).data('keyType', keyType);
+  })
+  .wrapInner('&lt;a href="#"&gt;&lt;/a&gt;')
+  .addClass('sort');
+var sortKeys = {
+  alpha: function($cell) {
+    var key = $cell.find('span.sort-key').text() + ' ';
+    key += $.trim($cell.text()).toUpperCase();
+    return key;
+  },
+  numeric: function($cell) {
+    var num = $cell.text().replace(/^[^\d.]*/, '');
+    var key = parseFloat(num);
+    if (isNaN(key)) {
+      key = 0;
+    }
+    return key;
+  },
+  date: function($cell) {
+    var key = Date.parse('1 ' + $cell.text());
+    return key;
+  }
+};</pre></div><p>
+<span class="emphasis"><em>Listing 12.5</em></span>
+</p><p>We've modified the script a bit to store <code class="literal">keyType</code> data for each column header cell based on its class name before we add the <code class="literal">sort</code> class. We strip off the <code class="literal">sort-</code> portion of the class so that we're left with <code class="literal">alpha</code>, <code class="literal">numeric</code>, or <code class="literal">date</code>. By making each sort function a method of the <code class="literal">sortKeys</code> object, we can use <a id="id976" class="indexterm"/>
+<span class="strong"><strong>array notation</strong></span> and pass in the value of the header cell's <code class="literal">keyType</code> data to call the appropriate function.</p><p>Typically when we call methods, we use <a id="id977" class="indexterm"/>
+<span class="strong"><strong>dot notation</strong></span>. This is, in fact, the way we call methods of the jQuery object throughout this book. For example, to add a class of <code class="literal">bar</code> to <code class="literal">&lt;div class="foo"&gt;</code>, we write <code class="literal">$('div.foo').addClass('bar')</code>. Because JavaScript allows properties and methods to be represented in either dot or array notation, we could also write it as <code class="literal">$('div.foo')['addClass']('bar')</code>. It doesn't make much sense to do this most of the time, but it can be a great way to conditionally call methods without using a bunch of <code class="literal">if</code> statements. For our <code class="literal">sortKeys</code> object, <a id="id978" class="indexterm"/>we could call the <code class="literal">alpha</code> method like <code class="literal">sortKeys.alpha($cell)</code> or <code class="literal">sortKeys['alpha']($cell)</code> or, if the method name is stored in a <code class="literal">keyType</code> variable, <code class="literal">sortKeys[keyType]($cell)</code>. We'll use this third variation inside the <code class="literal">click</code> handler:</p><div class="informalexample"><pre class="programlisting">$headers.on('click', function(event) {
+  event.preventDefault();
+<span class="strong"><strong>  var $header = $(this),</strong></span>
+      column = $header.index(),
+<span class="strong"><strong>      keyType = $header.data('keyType');</strong></span>
+<span class="strong"><strong>  if ( !$.isFunction(sortKeys[keyType]) ) {</strong></span>
+<span class="strong"><strong>    return;</strong></span>
+<span class="strong"><strong>  }</strong></span>
+  var rows = $table1.find('tbody &gt; tr').each(function() {
+    var $cell = $(this).children('td').eq(column);
+<span class="strong"><strong>    $(this).data('sortKey', sortKeys[keyType]($cell));</strong></span>
+  }).get();
+  rows.sort(function(a, b) {
+    var keyA = $(a).data('sortKey');
+    var keyB = $(b).data('sortKey');
+    if (keyA &lt; keyB) return -1;
+    if (keyA &gt; keyB) return 1;
+    return 0;
+  });
+  $.each(rows, function(index, row) {
+    $table1.children('tbody').append(row);
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 12.6</em></span>
+</p><p>To be safe and avoid JavaScript errors, we also made sure that the <code class="literal">sortKeys[keyType]</code> method exists before continuing on. We can now sort by <span class="strong"><strong>Publish Date</strong></span> or <span class="strong"><strong>Price</strong></span> as well:</p><div class="mediaobject"><img src="graphics/3145OS_12_05.jpg" alt="Storing non-string data"/></div></div><div class="section" title="Alternating sort directions"><div class="titlepage"><div><div><h2 class="title"><a id="ch12lvl2sec139"/>Alternating sort directions</h2></div></div></div><p>Our final sorting enhancement is to allow for both <span class="strong"><strong>ascending</strong></span> and <span class="strong"><strong>descending</strong></span> sort orders. When the user clicks on a column that is already sorted, we want to reverse the current sort order.</p><p>To reverse a sort, all we have to do is to invert the values returned by our comparator. We can do this with a simple <a id="id979" class="indexterm"/>
+<code class="literal">sortDirection</code> variable:</p><div class="informalexample"><pre class="programlisting">if (keyA &lt; keyB) return -sortDirection;
+if (keyA &gt; keyB) return sortDirection;
+return 0;</pre></div><p>If <code class="literal">sortDirection</code> equals <code class="literal">1</code>, then the sort will be the same as before. If it equals <code class="literal">-1</code>, the sort will be reversed. By combining this concept with some classes to keep track of the current sort order of a column, achieving alternating sort directions is simple:</p><div class="informalexample"><pre class="programlisting">  $headers.on('click', function(event) {
+    event.preventDefault();
+    var $header = $(this),
+        column = $header.index(),
+        keyType = $header.data('keyType'),
+<span class="strong"><strong>        sortDirection = 1;</strong></span>
+    if ( !$.isFunction(sortKeys[keyType]) ) {
+      return;
+    }
+<span class="strong"><strong>    if ($header.hasClass('sorted-asc')) {</strong></span>
+<span class="strong"><strong>      sortDirection = -1;</strong></span>
+<span class="strong"><strong>    }</strong></span>
+    var rows = $table1.find('tbody &gt; tr').each(function() {
+      var $cell = $(this).children('td').eq(column);
+      $(this).data('sortKey', sortKeys[keyType]($cell));
+    }).get();
+    rows.sort(function(a, b) {
+      var keyA = $(a).data('sortKey');
+      var keyB = $(b).data('sortKey');
+<span class="strong"><strong>      if (keyA &lt; keyB) return -sortDirection;</strong></span>
+<span class="strong"><strong>      if (keyA &gt; keyB) return sortDirection;</strong></span>
+      return 0;
+    });
+<span class="strong"><strong>    $headers.removeClass('sorted-asc sorted-desc');</strong></span>
+<span class="strong"><strong>    $header.addClass(sortDirection == 1 ? 'sorted-asc' : 'sorted-desc');</strong></span>
+    $.each(rows, function(index, row) {
+      $table1.children('tbody').append(row);
+    });
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 12.7</em></span>
+</p><p>As a side benefit, since we use <a id="id980" class="indexterm"/>classes to store the sort direction, we can style the column headers to indicate the current order:</p><div class="mediaobject"><img src="graphics/3145OS_12_06.jpg" alt="Alternating sort directions"/></div></div></div></body></html>

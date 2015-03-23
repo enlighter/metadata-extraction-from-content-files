@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Providing flexible method parameters</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Providing flexible method parameters"><div class="titlepage"><div><div><h1 class="title"><a id="ch08lvl1sec66"/>Providing flexible method parameters</h1></div></div></div><p>In <a class="link" href="ch07.html" title="Chapter&#xA0;7.&#xA0;Using Plugins">Chapter 7</a>, <span class="emphasis"><em>Using Plugins</em></span>, we saw some plugins that can be fine-tuned to do exactly what we want through the use of parameters. We saw that a cleverly constructed plugin helps us by providing sensible defaults that can be independently overridden. When we make our own plugins, we should follow this example by keeping the user in mind.</p><p>To explore the various ways in which we can let a plugin's user customize its behavior, we need an example that has several settings that can be tweaked and modified. As our example, we'll replicate a feature of CSS by using a more brute-force JavaScript approach&#x2014;an approach that is more suitable for demonstration than for production code. Our plugin will simulate a shadow on an element by creating a number of copies that are partially transparent overlaid in different positions on the page:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.fn.shadow = function() {
+    return this.each(function() {
+      var $originalElement = $(this);
+      for (var i = 0; i &lt; 5; i++) {
+        $originalElement
+          .clone()
+          .css({
+            position: 'absolute',
+            left: $originalElement.offset().left + i,
+            top: $originalElement.offset().top + i,
+            margin: 0,
+            zIndex: -1,
+            opacity: 0.1
+          })
+          .appendTo('body');
+      }
+    });
+  };
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.11</em></span>
+</p><p>For each element this method is called on, we make a number of clones of the element, adjusting their opacity. These clones are positioned absolutely at varying offsets from the original element. For the moment, our plugin takes no parameters, so calling the method is simple:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('h1').shadow();
+});</pre></div><p>This method call produces a very simple shadow effect on the header text:</p><div class="mediaobject"><img src="graphics/3145_08_05.jpg" alt="Providing flexible method parameters"/></div><p>Next we can introduce some flexibility to the plugin method. The operation of the method relies on several numeric values that the user might want to modify. We can turn these into parameters so they can be changed on demand.</p><div class="section" title="The options object"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec94"/>The options object</h2></div></div></div><p>We have seen many examples in the jQuery API of <a id="id660" class="indexterm"/>
+<code class="literal">options</code> objects being provided as parameters of methods such as <code class="literal">.animate()</code> and <code class="literal">$.ajax()</code>. This can be a much friendlier way to expose options to a <a id="id661" class="indexterm"/>plugin user than the simple parameter list we just used with the <code class="literal">.swapClass()</code> plugin. An object literal provides a visual label for each parameter and also makes the order of the parameters irrelevant. In addition, any time we can mimic the jQuery API in our plugins, we should do so. This will increase consistency, and therefore ease of use:</p><div class="informalexample"><pre class="programlisting">(function($) {
+<span class="strong"><strong>  $.fn.shadow = function(options) {</strong></span>
+    return this.each(function() {
+      var $originalElement = $(this);
+<span class="strong"><strong>      for (var i = 0; i &lt; options.copies; i++) {</strong></span>
+        $originalElement
+          .clone()
+          .css({
+            position: 'absolute',
+            left: $originalElement.offset().left + i,
+            top: $originalElement.offset().top + i,
+            margin: 0,
+            zIndex: -1,
+<span class="strong"><strong>            opacity: options.opacity</strong></span>
+          })
+          .appendTo('body');
+      }
+    });
+  };
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.12</em></span>
+</p><p>The number of copies made and their opacity are now customizable. Within our plugin, each value is accessed as a property of the <a id="id662" class="indexterm"/>
+<code class="literal">options</code> argument to the function.</p><p>Calling this method now requires us <a id="id663" class="indexterm"/>to provide an object containing the option values:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('h1').shadow({
+    copies: 3,
+    opacity: 0.25
+  });
+});</pre></div><p>The configurability is an improvement, but we now have to provide both options every time. Next we'll take a look at how we can allow our plugin users to omit either option.</p></div><div class="section" title="Default parameter values"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec95"/>Default parameter values</h2></div></div></div><p>As the number of parameters <a id="id664" class="indexterm"/>for a method grows, it becomes less likely that we will always want to specify each one. A sensible set of default values can make a plugin interface much more usable. Fortunately, using an object to pass in our parameters helps with this task as well; it is simple to omit any item from the object and replace it with a default:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.fn.shadow = function(opts) {
+    var defaults = {
+      copies: 5,
+      opacity: 0.1
+    };
+    var options = $.extend(defaults, opts);
+
+    // ...
+  };
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.13</em></span>
+</p><p>Here, we have defined a new object, called <code class="literal">defaults</code>, within our method definition. The utility function <code class="literal">$.extend()</code> lets us take the <code class="literal">opts</code> object provided as an argument and use it to override the items in <code class="literal">defaults</code>, leaving omitted items alone.</p><p>We still call our method using an <a id="id665" class="indexterm"/>object literal, but now we can specify only the parameters that need to take different values than their defaults:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('h1').shadow({
+    copies: 3
+  });
+});</pre></div><p>Unspecified parameters use their default values. The <code class="literal">$.extend()</code> method even accepts null values, so if the default parameters are all acceptable, our method can be called very easily without producing JavaScript errors:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('h1').shadow();
+});</pre></div></div><div class="section" title="Callback functions"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec96"/>Callback functions</h2></div></div></div><p>Of course, some method <a id="id666" class="indexterm"/>parameters can be quite a bit more complicated than a simple numeric value. One common parameter type we have seen frequently throughout the jQuery API is the callback function. The callback function can lend a large amount of flexibility to a plugin without requiring a great deal of preparation when creating the plugin.</p><p>To employ a callback function <a id="id667" class="indexterm"/>in our method, we need to simply accept the function object as a parameter and call that function wherever appropriate in our method implementation. As an example, we can extend our text shadow method to allow the user to customize the position of the shadow relative to the text:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.fn.shadow = function(opts) {
+    var defaults = {
+      copies: 5,
+      opacity: 0.1,
+<span class="strong"><strong>      copyOffset: function(index) {</strong></span>
+<span class="strong"><strong>        return {x: index, y: index};</strong></span>
+<span class="strong"><strong>      }</strong></span>
+    };
+    var options = $.extend(defaults, opts);
+
+    return this.each(function() {
+      var $originalElement = $(this);
+      for (var i = 0; i &lt; options.copies; i++) {
+<span class="strong"><strong>        var offset = options.copyOffset(i);</strong></span>
+        $originalElement
+          .clone()
+          .css({
+            position: 'absolute',
+            left: $originalElement.offset().left + offset.x,
+            top: $originalElement.offset().top + offset.y,
+            margin: 0,
+            zIndex: -1,
+            opacity: options.opacity
+          })
+          .appendTo('body');
+      }
+    });
+  };
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.14</em></span>
+</p><p>Each slice of the shadow has a <a id="id668" class="indexterm"/>different offset from the original text. Previously, this offset has simply been equal to the index of the copy. Now, though, we're calculating the offset using the <a id="id669" class="indexterm"/>
+<code class="literal">copyOffset()</code> function, which is an option that the user can override. <a id="id670" class="indexterm"/>So, for example, we could provide negative values for the offset in both dimensions:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('h1').shadow({
+    copyOffset: function(index) {
+<span class="strong"><strong>      return {x: -index, y: -2 * index};</strong></span>
+    }
+  });
+});</pre></div><p>This will cause the shadow to be cast up and to the left-hand side rather than down and to the right-hand side:</p><div class="mediaobject"><img src="graphics/3145_08_06.jpg" alt="Callback functions"/></div><p>The callback allows simple modifications to the shadow's direction, or much more sophisticated positioning if the plugin user supplies the appropriate callback. If the callback is not specified, then the <a id="id671" class="indexterm"/>default behavior is once again used.</p></div><div class="section" title="Customizable defaults"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec97"/>Customizable defaults</h2></div></div></div><p>We can improve the experience of using our plugins by providing reasonable default values for our method parameters, <a id="id672" class="indexterm"/>as we have seen. However, sometimes it can be difficult to predict what a reasonable default value will be. If a script author needs to call our plugin multiple times with a different set of parameters than we set as the defaults, the ability to customize these defaults could significantly reduce the amount of code that needs to be written.</p><p>To make the defaults customizable, we need to move them out of our method definition and into a location that is accessible by outside code:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.fn.shadow = function(opts) {
+    var options = $.extend({}, $.fn.shadow.defaults, opts);
+    // ...
+  };
+
+  $.fn.shadow.defaults = {
+    copies: 5,
+    opacity: 0.1,
+    copyOffset: function(index) {
+      return {x: index, y: index};
+    }
+  };
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.15</em></span>
+</p><p>The defaults are now in the namespace of the shadow plugin, and can be directly referred to with <code class="literal">$.fn.shadow.defaults</code>. Our call to <code class="literal">$.extend()</code> had to change to accommodate this as well. Since we are now reusing the same <code class="literal">defaults</code> object for every call to <code class="literal">.shadow()</code>, we can't allow <code class="literal">$.extend()</code> to modify it. Instead, we provide an empty object <code class="literal">{}</code> as the first <a id="id673" class="indexterm"/>argument to <code class="literal">$.extend()</code>, and it is this new object that gets modified.</p><p>Now, code that uses our plugin can change the defaults that all subsequent calls to <code class="literal">.shadow()</code> will use. Options can also still be supplied at the time the method is invoked:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  $.fn.shadow.defaults.copies = 10;</strong></span>
+  $('h1').shadow({
+    copyOffset: function(index) {
+      return {x: -index, y: index};
+    }
+  });
+});</pre></div><p>This script will create a shadow using 10 copies of the element, because that is the new default value, but will also cast the shadow to the left-hand side and down due to the <code class="literal">copyOffset</code> callback <a id="id674" class="indexterm"/>that is provided along with the method call:</p><div class="mediaobject"><img src="graphics/3145_08_07.jpg" alt="Customizable defaults"/></div></div></div></body></html>

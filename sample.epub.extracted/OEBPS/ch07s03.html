@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Other types of plugins</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Other types of plugins"><div class="titlepage"><div><div><h1 class="title"><a id="ch07lvl1sec58"/>Other types of plugins</h1></div></div></div><p>Plugins need not be limited to <a id="id549" class="indexterm"/>providing additional jQuery methods. They can extend the library in many ways, and even alter the functionality of existing features.</p><p>Plugins can change the way other parts of the jQuery library operate. Some offer new animation easing styles, for instance, or trigger additional jQuery events in response to user actions. The Cycle plugin offers such an enhancement by adding a new custom selector.</p><div class="section" title="Custom selectors"><div class="titlepage"><div><div><h2 class="title"><a id="ch07lvl2sec79"/>Custom selectors</h2></div></div></div><p>Plugins that add custom selector <a id="id550" class="indexterm"/>expressions increase the capabilities of jQuery's built-in selector engine, so that we can find elements on the page in new ways. Cycle adds a <a id="id551" class="indexterm"/>custom selector of this kind, which gives us an opportunity to explore this capability.</p><p>Cycle's slideshows can be paused and resumed by calling <code class="literal">.cycle('pause')</code> and <code class="literal">.cycle('resume')</code> respectively. We can easily add buttons that control the slideshow, as shown in the following code:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $books = $('#books');
+  var $controls = $('&lt;div id="books-controls"&gt;&lt;/div&gt;');
+  $controls.insertAfter($books);
+  $('&lt;button&gt;Pause&lt;/button&gt;').click(function(event) {
+    event.preventDefault();
+    $books.cycle('pause');
+  }).appendTo($controls);
+  $('&lt;button&gt;Resume&lt;/button&gt;').click(function(event) {
+    event.preventDefault();
+    $books.cycle('resume');
+  }).appendTo($controls);
+});</pre></div><p>
+<span class="emphasis"><em>Listing 7.4</em></span>
+</p><p>Now, suppose that we want our <span class="strong"><strong>Resume</strong></span> button to resume any paused Cycle slideshow on the page, in the case there were more than one. We want to find all the <code class="literal">&lt;ul&gt;</code> elements on the page that are paused slideshows <a id="id552" class="indexterm"/>and resume them all. Cycle's custom <code class="literal">:paused</code> selector allows us to do this easily:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('&lt;button&gt;Resume&lt;/button&gt;').click(function(event) {
+    event.preventDefault();
+<span class="strong"><strong>    $('ul:paused').cycle('resume');</strong></span>
+  }).appendTo($controls);
+});</pre></div><p>
+<span class="emphasis"><em>Listing 7.5</em></span>
+</p><p>With Cycle loaded, <code class="literal">$('ul:paused')</code> will create a jQuery object referencing all of the paused slideshows on the <a id="id553" class="indexterm"/>page so that we can interact with them at will. Selector extensions such as this that are provided by plugins can be freely combined with any of the standard jQuery selectors. We can easily see that, with the choice of appropriate plugins, jQuery can be molded into the shape that best suits us.</p></div><div class="section" title="Global function plugins"><div class="titlepage"><div><div><h2 class="title"><a id="ch07lvl2sec80"/>Global function plugins</h2></div></div></div><p>Many popular plugins provide <a id="id554" class="indexterm"/>new global functions within the <code class="literal">jQuery</code> namespace. This pattern is common when plugins supply features that are not related to the DOM elements on the page and thus are not good candidates for standard <a id="id555" class="indexterm"/>jQuery methods. For example, the Cookie plugin (<a class="ulink" href="https://github.com/carhartl/jquery-cookie">https://github.com/carhartl/jquery-cookie</a>) offers an interface for reading and writing cookie values on a page. This functionality is provided through the <code class="literal">$.cookie()</code> <a id="id556" class="indexterm"/>function, which can get or set individual cookies.</p><p>Let's say, for example, that we want to remember when users press our slideshow's <span class="strong"><strong>Pause</strong></span> button so that we can keep it paused if they leave the page and return to it later. After loading the Cookie plugin, reading a cookie is as simple as using the cookie's name as the sole argument as shown in the following code:</p><div class="informalexample"><pre class="programlisting">if ( $.cookie('cyclePaused') ) {
+  $books.cycle('pause');
+}</pre></div><p>
+<span class="emphasis"><em>Listing 7.6</em></span>
+</p><p>Here, we look for the existence of a <code class="literal">cyclePaused</code> cookie; it doesn't matter what the value is for our purpose. If the cookie exists, the cycle will pause. When we insert this conditional pause immediately after the call to <code class="literal">.cycle()</code>, the slideshow keeps the first image visible until the user at some point presses the <span class="strong"><strong>Resume</strong></span> button.</p><p>Of course, because we haven't <a id="id557" class="indexterm"/>set the cookie yet, the slideshow is still cycling through the images. Setting a cookie is as simple as getting its value; we just supply a string for the second argument as follows:</p><div class="informalexample"><pre class="programlisting">var $controls = $('&lt;div id="books-controls"&gt;&lt;/div&gt;')
+  .insertAfter($books);
+$('&lt;button&gt;Pause&lt;/button&gt;').click(function(event) {
+  event.preventDefault();
+  $books.cycle('pause');
+<span class="strong"><strong>  $.cookie('cyclePaused', 'y');</strong></span>
+}).appendTo($controls);
+$('&lt;button&gt;Resume&lt;/button&gt;').click(function(event) {
+  event.preventDefault();
+  $('ul:paused').cycle('resume');
+<span class="strong"><strong>  $.cookie('cyclePaused', null);</strong></span>
+}).appendTo($controls);</pre></div><p>
+<span class="emphasis"><em>Listing 7.7</em></span>
+</p><p>The cookie is set to <code class="literal">y</code> when the <a id="id558" class="indexterm"/>
+<span class="strong"><strong>Pause</strong></span> button is pressed, and it is deleted by passing <code class="literal">null</code> when the <span class="strong"><strong>Resume</strong></span> button is pressed. By default, the cookie remains for the duration of the session (generally until the browser tab is closed). Also by default, the cookie is associated with the page on which it was set. To change these default settings we can supply an options object for the function's third argument. This is a pattern typical to jQuery plugins as well as jQuery core functions.</p><p>For example, to make the cookie available throughout the site and have it expire after seven days, we can call the function with <code class="literal">$.cookie('cyclePaused', 'y', {path: '/', expires: 7})</code>. For information on these and other options available when calling <code class="literal">$.cookie()</code>, we can refer to the documentation for the plugin.</p></div></div></body></html>

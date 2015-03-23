@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>DOM tree manipulation</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="DOM tree manipulation"><div class="titlepage"><div><div><h1 class="title"><a id="ch05lvl1sec39"/>DOM tree manipulation</h1></div></div></div><p>The <code class="literal">.attr() </code>and <code class="literal">.prop()</code>
+<a id="id385" class="indexterm"/>methods are <a id="id386" class="indexterm"/>very powerful tools, and with them we <a id="id387" class="indexterm"/>can make targeted changes to the document. We still haven't seen ways to change the overall structure of the document though. To actually manipulate the DOM tree, we'll need to learn a bit more about the function that lies at the very heart of the jQuery library.</p><div class="section" title="The $() function revisited"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec56"/>The $() function revisited</h2></div></div></div><p>From the start of this book, we've <a id="id388" class="indexterm"/>been using the <code class="literal">$()</code> function to access <a id="id389" class="indexterm"/>elements in a document. As we've seen, this function acts as a factory, producing new jQuery objects that point to the elements described by CSS selectors.</p><p>This isn't all that the <code class="literal">$()</code> function can do, however. It also boasts a feature so powerful that it can change not only the visual appearance but also the actual contents of a page. Simply by passing a snippet of HTML code to the function, we can create an entirely new DOM structure from thin air.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip28"/>Tip</h3><p>
+<span class="strong"><strong>Accessibility reminder</strong></span>
+</p><p>We should keep in mind, once again, the inherent danger in making certain functionality, visual appeal, or textual information available only to those with web browsers capable of (and enabled for) using JavaScript. Important information should be accessible to all, not just people who happen to be using the right software.</p></div></div></div><div class="section" title="Creating new elements"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec57"/>Creating new elements</h2></div></div></div><p>A feature commonly seen on <a id="id390" class="indexterm"/>FAQ pages is the <span class="strong"><strong>back to top</strong></span> <a id="id391" class="indexterm"/>link that appears after each question-and-answer pair. It could be argued that these links serve <a id="id392" class="indexterm"/>no semantic purpose and therefore can be legitimately included via JavaScript as an enhancement for a subset of the visitors to a page. For our example, we'll add a <span class="strong"><strong>back to top</strong></span> link after each paragraph, as well as the anchor to which the <span class="strong"><strong>back to top</strong></span> links will take us. To begin, we simply create the new elements:</p><div class="informalexample"><pre class="programlisting">// Unfinished code
+$(document).ready(function() {
+  $('&lt;a href="#top"&gt;back to top&lt;/a&gt;');
+  $('&lt;a id="top"&gt;&lt;/a&gt;');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.6</em></span>
+</p><p>We've created a <span class="strong"><strong>back to top</strong></span> link in the first line of code and a target anchor for the link in the second line. However, no <span class="strong"><strong>back to top</strong></span> links appear on the page yet.</p><div class="mediaobject"><img src="graphics/3145OS_05_03.jpg" alt="Creating new elements"/></div><p>While the two lines of code we've written do indeed create the elements, they don't yet add the elements to the page. We <a id="id393" class="indexterm"/>need to tell the browser where these new <a id="id394" class="indexterm"/>elements should go. To do that, we can use one of the many jQuery <code class="literal">insertion methods.</code>
+</p></div><div class="section" title="Inserting new elements"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec58"/>Inserting new elements</h2></div></div></div><p>The jQuery library has a number of <a id="id395" class="indexterm"/>methods available for inserting elements into the document. Each one dictates the relationship the new content will have to the existing content. For example, we will want our <span class="strong"><strong>back to top</strong></span> links to appear <a id="id396" class="indexterm"/>after each paragraph, so we'll use the appropriately-named <code class="literal">.insertAfter()</code> method to accomplish this:</p><div class="informalexample"><pre class="programlisting">// Unfinished code
+$(document).ready(function() {
+  $('&lt;a href="#top"&gt;back to top&lt;/a&gt;').insertAfter('div.chapter p');
+  $('&lt;a id="top"&gt;&lt;/a&gt;');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.7</em></span>
+</p><p>So, now that we've actually inserted the links into the page (and into the DOM) after each paragraph that appears within <code class="literal">&lt;div class="chapter"&gt;</code>, the <span class="strong"><strong>back to top</strong></span> links will appear:</p><div class="mediaobject"><img src="graphics/3145OS_05_04.jpg" alt="Inserting new elements"/></div><p>Note that the new links appear on their own line, not within the paragraph. This is because the <code class="literal">.insertAfter()</code> <a id="id397" class="indexterm"/>method, and its counterpart <code class="literal">.insertBefore()</code>, add content <span class="emphasis"><em>outside</em></span> the specified element.</p><p>Unfortunately, the links won't work yet. We still need to insert the anchor with <code class="literal">id="top"</code>. This time, we'll use one of the methods that insert elements <span class="emphasis"><em>inside</em></span> of other elements.</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('&lt;a href="#top"&gt;back to top&lt;/a&gt;').insertAfter('div.chapter p');
+  $('&lt;a id="top"&gt;&lt;/a&gt;').prependTo('body');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.8</em></span>
+</p><p>This additional code inserts the anchor right at the beginning of the <code class="literal">&lt;body&gt;</code> tag; in other words, at the top of the page. Now, with the <code class="literal">.insertAfter()</code> method for the links and the <code class="literal">.prependTo()</code> method for <a id="id398" class="indexterm"/>the anchor, <a id="id399" class="indexterm"/>we have a fully functioning set of <span class="strong"><strong>back to top</strong></span> links for the page.</p><p>Once we add the <a id="id400" class="indexterm"/>corresponding <code class="literal">.appendTo()</code> method, we now have a complete set of options for inserting new elements before and after other elements:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc"><code class="literal">.insertBefore()</code> <a id="id401" class="indexterm"/>adds content <span class="emphasis"><em>outside of</em></span> and <span class="emphasis"><em>before</em></span> existing elements</li><li class="listitem" style="list-style-type: disc"><code class="literal">.prependTo()</code> adds content <span class="emphasis"><em>inside of</em></span> and <span class="emphasis"><em>before</em></span> existing elements</li><li class="listitem" style="list-style-type: disc"><code class="literal">.appendTo()</code> adds content <a id="id402" class="indexterm"/><span class="emphasis"><em>inside of</em></span> and <span class="emphasis"><em>after</em></span> existing elements</li><li class="listitem" style="list-style-type: disc"><code class="literal">.insertAfter()</code> adds content <a id="id403" class="indexterm"/><span class="emphasis"><em>outside of</em></span> and <span class="emphasis"><em>after</em></span> existing elements</li></ul></div></div><div class="section" title="Moving elements"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec59"/>Moving elements</h2></div></div></div><p>When adding the <a id="id404" class="indexterm"/>
+<span class="strong"><strong>back to top</strong></span> links, we created new elements and inserted them on the page. It's also possible to take elements from one place on the page and insert them into another place. A practical application of this type of insertion is the <a id="id405" class="indexterm"/>dynamic placement and formatting of footnotes. One footnote already appears in the original <span class="emphasis"><em>Flatland</em></span> text that we are using for this example, but we'll also designate a couple of other portions of the text as footnotes for the purpose of this demonstration:</p><div class="informalexample"><pre class="programlisting">&lt;p&gt;How admirable is the Law of Compensation! &lt;span    
+   class="footnote"&gt;And how perfect a proof of the natural 
+   fitness and, I may almost say, the divine origin of the 
+   aristocratic constitution of the States of Flatland!&lt;/span&gt;
+   By a judicious use of this Law of Nature, the Polygons and 
+   Circles are almost always able to stifle sedition in its 
+   very cradle, taking advantage of the irrepressible and 
+   boundless hopefulness of the human mind.&amp;hellip;
+&lt;/p&gt;</pre></div><p>Our HTML document contains three footnotes; the previous paragraph contains one example. The footnote text is inside the paragraph text, set apart using <code class="literal">&lt;span class="footnote"&gt;&lt;/span&gt;</code>. By marking up the HTML document in this way, we can preserve the context of the footnote. A CSS rule applied in the stylesheet italicizes the footnotes, so an affected paragraph initially looks like the following:</p><div class="mediaobject"><img src="graphics/3145OS_05_05.jpg" alt="Moving elements"/></div><p>Now we need to grab the footnotes and move them to the bottom of the document. Specifically, we'll insert them in between <code class="literal">&lt;div class="chapter"&gt;</code> and <code class="literal">&lt;div id="footer"&gt;</code>.</p><p>Keep in mind that even in cases of implicit iteration, the order in which elements are processed is precisely <a id="id406" class="indexterm"/>defined, starting at the top of the DOM tree and working down. Since it's important to maintain the correct order of the footnotes in their new place on the page, we should use <code class="literal">.insertBefore('#footer')</code>. This will place each footnote directly before the <code class="literal">&lt;div id="footer"&gt;</code> element so that the first footnote is placed between <code class="literal">&lt;div class="chapter"&gt;</code> and <code class="literal">&lt;div id="footer"&gt;</code>, the second footnote is placed between the first footnote and <code class="literal">&lt;div id="footer"&gt;</code>, and so on. Using <code class="literal">.insertAfter('div.chapter')</code>, on the other hand, would cause the <a id="id407" class="indexterm"/>footnotes to appear in reverse order.</p><p>So far, our code looks like the following:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('span.footnote').insertBefore('#footer');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.9</em></span>
+</p><p>The footnotes are in <code class="literal">&lt;span&gt;</code> tags, which means they display inline by default, one right after the other with no separation. However, we've anticipated this in the CSS, giving <code class="literal">span.footnote</code> elements a <code class="literal">display</code> value of <code class="literal">block</code> when they are outside of <code class="literal">&lt;div class="chapter"&gt;</code>. So, the footnotes are now beginning to take shape:</p><div class="mediaobject"><img src="graphics/3145OS_05_06.jpg" alt="Moving elements"/></div><p>The footnotes are in the proper position <a id="id408" class="indexterm"/>now, yet there is still a lot of work that can be done to them. A more robust <a id="id409" class="indexterm"/>footnote solution should do the following:</p><div class="orderedlist"><ol class="orderedlist arabic"><li class="listitem">Number each footnote.</li><li class="listitem">Mark the location in the text from which each footnote is pulled using the number of the footnote.</li><li class="listitem">Create a link from the text location to its matching footnote, and from the footnote back to the text location.</li></ol></div></div><div class="section" title="Wrapping elements"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec60"/>Wrapping elements</h2></div></div></div><p>To number the footnotes, <a id="id410" class="indexterm"/>we could explicitly add numbers in the markup, but <a id="id411" class="indexterm"/>here we can take advantage of the standard ordered list element that takes care of numbering for us. To do this, we need to create a containing <code class="literal">&lt;ol&gt;</code> element surrounding all of the footnotes and an <code class="literal">&lt;li&gt;</code> element surrounding each one individually. The <a id="id412" class="indexterm"/>
+<span class="strong"><strong>wrapping methods</strong></span> will come to our rescue here.</p><p>When wrapping elements in another element, we need to be clear about whether we want each element wrapped in its own container or all elements wrapped in a single container. For our footnote numbering, we need both types of wrapper:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('span.footnote')
+    .insertBefore('#footer')
+    .wrapAll('&lt;ol id="notes"&gt;&lt;/ol&gt;')
+    .wrap('&lt;li&gt;&lt;/li&gt;');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.10</em></span>
+</p><p>Once we have inserted the footnotes before the footer, we wrap the entire set inside a single <code class="literal">&lt;ol&gt;</code> element using <code class="literal">.wrapAll()</code>. We then proceed to wrap each individual footnote inside its own <code class="literal">&lt;li&gt;</code> <a id="id413" class="indexterm"/>element using <code class="literal">.wrap()</code>. We can see that this has created properly-numbered footnotes:</p><div class="mediaobject"><img src="graphics/3145OS_05_07.jpg" alt="Wrapping elements"/></div><p>Now we're ready to mark and number the place from which we're pulling the footnote. To do this in a straightforward manner, <a id="id414" class="indexterm"/>though, we need to rewrite our existing code without relying on implicit iteration.</p><div class="section" title="Explicit iteration"><div class="titlepage"><div><div><h3 class="title"><a id="ch05lvl3sec10"/>Explicit iteration</h3></div></div></div><p>The <code class="literal">.each()</code> method, which acts as <a id="id415" class="indexterm"/>
+<a id="id416" class="indexterm"/>an <span class="strong"><strong>explicit iterator</strong></span>, is very similar to the <code class="literal">forEach</code> array iterator that was recently added to the JavaScript language. The <code class="literal">.each()</code> method can be employed when the code we want to use on each of the matched elements is too complex for the implicit iteration syntax. It is passed a callback function that will be called once for each element in the matched set.</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $notes = $('&lt;ol id="notes"&gt;&lt;/ol&gt;').insertBefore('#footer');
+  $('span.footnote').each(function(index) {
+    $(this).appendTo($notes).wrap('&lt;li&gt;&lt;/li&gt;');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.11</em></span>
+</p><p>The motivation for our change here will become clear shortly. First, we need to understand the information that's provided to our <code class="literal">.each()</code> callback.</p><p>As with other callbacks we've seen, such as the value callbacks we worked with earlier this chapter, the context keyword <code class="literal">this</code> points to the DOM element in question. In <span class="emphasis"><em>Listing 5.11</em></span>, we use the context to create a jQuery object pointing to a single footnote, <code class="literal">&lt;span&gt;</code>, then we append the element to the notes <code class="literal">&lt;ol&gt;</code>, and finally wrap the footnote inside an <code class="literal">&lt;li&gt;</code> element.</p><p>To mark the locations in the <a id="id417" class="indexterm"/>
+<a id="id418" class="indexterm"/>text from which the footnotes were pulled, we can take advantage of the <code class="literal">.each()</code> callback's parameter. This parameter provides the iteration count, starting at <code class="literal">0</code> and incrementing each time the callback is invoked. Therefore, this counter will always be 1 less than number of the footnote. We'll account for this fact when producing the appropriate labels in the text:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+var $notes = $('&lt;ol id="notes"&gt;&lt;/ol&gt;').insertBefore('#footer');
+  $('span.footnote').each(function(index) {
+    $('&lt;sup&gt;' + (index + 1) + '&lt;/sup&gt;').insertBefore(this);
+    $(this).appendTo($notes).wrap('&lt;li&gt;&lt;/li&gt;');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.12</em></span>
+</p><p>Now, before each footnote is pulled out of the text to be placed at the bottom of the page, we create a new <code class="literal">&lt;sup&gt;</code> element containing the footnote's number and insert it into the text. The order of actions is important here: we need to make sure that the marker is inserted before the footnote is moved, or else we lose track of its initial position. Note also that the expression <code class="literal">(index + 1)</code> must be in parentheses so that it is interpreted as addition, since <code class="literal">+</code> is also used for string concatenation in JavaScript.</p><p>Looking at our page again, now we can see footnote markers where the inline footnotes used to be:</p><div class="mediaobject"><img src="graphics/3145OS_05_08.jpg" alt="Explicit iteration"/></div></div></div><div class="section" title="Using inverted insertion methods"><div class="titlepage"><div><div><h2 class="title"><a id="ch05lvl2sec61"/>Using inverted insertion methods</h2></div></div></div><p>In <span class="emphasis"><em>Listing 5.12</em></span>, we inserted content before an element then appended that same element to another place in the document. Typically, when working with elements in jQuery, we can use chaining to perform multiple actions succinctly and efficiently. We weren't able to do that here, though, because <code class="literal">this</code> is the <span class="emphasis"><em>target</em></span> of <code class="literal">.insertBefore()</code> and the <span class="emphasis"><em>subject</em></span> of <code class="literal">.appendTo()</code>. The <a id="id419" class="indexterm"/>
+<a id="id420" class="indexterm"/>
+<span class="strong"><strong>inverted insertion methods</strong></span> will help us get around this limitation.</p><p>Each of the insertion methods, such as <code class="literal">.insertBefore() </code>or <code class="literal">.appendTo()</code>, has a corresponding inverted method. The inverted methods perform exactly the same task as the standard ones, but the subject and target are reversed. For example:</p><div class="informalexample"><pre class="programlisting">$('&lt;p&gt;Hello&lt;/p&gt;').appendTo('#container');</pre></div><p>is the same as:</p><div class="informalexample"><pre class="programlisting">$('#container').append('&lt;p&gt;Hello&lt;/p&gt;');</pre></div><p>Using <code class="literal">.before()</code>, the inverted form of <code class="literal">.insertBefore()</code>, we can now re-factor our code to exploit chaining:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $notes = $('&lt;ol id="notes"&gt;&lt;/ol&gt;')
+    .insertBefore('#footer');
+  $('span.footnote').each(function(index) {
+    $(this)
+      .before('&lt;sup&gt;' + (index + 1) + '&lt;/sup&gt;')
+      .appendTo($notes)
+      .wrap('&lt;li&gt;&lt;/li&gt;');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.13</em></span>
+</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip29"/>Tip</h3><p>
+<span class="strong"><strong>Insertion method callbacks</strong></span>
+</p><p>The inverted insertion methods can accept a function as an argument, much like <code class="literal">.attr()</code> and <code class="literal">.css()</code> can. This function is invoked once per target element, and should return the HTML string to be inserted. We could use this technique here, but since we will encounter several such situations for each footnote, the single <code class="literal">.each()</code> call will end up being the cleaner solution.</p></div></div><p>We're now ready to take care of the final step in our checklist: create a link from the text location to its matching footnote, and from the footnote back to the text location. We'll need four pieces of markup per footnote to achieve this: two links, one in the text and one after the footnote, and two <code class="literal">id</code> attributes in those same locations. Because the argument to the <code class="literal">.before()</code> method <a id="id421" class="indexterm"/>is about to get complex, this is a good time to introduce a new notation for string creation.</p><p>In <span class="emphasis"><em>Listing 5.15,</em></span> we prepare our footnote marker by using the <code class="literal">+</code> operator to concatenate strings. This is a very useful <a id="id422" class="indexterm"/>
+<a id="id423" class="indexterm"/>technique, but for joining a large number of strings it can start to look cluttered. Instead, we can use the array method <code class="literal">.join()</code> to construct the larger string. The following statements have the same effect:</p><div class="informalexample"><pre class="programlisting">var str = 'a' + 'b' + 'c';
+var str = ['a', 'b', 'c'].join('');</pre></div><p>While it requires a few more characters to type in this example, the <code class="literal">.join()</code> method can add clarity when otherwise addition mixed with string concatenation would become confusing. Let's look at our code again, this time using <code class="literal">.join()</code> to create the string:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $notes = $('&lt;ol id="notes"&gt;&lt;/ol&gt;')
+    .insertBefore('#footer');
+  $('span.footnote').each(function(index) {
+    $(this)
+      .before([
+        '&lt;sup&gt;',
+        index + 1,
+        '&lt;/sup&gt;'
+      ].join(''))
+      .appendTo($notes)
+      .wrap('&lt;li&gt;&lt;/li&gt;');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.14</em></span>
+</p><p>Notice that since each array entry is computed separately, we don't need parentheses around <code class="literal">index + 1</code> anymore.</p><p>Using this technique, we can augment the footnote marker with a link to the bottom of the page as well as a unique <code class="literal">id</code> value. While we're at it, we'll also add an <code class="literal">id</code> for the <code class="literal">&lt;li&gt;</code> element so the link has a destination to point at, as shown in the following code snippet:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $notes = $('&lt;ol id="notes"&gt;&lt;/ol&gt;')
+    .insertBefore('#footer');
+  $('span.footnote').each(function(index) {
+    $(this)
+      .before([
+        '&lt;a href="#footnote-',
+        index + 1,
+        '" id="context-',
+        index + 1,
+        '" class="context"&gt;',
+        '&lt;sup&gt;',
+        index + 1,
+        '&lt;/sup&gt;&lt;/a&gt;'
+      ].join(''))
+      .appendTo($notes)
+      .wrap('&lt;li id="footnote-' + (index + 1) + '"&gt;&lt;/li&gt;');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.15</em></span>
+</p><p>With the additional markup in place, each footnote marker now links down to the corresponding footnote at the bottom <a id="id424" class="indexterm"/>
+<a id="id425" class="indexterm"/>of the document. All that remains is to create a link back from the footnote to its context. For this, we can employ the inverse of the <code class="literal">.appendTo()</code> method, <code class="literal">.append()</code>:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $notes = $('&lt;ol id="notes"&gt;&lt;/ol&gt;')
+    .insertBefore('#footer');
+  $('span.footnote').each(function(index) {
+    $(this)
+      .before([
+        '&lt;a href="#footnote-',
+        index + 1,
+        '" id="context-',
+        index + 1,
+        '" class="context"&gt;',
+        '&lt;sup&gt;',
+        index + 1,
+        '&lt;/sup&gt;&lt;/a&gt;'
+      ].join(''))
+      .appendTo($notes)
+      .append([
+        '&amp;nbsp;(&lt;a href="#context-',
+        index + 1,
+        '"&gt;context&lt;/a&gt;)'
+      ].join(''))
+      .wrap('&lt;li id="footnote-' + (index + 1) + '"&gt;&lt;/li&gt;');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 5.16</em></span>
+</p><p>Notice that the <code class="literal">href</code> tag points back to the <code class="literal">id</code> value of the corresponding marker. In the following screenshot you can see the <a id="id426" class="indexterm"/>
+<a id="id427" class="indexterm"/>footnotes again, except this time with the new link appended to each:</p><div class="mediaobject"><img src="graphics/3145OS_05_09.jpg" alt="Using inverted insertion methods"/></div></div></div></body></html>

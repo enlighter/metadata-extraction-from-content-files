@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter&#xA0;10.&#xA0;Advanced Events</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="chapter" title="Chapter&#xA0;10.&#xA0;Advanced Events"><div class="titlepage"><div><div><h1 class="title"><a id="ch10"/>Chapter&#xA0;10.&#xA0;Advanced Events</h1></div></div></div><p>To build interactive web applications, we need to observe the user's activities and respond to them. We have seen that jQuery's event system can make this task easy, and in the chapters so far we have used this event system many times.</p><p>In <a class="link" href="ch03.html" title="Chapter&#xA0;3.&#xA0;Handling Events">Chapter 3</a>, <span class="emphasis"><em>Handling Events</em></span>, we touched upon a number of features that jQuery provides for reacting to events. In this more advanced chapter, we will cover:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">Event delegation, and the challenges it presents</li><li class="listitem" style="list-style-type: disc">Performance pitfalls associated with certain events, and how to address them</li><li class="listitem" style="list-style-type: disc">Custom events that we define ourselves</li><li class="listitem" style="list-style-type: disc">The special event system that jQuery uses internally for sophisticated interactions</li></ul></div><div class="section" title="Revisiting events"><div class="titlepage"><div><div><h1 class="title"><a id="ch10lvl1sec76"/>Revisiting events</h1></div></div></div><p>For our sample document, we will <a id="id807" class="indexterm"/>create a simple photo gallery. The gallery will display a set of photos <a id="id808" class="indexterm"/>with an option to display additional photos upon the click of a link. We'll also use jQuery's event system to display textual information about each photo when the cursor is over it. The HTML that defines the gallery is as follows:</p><div class="informalexample"><pre class="programlisting">&lt;div id="container"&gt;
+  &lt;h1&gt;Photo Gallery&lt;/h1&gt;
+
+  &lt;div id="gallery"&gt;
+    &lt;div class="photo"&gt;
+      &lt;img src="photos/skyemonroe.jpg"&gt;
+      &lt;div class="details"&gt;
+        &lt;div class="description"&gt;The Cuillin Mountains,
+          Isle of Skye, Scotland.&lt;/div&gt;
+        &lt;div class="date"&gt;12/24/2000&lt;/div&gt;
+        &lt;div class="photographer"&gt;Alasdair Dougall&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="photo"&gt;
+      &lt;img src="photos/dscn1328.jpg"&gt;
+      &lt;div class="details"&gt;
+        &lt;div class="description"&gt;Mt. Ruapehu in summer&lt;/div&gt;
+        &lt;div class="date"&gt;01/13/2005&lt;/div&gt;
+        &lt;div class="photographer"&gt;Andrew McMillan&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="photo"&gt;
+      &lt;img src="photos/024.JPG"&gt;
+      &lt;div class="details"&gt;
+        &lt;div class="description"&gt;midday sun&lt;/div&gt;
+        &lt;div class="date"&gt;04/26/2011&lt;/div&gt;
+        &lt;div class="photographer"&gt;Jaycee Barratt&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Code continues --&gt;
+  &lt;/div&gt;
+  &lt;a id="more-photos" href="pages/1.html"&gt;More Photos&lt;/a&gt;
+&lt;/div&gt;</pre></div><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip55"/>Tip</h3><p>
+<span class="strong"><strong>Downloadable code examples</strong></span>
+</p><p>As with many of the HTML, CSS, and JavaScript examples in this book, the previous markup is merely a fragment of the complete document. To experiment with the examples, we can download them from the Packt Publishing website at <a class="ulink" href="http://www.packtpub.com/support">http://www.packtpub.com/support</a>. In addition, the examples can be viewed in an interactive browser at <a class="ulink" href="http://book.learningjquery.com/">http://book.learningjquery.com/</a>.</p></div></div><p>When we apply styles to the photos, <a id="id809" class="indexterm"/>arranging them into rows of three will make the gallery look like the following screenshot:</p><div class="mediaobject"><img src="graphics/3145_10_01.jpg" alt="Revisiting events"/></div><div class="section" title="Loading additional pages of data"><div class="titlepage"><div><div><h2 class="title"><a id="ch10lvl2sec116"/>Loading additional pages of data</h2></div></div></div><p>By now, we are experts at <a id="id810" class="indexterm"/>the common task of reacting to a click on a page element. When the <span class="strong"><strong>More Photos</strong></span> link is clicked on, we need to perform an Ajax request for the next set of photos and append them to <code class="literal">&lt;div id="gallery"&gt;</code> as follows:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var pageNum = 1;
+  $('#more-photos').click(function(event) {
+    event.preventDefault();
+    var $link = $(this);
+    var url = $link.attr('href');
+    if (url) {
+      $.get(url, function(data) {
+        $('#gallery').append(data);
+      });
+      pageNum++;
+      if (pageNum &lt; 20) {
+        $link.attr('href', 'pages/' + pageNum + '.html');
+      }
+      else {
+        $link.remove();
+      }
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.1</em></span>
+</p><p>We also need to update the <a id="id811" class="indexterm"/>destination of the <span class="strong"><strong>More Photos</strong></span> link to point to the next page of photos:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  var pageNum = 1;</strong></span>
+  $('#more-photos').click(function(event) {
+    event.preventDefault();
+    var $link = $(this);
+    var url = $link.attr('href');
+    if (url) {
+      $.get(url, function(data) {
+        $('#gallery').append(data);
+      });
+<span class="strong"><strong>      pageNum++;</strong></span>
+<span class="strong"><strong>      if (pageNum &lt; 20) {</strong></span>
+<span class="strong"><strong>        $link.attr('href', 'pages/' + pageNum + '.html');</strong></span>
+<span class="strong"><strong>      }</strong></span>
+<span class="strong"><strong>      else {</strong></span>
+<span class="strong"><strong>        $link.remove();</strong></span>
+<span class="strong"><strong>      }</strong></span>
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.2</em></span>
+</p><p>Our <code class="literal">.click()</code> handler now uses the <code class="literal">pageNum</code> variable to track the next page of photos to request, and uses this to build the new <code class="literal">href</code> value for the link. Since <code class="literal">pageNum</code> is defined outside the function, its value persists between the clicks of the link. We remove the link once we have reached the last page of photos.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip56"/>Tip</h3><p>
+<span class="strong"><strong>Progressive enhancement</strong></span>
+</p><p>Our example is constructed to work offline without a web server. In a practical implementation, the data would likely be delivered from a database. With server-side code, we would deliver an entire HTML page when a set of photos is requested normally by the browser, and only the HTML fragment with the photo markup when an Ajax request is made. This way, we would have an interface that is friendly to clients with or without JavaScript being available.</p><p>We should also consider <a id="id812" class="indexterm"/>using the HTML5 history API to allow the user to bookmark our Ajax-loaded content. We can learn about this API at  Dive into HTML5 (<a class="ulink" href="http://diveintohtml5.info/history.html">http://diveintohtml5.info/history.html</a>) and implement it quite easily using the History plugin (<a class="ulink" href="https://github.com/browserstate/history.js">https://github.com/browserstate/history.js</a>).</p></div></div></div><div class="section" title="Displaying data on hovering"><div class="titlepage"><div><div><h2 class="title"><a id="ch10lvl2sec117"/>Displaying data on hovering</h2></div></div></div><p>The next feature we want to <a id="id813" class="indexterm"/>provide on this page is to display the details relating to each photo when the user's mouse is in that area of the page. For our first pass at displaying <a id="id814" class="indexterm"/>this information, we can use the <code class="literal">.hover()</code> method:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.photo').hover(function() {
+    $(this).find('.details').fadeTo('fast', 0.7);
+  }, function() {
+    $(this).find('.details').fadeOut('fast');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.3</em></span>
+</p><p>When the cursor enters a photo's boundary, the associated information fades in to 70 percent opacity, and when it leaves, the information fades back out:</p><div class="mediaobject"><img src="graphics/3145_10_02.jpg" alt="Displaying data on hovering"/></div><p>There are, of course, multiple ways to perform this task. Since a portion of each handler is the same, it's possible to combine the two handlers to reduce code duplication. We can bind a handler to both <code class="literal">mouseenter</code> and <code class="literal">mouseleave</code> at the same time by separating the event names with a space, as follows:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('div.photo').on('mouseenter mouseleave', function(event) {
+    var $details = $(this).find('.details');
+    if (event.type == 'mouseenter') {
+      $details.fadeTo('fast', 0.7);
+    } else {
+      $details.fadeOut('fast');
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 10.4</em></span>
+</p><p>With the same handler bound <a id="id815" class="indexterm"/>to both events, we check for the event's type to determine whether to fade the details in or out. The code locating <code class="literal">&lt;div&gt;</code>, however, is the same for both events, so we can write it just once.</p><p>This example is admittedly a little contrived, since the shared code in this instance is so brief. In other cases, though, this technique can significantly reduce code complexity. If we had chosen to add a class on <code class="literal">mouseenter</code> and remove it on <code class="literal">mouseleave</code>, for example, rather than animate opacity, we could have taken care of it with a single statement inside the handler, as follows:</p><div class="informalexample"><pre class="programlisting">$(this).find('.details')
+  .toggleClass('entered', event.type == 'mouseenter');</pre></div><p>In any case, our script is now working as intended, except that we haven't accounted for the additional photos that we load when the user clicks the <span class="strong"><strong>More Photos</strong></span> link. As we noted in <a class="link" href="ch03.html" title="Chapter&#xA0;3.&#xA0;Handling Events">Chapter 3</a>, <span class="emphasis"><em>Handling Events</em></span>, event handlers are only attached to the elements that are there when we make the <code class="literal">.on()</code> call. Elements added later, such as from an Ajax call, won't have the behavior. We saw that two approaches to addressing this issue are to "rebind" event handlers after the new content is introduced, or to initially bind the handlers to a containing element instead and rely on event bubbling. The second approach, event delegation, is the one we'll pursue here.</p></div></div></div></body></html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Attribute selectors</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Attribute selectors"><div class="titlepage"><div><div><h1 class="title"><a id="ch02lvl1sec17"/>Attribute selectors</h1></div></div></div><p>Attribute selectors are a particularly <a id="id97" class="indexterm"/>helpful subset of CSS selectors. They allow us to specify an element by one of its HTML attributes, such as a link's <code class="literal">title</code> attribute <a id="id98" class="indexterm"/>or an <a id="id99" class="indexterm"/>image's <code class="literal">alt</code> attribute. For example, to select all images that have an <code class="literal">alt</code> attribute, we write the following:</p><div class="informalexample"><pre class="programlisting">$('img[alt]')</pre></div><div class="section" title="Styling links"><div class="titlepage"><div><div><h2 class="title"><a id="ch02lvl2sec13"/>Styling links</h2></div></div></div><p>Attribute selectors accept a <a id="id100" class="indexterm"/>wildcard syntax inspired by regular expressions for identifying the value at the <a id="id101" class="indexterm"/>beginning (<code class="literal">^</code>) or end (<code class="literal">$</code>) <a id="id102" class="indexterm"/>of a string. They can also take an <a id="id103" class="indexterm"/>asterisk (<code class="literal">*</code>) to indicate the value at an arbitrary position within a string or an <a id="id104" class="indexterm"/>
+<a id="id105" class="indexterm"/>exclamation mark (<code class="literal">!</code>) to indicate a negated value.</p><p>Let's say we want to have different styles for different types of links. We first define the styles in our stylesheet:</p><div class="informalexample"><pre class="programlisting">a {
+  color: #00c; 
+}
+a.mailto {
+  background: url(images/email.png) no-repeat right top;
+  padding-right: 18px;
+}
+a.pdflink {
+  background: url(images/pdf.png) no-repeat right top;
+  padding-right: 18px;
+}
+a.henrylink {
+  background-color: #fff;
+  padding: 2px;
+  border: 1px solid #000;
+}</pre></div><p>Then, we add the three classes&#x2014;<code class="literal">mailto</code>, <code class="literal">pdflink</code>, and <code class="literal">henrylink</code>&#x2014;to the appropriate links using jQuery.</p><p>To add a class for all e-mail <a id="id106" class="indexterm"/>links, <a id="id107" class="indexterm"/>we construct a selector that looks for all anchor elements (<code class="literal">a</code>) with an <code class="literal">href</code> attribute (<code class="literal">[href]</code>) that begins with <code class="literal">mailto: </code>(<code class="literal">^="mailto:"</code>), as follows:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('a[href^="mailto:"]').addClass('mailto');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 2.3</em></span>
+</p><p>Because of the rules defined in the page's stylesheet, an envelope image appears after the <span class="strong"><strong>mailto:</strong></span> link on the page.</p><div class="mediaobject"><img src="graphics/3145OS_02_05.jpg" alt="Styling links"/></div><p>To add a class for all the links to PDF files, we use the dollar sign rather than the caret symbol. This is because we're selecting links with an <code class="literal">href</code> attribute that ends with <code class="literal">.pdf</code>:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('a[href^="mailto:"]').addClass('mailto');
+<span class="strong"><strong>  $('a[href$=".pdf"]').addClass('pdflink');</strong></span>
+});</pre></div><p>
+<span class="emphasis"><em>Listing 2.4</em></span>
+</p><p>The stylesheet rule for the newly added <a id="id108" class="indexterm"/>
+<code class="literal">pdflink</code> class causes an Adobe Acrobat icon to appear after each link to a PDF document, as shown in the following screenshot:</p><div class="mediaobject"><img src="graphics/3145OS_02_06.jpg" alt="Styling links"/></div><p>Attribute selectors can be combined as <a id="id109" class="indexterm"/>well. We can, for example, add the class <code class="literal">henrylink</code> to all links with an <code class="literal">href</code> value that both starts with <code class="literal">http</code> and contains <code class="literal">henry</code> anywhere:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('a[href^="mailto:"]').addClass('mailto');
+  $('a[href$=".pdf"]').addClass('pdflink');
+<span class="strong"><strong>  $('a[href^="http"][href*="henry"]')</strong></span>
+<span class="strong"><strong>    .addClass('henrylink');</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 2.5</em></span>
+</p><p>With the three classes applied to the three types of links, we should see the following:</p><div class="mediaobject"><img src="graphics/3145OS_02_07.jpg" alt="Styling links"/></div><p>Note the PDF icon to the right-hand side of the <span class="strong"><strong>Hamlet</strong></span> link, the envelope icon next to the <span class="strong"><strong>email</strong></span> link, and the white background and black border around the <span class="strong"><strong>Henry V</strong></span> link.</p></div></div></body></html>

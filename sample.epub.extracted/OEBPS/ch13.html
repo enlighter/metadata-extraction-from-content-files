@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter&#xA0;13.&#xA0;Advanced Ajax</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="chapter" title="Chapter&#xA0;13.&#xA0;Advanced Ajax"><div class="titlepage"><div><div><h1 class="title"><a id="ch13"/>Chapter&#xA0;13.&#xA0;Advanced Ajax</h1></div></div></div><p>Many web applications require frequent network communication. Using jQuery, our web pages can exchange information with the server without requiring new pages to be loaded in the browser. These Ajax techniques are very useful, and include some of the most sophisticated things we can do with jQuery.</p><p>In <a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>, we learned simple ways to interact with the server asynchronously. In this more advanced chapter, we will cover:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">Error-handling techniques for dealing with network interruptions</li><li class="listitem" style="list-style-type: disc">The interactions between Ajax and the jQuery deferred object system</li><li class="listitem" style="list-style-type: disc">Caching and throttling techniques for reducing network traffic</li><li class="listitem" style="list-style-type: disc">Ways to extend the inner workings of the Ajax system using transports, prefilters, and data type converters</li></ul></div><div class="section" title="Implementing progressive enhancement with Ajax"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec100"/>Implementing progressive enhancement with Ajax</h1></div></div></div><p>Throughout this <a id="id1036" class="indexterm"/>book, we have encountered the concept of progressive enhancement. To reiterate, this philosophy ensures a positive user experience for all users by mandating that a working product be put in place first before additional embellishments are added for users with modern browsers.</p><p>Ajax-heavy applications run a particular risk of being unusable without JavaScript enabled. To combat this, we can initially construct a traditional client-server page architecture using forms and then change these forms to be more efficient if JavaScript is there to help us.</p><p>As an example, we'll build a form that searches the jQuery API documentation. Since a form already exists for this purpose on the jQuery site, we can piggyback on that form for our own purposes:</p><div class="informalexample"><pre class="programlisting">&lt;form id="ajax-form" action="http://api.jquery.com/" method="get"&gt;
+  &lt;fieldset&gt;
+    &lt;div class="text"&gt;
+      &lt;label for="title"&gt;Search&lt;/label&gt;
+      &lt;input type="text" id="title" name="s"&gt;
+    &lt;/div&gt;
+
+    &lt;div class="actions"&gt;
+      &lt;button type="submit"&gt;Request&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;</pre></div><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip63"/>Tip</h3><p>
+<span class="strong"><strong>Downloadable code examples</strong></span>
+</p><p>As with many of the HTML, CSS, and JavaScript examples in this book, the preceding markup is merely a fragment of the complete document. To experiment with the examples, we can download them from the Packt Publishing website at <a class="ulink" href="http://www.packtpub.com/support">http://www.packtpub.com/support</a>. In addition, the examples can be viewed in an interactive browser at <a class="ulink" href="http://book.learningjquery.com/">http://book.learningjquery.com/</a>.</p></div></div><p>The search form is a normal form <a id="id1037" class="indexterm"/>element with a text input and a submit button labeled <span class="strong"><strong>Request</strong></span>:</p><div class="mediaobject"><img src="graphics/3145OS_13_01.jpg" alt="Implementing progressive enhancement with Ajax"/></div><p>When the <span class="strong"><strong>Request</strong></span> button <a id="id1038" class="indexterm"/>of this form is clicked, the form submits as normal; the user's browser is directed to <a class="ulink" href="http://api.jquery.com/">http://api.jquery.com/</a> and the results are displayed:</p><div class="mediaobject"><img src="graphics/3145OS_13_02.jpg" alt="Implementing progressive enhancement with Ajax"/></div><p>When JavaScript is available, we want to load this content into the <code class="literal">#response</code> container of our search page rather than leaving the page. If the data were stored on the same server as our search form, we could <a id="id1039" class="indexterm"/>harvest the relevant portion of the page using the <code class="literal">.load()</code> method:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $ajaxForm = $('#ajax-form'),
+      $response = $('#response');
+
+  $ajaxForm.on('submit', function(event) {
+    event.preventDefault();
+    $response.load('http://api.jquery.com/ #content',
+      $ajaxForm.serialize());
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 13.1</em></span>
+</p><p>However, since the API site is under a different hostname, the default cross-domain policy of the browser will not allow this transaction to take place. Instead, we'll use a service on <a class="ulink" href="http://book.learningjquery.com/">http://book.learningjquery.com/</a> that exposes this API data in JSONP format. This format is cross-domain friendly, so it is perfect for our use.</p><div class="section" title="Harvesting JSONP data"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec145"/>Harvesting JSONP data</h2></div></div></div><p>In <a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>, we saw that JSONP is simply JSON with an added layer of server behavior allowing requests to be made from a different site. When a request is made for the JSONP <a id="id1040" class="indexterm"/>data, a special query string parameter is provided that allows the requesting script to harvest the data. This parameter can be called anything the JSONP server wishes; in the case of the jQuery API site, the parameter uses the default name, <code class="literal">callback</code>.</p><p>Because the default <code class="literal">callback</code> name is used, the only setup required to make a JSONP request is to declare to jQuery that <code class="literal">jsonp</code> is the data type we are expecting:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $ajaxForm = $('#ajax-form'),
+      $response = $('#response');
+
+  $ajaxForm.on('submit', function(event) {
+    event.preventDefault();
+
+<span class="strong"><strong>    $.ajax({</strong></span>
+<span class="strong"><strong>      url: 'http://book.learningjquery.com/api/',</strong></span>
+<span class="strong"><strong>      dataType: 'jsonp',</strong></span>
+<span class="strong"><strong>      data: {</strong></span>
+<span class="strong"><strong>        title: $('#title').val()</strong></span>
+<span class="strong"><strong>      },</strong></span>
+<span class="strong"><strong>      success: function(data) {</strong></span>
+<span class="strong"><strong>        console.log(data);</strong></span>
+<span class="strong"><strong>      }</strong></span>
+<span class="strong"><strong>    });</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 13.2</em></span>
+</p><p>Now we can inspect the JSON data in the console. The data in this case is an array of objects, each describing a jQuery method:</p><div class="informalexample"><pre class="programlisting">{
+  "url": "http://api.jquery.com/innerWidth/",
+  "name": "innerWidth",
+  "title": ".innerWidth()",
+  "type": "method",
+  "signatures": [
+    {
+      "added": "1.2.6"
+    }
+  ],
+  "desc": "Get the current computed width for the first element in the set of matched elements, including padding but not border.",
+  "longdesc": "&lt;p&gt;This method returns the width of the element, including left and right padding, in pixels.&lt;/p&gt;\n&lt;p&gt;This method is not applicable to &lt;code&gt;window&lt;/code&gt; and &lt;code&gt;document&lt;/code&gt; objects; for these, use &lt;code&gt;&lt;a href=\"/width\"&gt;.width()&lt;/a&gt;&lt;/code&gt; instead.&lt;/p&gt;\n&lt;p class=\"image\"&gt;&lt;imgsrc=\"/images/0042_04_05.png\"/&gt;&lt;/p&gt;",
+  "categories": [
+    "CSS",
+    "Dimensions",
+    "Manipulation &gt; Style Properties",
+    "Version &gt; Version 1.2.6"
+  ],
+  "download": ""
+}</pre></div><p>All of the data we need to display about a method is included in this object. We simply need to format it appropriately <a id="id1041" class="indexterm"/>for display. Creating the HTML for an item is somewhat involved, so we'll break that step out into its own helper function:</p><div class="informalexample"><pre class="programlisting">var buildItem = function(item) {
+  var title = item.name,
+      args = [],
+      output = '&lt;li&gt;';
+
+  if (item.type == 'method' || !item.type) {
+    if (item.signatures[0].params) {
+      $.each(item.signatures[0].params, function(index, val) {
+        args.push(val.name);
+      });
+    }
+    title = (/^jQuery|deferred/).test(title) ? title : '.' + title;
+    title += '(' + args.join(', ') + ')';
+  } else if (item.type == 'selector') {
+    title += ' selector';
+  }
+  output += '&lt;h3&gt;&lt;a href="' + item.url + '"&gt;' + title + '&lt;/a&gt;&lt;/h3&gt;';
+  output += '&lt;div&gt;' + item.desc + '&lt;/div&gt;';
+  output += '&lt;/li&gt;';
+
+  return output;
+};</pre></div><p>
+<span class="emphasis"><em>Listing 13.3</em></span>
+</p><p>The <code class="literal">buildItem()</code> <a id="id1042" class="indexterm"/>function converts the JSON object into an HTML list item. We have to handle the possibility of multiple method arguments and multiple function signatures, so <a id="id1043" class="indexterm"/>we use loops and <code class="literal">.join()</code> calls to handle these situations. Once this is done, we create a link to the main documentation followed by the item description.</p><p>Now we have a function that <a id="id1044" class="indexterm"/>creates the HTML for a single item. When our Ajax call completes, we'll need to call this function on every returned object and display all of the results:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  var $ajaxForm = $('#ajax-form'),
+      $response = $('#response'),
+      noresults = 'There were no search results.';
+
+  var response = function(json) {
+    var output = '';
+    if (json &amp;&amp; json.length) {
+      output += '&lt;ol&gt;';
+      $.each(json, function(index, val) {
+        output += buildItem(val);
+      });
+      output += '&lt;/ol&gt;';
+    } else {
+      output += noresults;
+    }
+
+    $response.html(output);
+  };
+
+  $ajaxForm.on('submit', function(event) {
+    event.preventDefault();
+
+    $.ajax({
+      url: 'http://book.learningjquery.com/api/',
+      dataType: 'jsonp',
+      data: {
+        title: $('#title').val()
+      },
+      success: response
+    });
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 13.4</em></span>
+</p><p>We've pulled the <code class="literal">success</code> handler out <a id="id1045" class="indexterm"/>of the <code class="literal">$.ajax()</code> options so that we can reference it by its variable name. Even though we often use inline anonymous functions in these situations for code brevity, there is nothing stopping us from separating and labeling functions to make our code clearer.</p><p>Now that we have a functional <a id="id1046" class="indexterm"/>
+<code class="literal">success</code> handler, performing a search nicely presents the results in a column next to our form:</p><div class="mediaobject"><img src="graphics/3145OS_13_03.jpg" alt="Harvesting JSONP data"/></div></div></div></div></body></html>

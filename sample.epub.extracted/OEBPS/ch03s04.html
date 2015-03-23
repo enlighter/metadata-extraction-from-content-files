@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Altering the journey &#x2013; the event object</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Altering the journey &#x2013; the event object"><div class="titlepage"><div><div><h1 class="title"><a id="ch03lvl1sec26"/>Altering the journey &#x2013; the event object</h1></div></div></div><p>We have already seen one <a id="id224" class="indexterm"/>situation in which event bubbling can cause problems. To show a case in which <code class="literal">.hover()</code> does not help our cause, we'll alter the collapsing behavior that we implemented earlier.</p><p>Suppose we wish to expand the clickable area that triggers the collapsing or expanding of the style switcher. One way to do this is to move the event handler from the label, <code class="literal">&lt;h3&gt;</code>, to its containing <code class="literal">&lt;div&gt;</code> element. In <span class="emphasis"><em>Listing 3.9</em></span>, we added a <code class="literal">click</code> handler to <code class="literal">#switcher h3</code>; we will attempt this change by attaching the handler to <code class="literal">#switcher</code> instead:</p><div class="informalexample"><pre class="programlisting">// Unfinished code
+$(document).ready(function() {
+<span class="strong"><strong>  $('#switcher').click(function() {</strong></span>
+    $('#switcher button').toggleClass('hidden');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.11</em></span>
+</p><p>This alteration makes the entire area of the style switcher clickable to toggle its visibility. The downside is that clicking on a button also collapses the style switcher after the style on the content has been altered. This is due to event bubbling; the event is first handled by the buttons, then passed up through the DOM tree until it reaches the <code class="literal">&lt;div id="switcher"&gt;</code> element, where our new handler is activated and hides the buttons.</p><p>To solve this problem, we need access to the <code class="literal">event</code> object. This is a DOM construct that is passed to each element's event handler when it is invoked. It provides information about the event, such as where the mouse cursor was at the time of the event. It also provides some methods that can be used to affect the progress of the event through the DOM.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip15"/>Tip</h3><p>
+<span class="strong"><strong>Event object reference</strong></span>
+</p><p>For detailed information about jQuery's implementation of the event object and its properties, see <a class="ulink" href="http://api.jquery.com/category/events/event-object/">http://api.jquery.com/category/events/event-object/</a>.</p></div></div><p>To use the event object in our <a id="id225" class="indexterm"/>handlers, we only need to add a parameter to the function:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  $('#switcher').click(function(event) {</strong></span>
+    $('#switcher button').toggleClass('hidden');
+  });
+});</pre></div><p>Note that we have named this <a id="id226" class="indexterm"/>parameter <code class="literal">event</code> because it is descriptive, not because we need to. Naming it <code class="literal">flapjacks</code> or anything else for that matter would work just as well.</p><div class="section" title="Event targets"><div class="titlepage"><div><div><h2 class="title"><a id="ch03lvl2sec32"/>Event targets</h2></div></div></div><p>Now we have the event <a id="id227" class="indexterm"/>
+<a id="id228" class="indexterm"/>object available to us as the variable <code class="literal">event</code> within our handler. The property <code class="literal">event.target</code> can be helpful in controlling <span class="emphasis"><em>where</em></span> an event takes effect. This property is a part of the DOM API, but is not implemented in some older browser versions; jQuery extends the event object as necessary to provide the property in every browser. With <code class="literal">.target</code>, we can determine which element in the DOM was the first to receive the event. In the case of a <code class="literal">click</code> event, this will be the actual item clicked on. Remembering that <code class="literal">this</code> gives us the DOM element handling the event, we can write the following code:</p><div class="informalexample"><pre class="programlisting">// Unfinished code
+$(document).ready(function() {
+  $('#switcher').click(function(event) {
+<span class="strong"><strong>    if (event.target == this) {</strong></span>
+      $('#switcher button').toggleClass('hidden');
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.12</em></span>
+</p><p>This code ensures that the item clicked on was <code class="literal">&lt;div id="switcher"&gt;</code>, not one of its sub-elements. Now, clicking on buttons will not collapse the style switcher, but clicking on the switcher's background <span class="emphasis"><em>will</em></span>. However, clicking on the label, <code class="literal">&lt;h3&gt;</code>, now does nothing, because it too is a sub-element. Instead of placing this check here, we can modify the behavior of the buttons to achieve our goals.</p></div><div class="section" title="Stopping event propagation"><div class="titlepage"><div><div><h2 class="title"><a id="ch03lvl2sec33"/>Stopping event propagation</h2></div></div></div><p>The event object <a id="id229" class="indexterm"/>
+<a id="id230" class="indexterm"/>provides the <code class="literal">.stopPropagation()</code> method, which can halt the bubbling process completely for the event. Like <code class="literal">.target</code>, this method is a basic DOM feature, but cannot be safely used as such in Internet Explorer 8 or older. As long as we register all of our event handlers using jQuery, though, we can use it with impunity.</p><p>We'll remove the <code class="literal">event.target == this</code> check we just added, and instead add some code in our buttons' <code class="literal">click</code> handlers:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+$('#switcher').click(function(event) {
+    $('#switcher button').toggleClass('hidden');
+  });
+});
+$(document).ready(function() {
+  $('#switcher-default').addClass('selected');
+<span class="strong"><strong>  $('#switcher button').click(function(event) {</strong></span>
+    var bodyClass = this.id.split('-')[1];
+    $('body').removeClass().addClass(bodyClass);
+    $('#switcher button').removeClass('selected');
+    $(this).addClass('selected');
+<span class="strong"><strong>    event.stopPropagation();</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.13</em></span>
+</p><p>As before, we need to add a parameter to the function we're using as the <code class="literal">click</code> handler so we have access to the event object. Then, we simply call <code class="literal">event.stopPropagation()</code> to prevent any other DOM element from responding to the event. Now our click is handled by the buttons, and only the buttons; clicks anywhere else on the style switcher will collapse or expand it.</p></div><div class="section" title="Preventing default actions"><div class="titlepage"><div><div><h2 class="title"><a id="ch03lvl2sec34"/>Preventing default actions</h2></div></div></div><p>If our <code class="literal">click</code> event handler <a id="id231" class="indexterm"/>was registered on a link element (<code class="literal">&lt;a&gt;</code>) rather than a generic <code class="literal">&lt;button&gt;</code> element outside of a form, we would face another problem. When a user clicks on a link, the browser loads a new page. This behavior is not an event handler in the same sense as the ones we have been discussing; instead, this is the default action for a click on a link element. Similarly, when the <span class="emphasis"><em>Enter</em></span> key is pressed while the user is editing a form, the <code class="literal">submit</code> event may be triggered on the form, but then the form submission actually occurs after this.</p><p>If these default actions are undesired, calling <code class="literal">.stopPropagation()</code> on the event will not help. These actions occur <a id="id232" class="indexterm"/>nowhere in the normal flow of event propagation. Instead, the <code class="literal">.preventDefault()</code> method will serve to stop the event in its tracks before the default action is triggered.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip16"/>Tip</h3><p>Calling <code class="literal">.preventDefault()</code> is often useful after we have done some tests on the environment of the event. For example, during a form submission, we might wish to check that required fields are filled in and prevent the default action only if they are not.</p></div></div><p>Event propagation and <a id="id233" class="indexterm"/>default actions are independent mechanisms; either of them can be stopped while the other still occurs. If we wish to halt both, we can return <code class="literal">false</code> at the end of our event handler, which is a shortcut for calling both <code class="literal">.stopPropagation()</code> and <code class="literal">.preventDefault()</code> on the event.</p></div><div class="section" title="Delegating events"><div class="titlepage"><div><div><h2 class="title"><a id="ch03lvl2sec35"/>Delegating events</h2></div></div></div><p>Event bubbling isn't always a hindrance; we can often use it to great benefit. One great technique that exploits bubbling is <a id="id234" class="indexterm"/>
+<a id="id235" class="indexterm"/>called <span class="strong"><strong>event delegation</strong></span>. With it, we can use an event handler on a single element to do the work of many.</p><p>In our example, there are just three <code class="literal">&lt;button&gt;</code> elements that have attached <code class="literal">click</code> handlers. But what if there were many? This is more common than you might think. Consider, for example, a large table of information in which each row has an interactive item requiring a <code class="literal">click</code> handler. Implicit iteration makes assigning all of these <code class="literal">click</code> handlers easy, but performance can suffer because of the looping being done internally to jQuery, and because of the memory footprint of maintaining all the handlers.</p><p>Instead, we can assign a single <code class="literal">click</code> handler to an ancestor element in the DOM. An uninterrupted <code class="literal">click</code> event will eventually reach the ancestor due to event bubbling, and we can do our work there.</p><p>As an example, let's apply this technique to our style switcher (even though the number of items does not demand the approach). As seen in <span class="emphasis"><em>Listing 3.12</em></span> previously, we can use the <code class="literal">event.target</code> property to check what element is under the mouse cursor when the <code class="literal">click</code> event occurs.</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#switcher').click(function(event) {
+<span class="strong"><strong>    if ($(event.target).is('button')) {</strong></span>
+      var bodyClass = event.target.id.split('-')[1];
+      $('body').removeClass().addClass(bodyClass);
+      $('#switcher button').removeClass('selected');
+      $(event.target).addClass('selected');
+      event.stopPropagation();
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.14</em></span>
+</p><p>We've used a new method here called <code class="literal">.is()</code>. This method accepts the selector expressions we investigated in the previous chapter and tests the current jQuery object against the selector. If at least one element in the set is matched by the selector, <code class="literal">.is()</code>returns <code class="literal">true</code>. In this case, <code class="literal">$(event.target).is('button')</code> asks whether the element clicked is a <code class="literal">&lt;button&gt;</code> element. If so, we proceed with the previous code, with one significant alteration: the keyword <code class="literal">this</code> now refers to <code class="literal">&lt;div id="switcher"&gt;</code>, so every time we are interested in the <a id="id236" class="indexterm"/>
+<a id="id237" class="indexterm"/>clicked button, we must now refer to it with <code class="literal">event.target</code>.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip17"/>Tip</h3><p>
+<span class="strong"><strong>.is() and .hasClass()</strong></span>
+</p><p>We can test for the presence of a class on an element with <code class="literal">.hasClass()</code>. The <code class="literal">.is()</code> method is more flexible, however, and can test any selector expression.</p></div></div><p>We have an unintentional side-effect from this code, however. When a button is clicked now, the switcher collapses, as it did before we added the call to <code class="literal">.stopPropagation()</code>. The handler for the switcher visibility toggle is now bound to the same element as the handler for the buttons, so halting the event bubbling does not stop the toggle from being triggered. To sidestep this issue, we can remove the <code class="literal">.stopPropagation()</code> call and instead add another <code class="literal">.is()</code> test. Also, since we're making the entire switcher <code class="literal">&lt;div&gt;</code> element clickable, we ought to toggle the <code class="literal">hover</code> class while the user's mouse is over any part of it:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  $('#switcher').hover(function() {</strong></span>
+    $(this).addClass('hover');
+  }, function() {
+    $(this).removeClass('hover');
+  });
+});
+$(document).ready(function() {
+  $('#switcher').click(function(event) {
+<span class="strong"><strong>    if (!$(event.target).is('button')) {</strong></span>
+      $('#switcher button').toggleClass('hidden');
+    }
+  });
+});
+$(document).ready(function() {
+  $('#switcher-default').addClass('selected');
+  $('#switcher').click(function(event) {
+    if ($(event.target).is('button')) {
+      var bodyClass = event.target.id.split('-')[1];
+      $('body').removeClass().addClass(bodyClass);
+      $('#switcher button').removeClass('selected');
+      $(event.target).addClass('selected');
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.15</em></span>
+</p><p>This example is a bit overcomplicated for its size, but as the number of elements with event handlers increases, so <a id="id238" class="indexterm"/>
+<a id="id239" class="indexterm"/>does event delegation's benefit. Also, we can avoid some of the code repetition by combining the two <code class="literal">click</code> handlers and using a single <code class="literal">if-else</code> statement for the <code class="literal">.is()</code> test:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#switcher-default').addClass('selected');
+  $('#switcher').click(function(event) {
+<span class="strong"><strong>    if ($(event.target).is('button')) {</strong></span>
+      var bodyClass = event.target.id.split('-')[1];
+      $('body').removeClass().addClass(bodyClass);
+      $('#switcher button').removeClass('selected');
+      $(event.target).addClass('selected');
+<span class="strong"><strong>    } else {</strong></span>
+      $('#switcher button').toggleClass('hidden');
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.16</em></span>
+</p><p>While our code could still use some fine tuning, it is approaching a state at which we can feel comfortable using it for what we set out to do. Nevertheless, for the sake of learning more about jQuery's event handling, we'll back up to <span class="emphasis"><em>Listing 3.15</em></span> and continue to modify that version of the code.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip18"/>Tip</h3><p>Event delegation is also useful in other situations we'll see later, such as when new elements are added by DOM manipulation methods (<a class="link" href="ch05.html" title="Chapter&#xA0;5.&#xA0;Manipulating the DOM">Chapter 5</a>, <span class="emphasis"><em>Manipulating the DOM</em></span>) or Ajax routines (<a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>).</p></div></div></div><div class="section" title="Using built-in event-delegation capabilities"><div class="titlepage"><div><div><h2 class="title"><a id="ch03lvl2sec36"/>Using built-in event-delegation capabilities</h2></div></div></div><p>Because event delegation <a id="id240" class="indexterm"/>
+<a id="id241" class="indexterm"/>can be helpful in so many situations, jQuery includes a set of tools to aid developers in using this technique. The <code class="literal">.on()</code> method we have already discussed can perform event delegation when provided with appropriate parameters:</p><div class="informalexample"><pre class="programlisting">$('#switcher').on('click', 'button', function() {
+  var bodyClass = event.target.id.split('-')[1];
+  $('body').removeClass().addClass(bodyClass);
+  $('#switcher button').removeClass('selected');
+  $(this).addClass('selected');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 3.17</em></span>
+</p><p>When a selector expression is provided as the second argument to <code class="literal">.on()</code>, jQuery binds the <code class="literal">click</code> handler to the <code class="literal">#switcher</code> object, but compares <code class="literal">event.target</code> against the selector expression&#x2014;in this case, <code class="literal">'button'</code>. If it matches, jQuery maps the <code class="literal">this</code> keyword to the matched element. Otherwise, the event handler is not executed at all.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip19"/>Tip</h3><p>We'll fully examine this use of <code class="literal">.on()</code>, as well as the <code class="literal">.delegate()</code> and <code class="literal">.undelegate()</code> methods, in <a class="link" href="ch10.html" title="Chapter&#xA0;10.&#xA0;Advanced Events">Chapter 10</a>, <span class="emphasis"><em>Advanced Events</em></span>.</p></div></div></div></div></body></html>

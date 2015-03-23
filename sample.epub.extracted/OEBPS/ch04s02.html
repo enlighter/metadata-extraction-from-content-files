@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Hiding and showing elements</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Hiding and showing elements"><div class="titlepage"><div><div><h1 class="title"><a id="ch04lvl1sec32"/>Hiding and showing elements</h1></div></div></div><p>The basic <code class="literal">.hide()</code>
+<a id="id288" class="indexterm"/>
+<a id="id289" class="indexterm"/> and <code class="literal">.show()</code> methods, without any <a id="id290" class="indexterm"/>
+<a id="id291" class="indexterm"/>parameters, can be thought of as smart shorthand methods for <code class="literal">.css('display', 'string')</code>, where <code class="literal">'string'</code> is the appropriate display value. The effect, as might be expected, is that the matched set of elements will be immediately hidden or shown with no animation.</p><p>The <code class="literal">.hide()</code> method sets the inline style attribute of the matched set of elements to <code class="literal">display: none</code>. The smart part here is that it remembers the value of the display property&#x2014;typically <code class="literal">block</code>, <code class="literal">inline</code>, or <code class="literal">inline-block</code>&#x2014;before it was changed to <code class="literal">none</code>. Conversely, the <code class="literal">.show()</code> method restores the display properties of the matched set of elements to whatever they initially were before <code class="literal">display: none</code> was applied.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip23"/>Tip</h3><p>
+<span class="strong"><strong>The display property</strong></span>
+</p><p>For more information about the <code class="literal">display</code> property and how its values are visually represented in a web page, visit the Mozilla Developer Center at <a class="ulink" href="https://developer.mozilla.org/en-US/docs/CSS/display">https://developer.mozilla.org/en-US/docs/CSS/display</a> and view examples at <a class="ulink" href="https://developer.mozilla.org/samples/cssref/display.html">https://developer.mozilla.org/samples/cssref/display.html</a>.</p></div></div><p>This feature of <code class="literal">.show()</code> and <code class="literal">.hide()</code> is especially helpful when hiding elements that have had their default display property overridden in a stylesheet. For example, the <code class="literal">&lt;li&gt;</code> element has the property <code class="literal">display: list-item</code> by default, but we might want to change it to <code class="literal">display: inline</code> for a horizontal menu. Fortunately, using the <code class="literal">.show()</code> method on a hidden element such as <a id="id292" class="indexterm"/>
+<a id="id293" class="indexterm"/>one of the <code class="literal">&lt;li&gt;</code> tags would not merely reset it to its default <code class="literal">display: list-item</code>, because that would put the <code class="literal">&lt;li&gt;</code> tag on its own line. Instead, the element is restored to its previous <code class="literal">display: inline</code> state, thus preserving the horizontal design.</p><p>We can set up a quick <a id="id294" class="indexterm"/>
+<a id="id295" class="indexterm"/>demonstration of these two methods by working with a second paragraph and adding a <span class="strong"><strong>read more</strong></span> link after the first paragraph in the example HTML:</p><div class="informalexample"><pre class="programlisting">&lt;div class="speech"&gt;
+  &lt;p&gt;Fourscore and seven years ago our fathers brought forth 
+       on this continent a new nation, conceived in liberty, 
+       and dedicated to the proposition that all men are 
+       created equal.
+  &lt;/p&gt;
+  &lt;p&gt;Now we are engaged in a great civil war, testing whether 
+       that nation, or any nation so conceived and so dedicated, 
+       can long endure. We are met on a great battlefield of 
+       that war. We have come to dedicate a portion of that 
+       field as a final resting-place for those who here gave 
+       their lives that the nation might live. It is altogether 
+       fitting and proper that we should do this. But, in a 
+       larger sense, we cannot dedicate, we cannot consecrate, 
+       we cannot hallow, this ground.
+  &lt;/p&gt;
+  &lt;a href="#" class="more"&gt;read more&lt;/a&gt;
+    ...
+&lt;/div&gt;</pre></div><p>When the DOM is ready, we select an element and call <code class="literal">.hide()</code> on it:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('p').eq(1).hide();  
+});</pre></div><p>
+<span class="emphasis"><em>Listing 4.6</em></span>
+</p><p>The <code class="literal">.eq()</code> method <a id="id296" class="indexterm"/>is similar to the <code class="literal">:eq()</code> pseudo-class discussed in <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>. It <a id="id297" class="indexterm"/>returns a jQuery object pointing to a single element at the provided zero-based index. In this case, the <a id="id298" class="indexterm"/>
+<a id="id299" class="indexterm"/>method selects the second paragraph and hides it, so that the <span class="strong"><strong>read more</strong></span> link appears immediately following the first paragraph:</p><div class="mediaobject"><img src="graphics/3145OS_04_03.jpg" alt="Hiding and showing elements"/></div><p>When the user clicks on <span class="strong"><strong>read more</strong></span> at the end of the first paragraph, we call <code class="literal">.show()</code> to display the second paragraph <a id="id300" class="indexterm"/>
+<a id="id301" class="indexterm"/>and <code class="literal">.hide()</code> to hide the clicked link:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('p').eq(1).hide();  
+  $('a.more').click(function(event) {
+    event.preventDefault();
+    $('p').eq(1).show(); 
+    $(this).hide();
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 4.7</em></span>
+</p><p>Note the <a id="id302" class="indexterm"/>use of <code class="literal">.preventDefault()</code> to keep the link from activating its default action. Now the speech looks like this:</p><div class="mediaobject"><img src="graphics/3145OS_04_04.jpg" alt="Hiding and showing elements"/></div><p>The <code class="literal">.hide()</code> and <code class="literal">.show()</code> methods are quick and useful, but they aren't very flashy. To add some flair, we <a id="id303" class="indexterm"/>
+<a id="id304" class="indexterm"/>can give them a duration.</p></div></body></html>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Chapter&#xA0;9.&#xA0;Advanced Selectors and Traversing</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="chapter" title="Chapter&#xA0;9.&#xA0;Advanced Selectors and Traversing"><div class="titlepage"><div><div><h1 class="title"><a id="ch09"/>Chapter&#xA0;9.&#xA0;Advanced Selectors and Traversing</h1></div></div></div><p>In January 2009, jQuery's creator John Resig introduced a new open source JavaScript project called <span class="strong"><strong>Sizzle</strong></span>. <a id="id718" class="indexterm"/>A standalone <a id="id719" class="indexterm"/>
+<span class="strong"><strong>CSS selector engine</strong></span>, Sizzle was written to allow any JavaScript library to adopt it with little or no modification to its codebase. In fact, jQuery has been using Sizzle as its own selector engine ever since version 1.3.</p><p>Sizzle is the component within jQuery that is responsible for parsing the CSS selector expressions we put into the <code class="literal">$()</code> <a id="id720" class="indexterm"/>function. It determines which native DOM methods to use as it builds a collection of elements that we can then act on with other jQuery methods. The combination of Sizzle and jQuery's set of traversal methods makes jQuery an extremely powerful tool for finding elements on the page.</p><p>In <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>, we looked at each of the basic types of selectors and traversal methods so that we have a roadmap of what's available to us in the jQuery library. In this more advanced chapter, we will cover:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">Using selectors to find and filter data in various ways</li><li class="listitem" style="list-style-type: disc">Writing plugins that add new selectors and DOM traversal methods</li><li class="listitem" style="list-style-type: disc">Optimizing our selector expressions for better performance</li><li class="listitem" style="list-style-type: disc">Understanding some of the inner workings of the Sizzle engine</li></ul></div><div class="section" title="Selecting and traversing revisited"><div class="titlepage"><div><div><h1 class="title"><a id="ch09lvl1sec71"/>Selecting and traversing revisited</h1></div></div></div><p>To kick off this more in-depth look into selectors and traversing, we'll build a script that will provide yet more selecting and traversing examples to inspect. For our sample, we'll build an HTML document containing a list of news items. We'll place those items in a table so that we can experiment with selecting rows and columns in several ways:</p><div class="informalexample"><pre class="programlisting">&lt;div id="topics"&gt;
+  Topics:
+  &lt;a href="topics/all.html" class="selected"&gt;All&lt;/a&gt;
+  &lt;a href="topics/community.html"&gt;Community&lt;/a&gt;
+  &lt;a href="topics/conferences.html"&gt;Conferences&lt;/a&gt;
+  &lt;!-- continued... --&gt;
+&lt;/div&gt;
+&lt;table id="news"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Date&lt;/th&gt;
+      &lt;th&gt;Headline&lt;/th&gt;
+      &lt;th&gt;Author&lt;/th&gt;
+      &lt;th&gt;Topic&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th colspan="4"&gt;2011&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Apr 15&lt;/td&gt;
+      &lt;td&gt;jQuery 1.6 Beta 1 Released&lt;/td&gt;
+      &lt;td&gt;John Resig&lt;/td&gt;
+      &lt;td&gt;Releases&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Feb 24&lt;/td&gt;
+      &lt;td&gt;jQuery Conference 2011: San Francisco Bay Area&lt;/td&gt;
+      &lt;td&gt;Ralph Whitbeck&lt;/td&gt;
+      &lt;td&gt;Conferences&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;!-- continued... --&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</pre></div><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip50"/>Tip</h3><p>
+<span class="strong"><strong>Downloadable code examples</strong></span>
+</p><p>As with many of the HTML, CSS, and JavaScript examples in this book, the preceding markup is merely a fragment of the complete document. To experiment with the examples, you can download them from the Packt Publishing website at <a class="ulink" href="http://www.packtpub.com/support">http://www.packtpub.com/support</a>. In addition, the examples can be viewed in an interactive browser at <a class="ulink" href="http://book.learningjquery.com/">http://book.learningjquery.com/</a>.</p></div></div><p>From this code fragment, we can see the structure of the document. The table has four columns, representing date, headline, author, and topic, but some table rows contain a subheading of a calendar year instead of those four items:</p><div class="mediaobject"><img src="graphics/3145OS_09_01.jpg" alt="Selecting and traversing revisited"/></div><p>Between the title and the table, there is a set of links representing each of the news topics in the table. For our first task, we'll change the behavior of these links to perform filtering of the table "in place" rather than requiring navigation to different pages.</p><div class="section" title="Dynamic table filtering"><div class="titlepage"><div><div><h2 class="title"><a id="ch09lvl2sec105"/>Dynamic table filtering</h2></div></div></div><p>In order to use the <a id="id721" class="indexterm"/>topic links to filter the table, we need to defeat their default linking behavior. We should also give the user some feedback about the currently selected topic:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#topics a').click(function(event) {
+    event.preventDefault();
+    $('#topics a.selected').removeClass('selected');
+    $(this).addClass('selected');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 9.1</em></span>
+</p><p>We remove the <code class="literal">selected</code> class from all the topic links when one is clicked, then add the <code class="literal">selected</code> class to the new topic. <a id="id722" class="indexterm"/>The <code class="literal">.preventDefault()</code> statement prevents the link from being followed.</p><p>Next we need to actually perform the <a id="id723" class="indexterm"/>filtering operation. As a first pass at this problem, we can hide every row of the table that doesn't contain the text of the topic:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#topics a').click(function(event) {
+    event.preventDefault();
+    var topic = $(this).text();
+
+    $('#topics a.selected').removeClass('selected');
+    $(this).addClass('selected');
+
+    $('#news tr').show();
+    if (topic != 'All') {
+      $('#news tr:has(td):not(:contains("' + topic + '"))')
+        .hide();
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 9.2</em></span>
+</p><p>We're now storing the text of the link in the variable <code class="literal">topic</code> so that we can compare it against the text in the table itself. First we show all the table rows, and then if the topic is not <span class="strong"><strong>All,</strong></span> we hide the irrelevant ones. The selector we're using for this process is a little complex, though:</p><div class="informalexample"><pre class="programlisting">#news tr:has(td):not(:contains("topic"))</pre></div><p>The selector starts straightforwardly, with <code class="literal">#news tr</code> locating all of the rows in the table. We then filter this element set using the <code class="literal">:has()</code> <a id="id724" class="indexterm"/>custom selector. This selector winnows the currently selected elements down to those that contain the specified descendant. In this case, we're eliminating the header rows (such as the calendar years) from consideration, since they do not contain <code class="literal">&lt;td&gt;</code> cells.</p><p>Once we have found the rows of the table where the actual content lies, we need to find out which ones relate to the <a id="id725" class="indexterm"/>selected topic. The <code class="literal">:contains()</code> custom selector matches just the elements that have the given text string somewhere inside them; wrapping this in a <code class="literal">:not()</code> selector then gives us all the rows that don't have the topic string so we can hide them.</p><p>This code works well enough, unless the topic happens to appear as part of a news headline, for instance. We also need to take care of the eventuality that one topic is a substring of another. To handle these cases, we will need to execute a little code for each of the rows:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#topics a').click(function(event) {
+    event.preventDefault();
+    var topic = $(this).text();
+    $('#topics a.selected').removeClass('selected');
+    $(this).addClass('selected');
+    $('#news').find('tr').show();
+    if (topic != 'All') {
+      $('#news').find('tr:has(td)').not(function() {
+        return $(this).children(':nth-child(4)').text() == topic;
+      }).hide();
+    }
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 9.3</em></span>
+</p><p>This new code eliminates some of the complex selector expression text by adding DOM traversal methods. The <code class="literal">.find()</code> <a id="id726" class="indexterm"/>method acts just like the space previously separating <code class="literal">#news</code> and <code class="literal">tr</code>, but the <code class="literal">.not()</code> <a id="id727" class="indexterm"/>method is doing something that <code class="literal">:not()</code> can't accomplish. Just as we saw with the <code class="literal">.filter()</code> method back in <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>, <code class="literal">.not()</code> can accept a <a id="id728" class="indexterm"/>callback function invoked once per element to be tested. If that function returns <code class="literal">true</code>, the element is excluded from the result set.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip51"/>Tip</h3><p>
+<span class="strong"><strong>Selectors versus traversal methods</strong></span>
+</p><p>The choice of using a selector or its equivalent traversal method has performance ramifications as well. We'll explore this choice in more detail later in this chapter.</p></div></div><p>Inside the <code class="literal">.not()</code> method's <a id="id729" class="indexterm"/>filtering function, we examine the child elements of the row to find the fourth one (which is the cell in the <code class="literal">Topic</code> column). A simple check of the text of this cell tells us whether the row should be hidden. Only the matching rows are displayed:</p><div class="mediaobject"><img src="graphics/3145OS_09_02.jpg" alt="Dynamic table filtering"/></div></div><div class="section" title="Striping table rows"><div class="titlepage"><div><div><h2 class="title"><a id="ch09lvl2sec106"/>Striping table rows</h2></div></div></div><p>In <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>, <a id="id730" class="indexterm"/>one of our selector examples illustrated the ways in which we can apply alternating row colors to a table. We saw that the <code class="literal">:even</code> and <code class="literal">:odd</code> custom selectors can make short work of this task, and that the CSS-native <code class="literal">:nth-child()</code> pseudo-class can accomplish it as well:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#news').find('tr:nth-child(even)').addClass('alt');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 9.4</em></span>
+</p><p>This straightforward selector finds every other table row, and since each year's news articles reside in their own <code class="literal">&lt;tbody&gt;</code> element, the alternation starts over again with each section.</p><div class="mediaobject"><img src="graphics/3145OS_09_03.jpg" alt="Striping table rows"/></div><p>For a more complicated row-striping challenge, we can attempt to give the <code class="literal">alt</code> class to sets of two rows at a time. The first two rows will receive the class, then the next two will not, and so on. To achieve this, we will need to <a id="id731" class="indexterm"/>revisit <span class="strong"><strong>filtering functions</strong></span>:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#news tr').filter(function(index) {
+    return (index % 4) &lt; 2;
+  }).addClass('alt');
+});</pre></div><p>
+<span class="emphasis"><em>Listing 9.5</em></span>
+</p><p>In our <code class="literal">.filter()</code> examples in <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>, as well as the <code class="literal">.not()</code> example in <span class="emphasis"><em>Listing 9.3</em></span>, our filtering functions examined each element (held in the keyword <code class="literal">this</code>) to determine whether to include it in the result set. Here, though, we don't need information about the element to determine if it should be included. Instead, we need to know its position within the original set of elements. This information is passed as an argument to the function, and <a id="id732" class="indexterm"/>we're calling it <code class="literal">index</code>.</p><p>The <code class="literal">index</code> parameter now <a id="id733" class="indexterm"/>holds the zero-based position of the element. With this, we can use the modulo operator (<code class="literal">%</code>) to determine whether we are in a pair of elements that should receive the <code class="literal">alt</code> class or not. Now we have stripes of two rows throughout the table.</p><p>There are a couple of loose ends to clean up, however. Because we're no longer using the <code class="literal">:nth-child()</code> pseudo-class, <a id="id734" class="indexterm"/>the alternation does not begin again within each <code class="literal">&lt;tbody&gt;</code>. Also, we should be skipping table header rows for a consistent appearance. These goals can be achieved by making a couple of small modifications:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+  $('#news tbody').each(function() {
+    $(this).children().has('td').filter(function(index) {
+      return (index % 4) &lt; 2;
+    }).addClass('alt');
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 9.6</em></span>
+</p><p>To treat each group of rows independently, we can loop over the <code class="literal">&lt;tbody&gt;</code> elements with an <code class="literal">.each()</code> call. Within the loop, we then exclude subheading rows just as we did in <span class="emphasis"><em>Listing 9.3</em></span>, using <code class="literal">.has()</code>. This results in a table striped in sets of two rows:</p><div class="mediaobject"><img src="graphics/3145OS_09_04.jpg" alt="Striping table rows"/></div></div><div class="section" title="Combining filtering and striping"><div class="titlepage"><div><div><h2 class="title"><a id="ch09lvl2sec107"/>Combining filtering and striping</h2></div></div></div><p>Our advanced table striping <a id="id735" class="indexterm"/>
+<a id="id736" class="indexterm"/>now works nicely, but behaves strangely when the topic filter is used. For the two functions to play together well, we need to re-stripe the table each time a filter is used. We will also need to consider whether rows are currently hidden when calculating where to apply the <code class="literal">alt</code> class:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  function stripe() {</strong></span>
+    $('#news').find('tr.alt').removeClass('alt');
+    $('#news tbody').each(function() {
+      $(this).children(':visible').has('td')
+        .filter(function(index) {
+          return (index % 4) &lt; 2;
+        }).addClass('alt');
+    });
+  }
+<span class="strong"><strong>  stripe();</strong></span>
+  $('#topics a').click(function(event) {
+    event.preventDefault();
+    var topic = $(this).text();
+    $('#topics a.selected').removeClass('selected');
+    $(this).addClass('selected');
+    $('#news').find('tr').show();
+    if (topic != 'All') {
+      $('#news').find('tr:has(td)').not(function() {
+        return $(this).children(':nth-child(4)').text() == topic;
+      }).hide();
+    }
+<span class="strong"><strong>  stripe();</strong></span>
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 9.7</em></span>
+</p><p>Combining the filtering code from <span class="emphasis"><em>Listing 9.3</em></span> with our row striping routine, this script now defines a function called <a id="id737" class="indexterm"/>
+<code class="literal">stripe()</code> that is called once when the document is loaded, and again each time a topic link is clicked. Within the function, we take care of removing the <code class="literal">alt</code> class from rows that no longer need it, as well as limiting the selected rows to those that are currently shown. We accomplish this with the <code class="literal">:visible</code> pseudo-class, which (along with its counterpart <code class="literal">:hidden</code>) respects whether elements are hidden for a variety of reasons, including having a <code class="literal">display</code> value of <code class="literal">none</code> or <code class="literal">width</code> and <code class="literal">height</code> values of <code class="literal">0</code>.</p><p>We can now filter the rows of <a id="id738" class="indexterm"/>
+<a id="id739" class="indexterm"/>our table while preserving our row striping:</p><div class="mediaobject"><img src="graphics/3145OS_09_05.jpg" alt="Combining filtering and striping"/></div></div><div class="section" title="More selectors and traversal methods"><div class="titlepage"><div><div><h2 class="title"><a id="ch09lvl2sec108"/>More selectors and traversal methods</h2></div></div></div><p>Even after all the examples we've seen, we have not come close to exploring every way to find elements on a page using jQuery. There are dozens of selectors and DOM traversal methods available to us, and each has a particular utility we may need to call upon.</p><p>To find the appropriate selector or method for our needs, many resources are available to us. The quick reference at the end of this book lists each selector and method with a very brief description of each. For lengthier descriptions and usage examples, though, we will need a more thorough guide, such as the online jQuery API reference. This site lists all the selectors at <a class="ulink" href="http://api.jquery.com/category/selectors/">http://api.jquery.com/category/selectors/</a>, and the traversal methods at <a class="ulink" href="http://api.jquery.com/category/traversing/">http://api.jquery.com/category/traversing/</a>.</p></div></div></div></body></html>

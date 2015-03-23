@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Delivering different content for Ajax requests</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Delivering different content for Ajax requests"><div class="titlepage"><div><div><h1 class="title"><a id="ch06lvl1sec48"/>Delivering different content for Ajax requests</h1></div></div></div><p>When returning HTML data, we have shown how the document fragments appear unstyled if we actually let the <a id="id506" class="indexterm"/>browser go to the page rather than use JavaScript. To provide a better experience than this to users without JavaScript, we can conditionally load a complete document with the <code class="literal">&lt;html&gt;</code>, <code class="literal">&lt;head&gt;</code>, and <code class="literal">&lt;body&gt;</code> elements and all that they contain. To do so, we can take advantage of a request header that jQuery sends along with every Ajax request. In our server-side code (PHP in this case), we just need to look for the <code class="literal">X-Requested-With</code> header. If it is set and has a value of <code class="literal">XMLHttpRequest</code>, we only deliver the fragment; otherwise, we deliver the full document. A basic implementation in PHP might look like this:</p><div class="informalexample"><pre class="programlisting">&lt;?php
+$ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &amp;&amp;
+    $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+
+if (!$ajax):
+// Show &lt;head&gt; and start of &lt;body&gt; for non-Ajax
+?&gt;
+  &lt;!DOCTYPE HTML&gt;
+  &lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;!-- title, meta, link elements --&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+  &lt;!-- page heading, form, etc. --&gt;
+&lt;?php
+endif;
+
+// show entry information for both Ajax and non-Ajax
+
+
+if (!$ajax):
+// Close open &lt;div&gt;s, &lt;body&gt;, and &lt;html&gt; for non-Ajax
+?&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+&lt;?php endif; ?&gt;</pre></div><p>Now we have a true example of progressive enhancement, in that those without JavaScript have a usable form with styled results and those with JavaScript have an enhanced experience.</p><p>This kind of setup in a server <a id="id507" class="indexterm"/>script allows for even more dramatic differences in the data that is returned. For example, we could return JSON data for Ajax requests and HTML for others:</p><div class="informalexample"><pre class="programlisting">&lt;?php
+$ajax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) &amp;&amp;
+$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+
+// Set the $entries array
+
+if ($ajax) {
+  header('Content-type: application/json');
+  echo json_encode($entries);
+}
+else {
+  // Print the full HTML document
+}</pre></div><p>This means less data to transfer, but requires building the HTML once the data is received, as we did in <span class="emphasis"><em>Listing 6.9</em></span>.</p></div></body></html>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Setting up the document</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Setting up the document"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec113"/>Setting up the document</h1></div></div></div><p>Once we have the QUnit files in <a id="id1169" class="indexterm"/>place, we can set up the test HTML document. In a typical project, this <a id="id1170" class="indexterm"/>file would be named <code class="literal">index.html</code> and placed in the same test subfolder as <code class="literal">qunit.js</code> and <code class="literal">qunit.css</code>. For this demonstration, however, we'll put it in the parent directory.</p><p>The <code class="literal">&lt;head&gt;</code> element of the document contains a <code class="literal">&lt;link&gt;</code> tag for the CSS file and <code class="literal">&lt;script&gt;</code> tags for jQuery, QUnit, the JavaScript we'll be testing (<code class="literal">B.js</code>), and the tests themselves (<code class="literal">test/test.js</code>). The <code class="literal">&lt;body&gt;</code> tag consists of two main elements for running and displaying the results of the tests.</p><p>To demonstrate QUnit, we'll use portions of <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>, and <a class="link" href="ch06.html" title="Chapter&#xA0;6.&#xA0;Sending Data with Ajax">Chapter 6</a>, <span class="emphasis"><em>Sending Data with Ajax</em></span>:</p><div class="informalexample"><pre class="programlisting">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;title&gt;Appendix B Tests&lt;/title&gt;
+  &lt;link rel="stylesheet" href="qunit.css" media="screen"&gt;
+  &lt;script src="jquery.js"&gt;&lt;/script&gt;
+  &lt;script src="test/qunit.js"&gt;&lt;/script&gt;
+  &lt;script src="B.js"&gt;&lt;/script&gt;
+  &lt;script src="test/test.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="qunit"&gt;&lt;/div&gt;
+  &lt;div id="qunit-fixture"&gt;
+    &lt;!-- Test Markup Goes Here --&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div><p>Since <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>, code that we'll test depends on the DOM, we want the test markup to match what we're using on the actual page. We can simply copy and paste the HTML content that we used in <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>, which should replace the <code class="literal">&lt;!-- Test Markup Goes Here --&gt;</code> comment.</p></div></body></html>

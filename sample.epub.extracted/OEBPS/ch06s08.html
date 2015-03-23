@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Security limitations</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Security limitations"><div class="titlepage"><div><div><h1 class="title"><a id="ch06lvl1sec52"/>Security limitations</h1></div></div></div><p>For all its utility in crafting dynamic web applications, <code class="literal">XMLHttpRequest</code> (the underlying browser technology behind jQuery's Ajax implementation) is subject to strict boundaries. To prevent various cross-site scripting attacks, it is not generally possible to request a document from a server other than the one that hosts the original page.</p><p>This is typically a positive situation. For example, it is possible to parse incoming JSON data by calling <code class="literal">eval()</code> (unlike <code class="literal">jQuery.parseJSON()</code>, which uses safer techniques). If malicious code were present in the file, it would be <a id="id521" class="indexterm"/>executed by the <code class="literal">eval()</code> call. The JavaScript security model limits the risk here by requiring that the requested file reside on the same server as the web page itself, which is presumably trusted data.</p><p>There are many cases in which it would be beneficial to load data from a third-party source. There are several ways to work around the security limitations and allow this to happen.</p><p>One method is to rely on the server to load the remote data and then provide it when requested by the client. This is a very powerful approach as the server can perform pre-processing on the data as needed. For example, we could load XML files containing RSS news feeds from several sources, aggregate them into a single feed on the server, and publish this new file for the client when it is requested.</p><p>To load data from a remote location without server involvement, we have to get a bit sneakier. A popular approach for the case of loading foreign JavaScript files is injecting the <code class="literal">&lt;script&gt;</code> tags on demand. Since jQuery can help us insert new DOM elements, it is simple to do this:</p><div class="informalexample"><pre class="programlisting">$(document.createElement('script'))
+  .attr('src', 'http://example.com/example.js')
+  .appendTo('head');</pre></div><p>In fact, the <a id="id522" class="indexterm"/>
+<code class="literal">$.getScript()</code> method will automatically adapt to this technique if it detects a remote host in its URL argument, so even this is handled for us.</p><p>The browser will execute the loaded script, but there is no mechanism to retrieve results from the script. For this reason, the technique requires cooperation from the remote host. The loaded script must take some action, such as setting a global variable that has an effect on the local environment. Services, which publish scripts that are executable in this way, will also provide an API to interact with the remote script.</p><p>Another option is to use the <code class="literal">&lt;iframe&gt;</code> HTML tag to load remote data. This element allows any URL to be used as the source for its data fetching, even if it does not match the host page's server. The data can be loaded and easily displayed on the current page. Manipulating the data, however, typically requires the same cooperation needed for the <code class="literal">&lt;script&gt;</code> tag approach; scripts inside the <code class="literal">&lt;iframe&gt;</code> tags need to explicitly provide the data to objects in the parent document.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip37"/>Tip</h3><p>
+<span class="strong"><strong>Cross-origin resource sharing</strong></span>
+</p><p>A more recent technique that has been drafted into a W3C specification is <span class="strong"><strong>Cross-Origin Resource Sharing</strong></span> (<span class="strong"><strong>CORS</strong></span>). This technique requires sending a custom HTTP header from one domain that the other domain expects. The receiving domain must send back an <code class="literal">Access-Control-Allow-Origin</code> response header to the requester saying that the domain is accepted. For more information about CORS, visit <a class="ulink" href="http://www.w3.org/TR/cors/">http://www.w3.org/TR/cors/</a>.<a class="ulink" href="http://www.w3.org/TR/cors/">http://www.w3.org/TR/cors/</a>.</p></div></div><div class="section" title="Using JSONP for remote data"><div class="titlepage"><div><div><h2 class="title"><a id="ch06lvl2sec70"/>Using JSONP for remote data</h2></div></div></div><p>The idea of using the <code class="literal">&lt;script&gt;</code> <a id="id523" class="indexterm"/>tags to fetch JavaScript files from a remote source can be adapted to pull in JSON files from another server as well. To do this, we need to slightly modify the JSON file on the server. There are several mechanisms for doing this, one of which is directly supported by jQuery: JSON with padding or JSONP.</p><p>The JSONP file format consists of a standard JSON file that has been wrapped in parentheses and prepended with an arbitrary text string. This string, the padding, is determined by the client requesting the data. Because of the parentheses, the client can either cause a function to be called or a variable to be set depending on what is sent as the padding string.</p><p>A PHP implementation of the JSONP technique is quite simple:</p><div class="informalexample"><pre class="programlisting">&lt;?php
+  print($_GET['callback'] .'('. $data .')');
+?&gt;</pre></div><p>Here, <code class="literal">$data</code> is a variable <a id="id524" class="indexterm"/>containing a string representation of a JSON file. When this script is called, the callback query string parameter is prepended to the resulting file that gets returned to the client.</p><p>To demonstrate this technique, we need to only slightly modify our earlier JSON example in <span class="emphasis"><em>Listing 6.6</em></span> to call this remote data source instead. The <a id="id525" class="indexterm"/>
+<code class="literal">$.getJSON()</code> function makes use of a special placeholder character, <code class="literal">?</code>, to achieve this:</p><div class="informalexample"><pre class="programlisting">$(document).ready(function() {
+<span class="strong"><strong>  var url = 'http://examples.learningjquery.com/jsonp/g.php';</strong></span>
+  $('#letter-g a').click(function(event) {
+    event.preventDefault();
+<span class="strong"><strong>    $.getJSON(url + '?callback=?', function(data) {</strong></span>
+      var html = '';
+      $.each(data, function(entryIndex, entry) {
+        html += '&lt;div class="entry"&gt;';
+        html += '&lt;h3 class="term"&gt;' + entry.term + '&lt;/h3&gt;';
+        html += '&lt;div class="part"&gt;' + entry.part + '&lt;/div&gt;';
+        html += '&lt;div class="definition"&gt;';
+        html += entry.definition;
+        if (entry.quote) {
+          html += '&lt;div class="quote"&gt;';
+          $.each(entry.quote, function(lineIndex, line) {
+            html += '&lt;div class="quote-line"&gt;' + line + 
+        '&lt;/div&gt;';
+          });
+          if (entry.author) {
+            html += '&lt;div class="quote-author"&gt;' + 
+            entry.author + '&lt;/div&gt;';
+          }
+          html += '&lt;/div&gt;';
+        }
+        html += '&lt;/div&gt;';
+        html += '&lt;/div&gt;';
+      });
+      $('#dictionary').html(html);
+    });
+  });
+});</pre></div><p>
+<span class="emphasis"><em>Listing 6.20</em></span>
+</p><p>We normally would not be allowed to fetch JSON from a remote server (<code class="literal">examples.learningjquery.com</code> in this case). However, since this file is set up to provide its data in the JSONP format, we can obtain the data by appending a query string to our URL, using <code class="literal">?</code> as a placeholder for the value of the <code class="literal">callback</code> argument. When the request is made, jQuery replaces the <code class="literal">?</code> placeholder for us, parses the result, and passes it to the <code class="literal">success</code> function as <code class="literal">data</code>, just as if this were a local JSON request.</p><p>Note that the same security cautions hold here as before; whatever the server decides to return to the browser will execute on the user's computer. The JSONP technique should only be used with data coming from a trusted source.</p></div></div></body></html>

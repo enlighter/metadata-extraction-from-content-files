@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Organizing tests</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Organizing tests"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec114"/>Organizing tests</h1></div></div></div><p>QUnit provides two levels of test <a id="id1171" class="indexterm"/>grouping named after their respective function calls: <code class="literal">module()</code> and <code class="literal">test()</code>. The <a id="id1172" class="indexterm"/>
+<span class="strong"><strong>module</strong></span> is like a general category under which the tests will be run; the test is actually a <span class="emphasis"><em>set</em></span> of tests; the function takes a callback in which all of that test's specific <span class="strong"><strong>unit tests</strong></span> are run. We'll group our tests by the chapter topic, placing the code in our <code class="literal">test/test.js</code> file:</p><div class="informalexample"><pre class="programlisting">module('Selecting');
+test('Child Selector', function() {
+  ok(true, 'Placeholder is entered');
+});
+test('Attribute Selectors', function() {
+  ok(true, 'Placeholder is entered');
+});
+module('Ajax');</pre></div><p>
+<span class="emphasis"><em>Listing B.1</em></span>
+</p><p>It's not necessary to set up the file with this test structure, but it's good to have some overall structure in mind. In addition to the <code class="literal">module()</code> and <code class="literal">test()</code> grouping, we added a placeholder assertion within each test. Failing to have at least one assertion per test causes QUnit to throw an error.</p><p>Notice that our modules and tests <a id="id1173" class="indexterm"/>do not need to be placed inside a <code class="literal">$(document).ready()</code> call because QUnit by default waits until the window has loaded before it begins running the tests. With this very simple setup, loading the test HTML results in a page that looks like:</p><div class="mediaobject"><img src="graphics/3145OS_AppB_01.jpg" alt="Organizing tests"/></div><p>Note that the module name is light blue and the test name is darker blue. Clicking on either one will expand the results of that set of tests, which are collapsed by default when all the tests with the set pass. The Ajax module does not appear yet because we haven't written any tests for it.</p></div></body></html>

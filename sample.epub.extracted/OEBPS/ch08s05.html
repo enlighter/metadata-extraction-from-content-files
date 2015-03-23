@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Creating plugins with the jQuery UI widget factory</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Creating plugins with the jQuery UI widget factory"><div class="titlepage"><div><div><h1 class="title"><a id="ch08lvl1sec67"/>Creating plugins with the jQuery UI widget factory</h1></div></div></div><p>As we saw in <a id="id675" class="indexterm"/>
+<a class="link" href="ch07.html" title="Chapter&#xA0;7.&#xA0;Using Plugins">Chapter 7</a>, <span class="emphasis"><em>Using Plugins</em></span>, jQuery UI houses an assortment of widgets&#x2014;plugins that present a particular kind of UI element, such as a button or slider. These widgets present a very consistent API to JavaScript programmers. This consistency makes the job of learning to use one a snap. When a plugin we're writing will create a new user interface element, extending the jQuery UI library with a widget plugin is often the right choice.</p><p>A widget is an intricate piece of functionality, but fortunately we are not left completely to our own devices in creating one. The jQuery UI core contains a <a id="id676" class="indexterm"/>
+<code class="literal">factory</code> method called <code class="literal">$.widget()</code>, which <a id="id677" class="indexterm"/>does a great deal of the work for us. Using this factory will help ensure that our code meets the API standards enjoyed by the users of all jQuery UI widgets.</p><p>Plugins we create using the <a id="id678" class="indexterm"/>widget factory have many nice features. We get all of these perks (and more) with very little effort on our part:</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem" style="list-style-type: disc">The plugin becomes <span class="strong"><strong>stateful</strong></span>, meaning that we can examine, alter, or even completely reverse the effects of the plugin after it has been applied</li><li class="listitem" style="list-style-type: disc">User-supplied options are merged with customizable default options automatically</li><li class="listitem" style="list-style-type: disc">Multiple plugin methods are seamlessly combined into a single jQuery method, accepting a string to identify which submethod is being called</li><li class="listitem" style="list-style-type: disc">Custom event handlers triggered by the plugin get access to the widget instance's data</li></ul></div><p>In fact, these advantages are so nice that we may wish to use the widget factory to construct any suitably complex plugin, UI-related or otherwise.</p><div class="section" title="Creating a widget"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec98"/>Creating a widget</h2></div></div></div><p>For our example, we'll craft a <a id="id679" class="indexterm"/>plugin that adds custom tooltips to elements. <a id="id680" class="indexterm"/>A simple tooltip implementation creates a <code class="literal">&lt;div&gt;</code> container for each element on the page that gets a tooltip and positions that container next to the element when the mouse cursor hovers over the target.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="note16"/>Note</h3><p>In recent versions, the jQuery UI library contains its own built-in tooltip widget that is more advanced than the one we'll develop here. Our new widget will override the built-in <code class="literal">.tooltip()</code> method, which is not something we would likely do in a real project, but it will allow us to demonstrate several important concepts without needless complexity.</p></div></div><p>A jQuery UI plugin is created by the widget factory each time <code class="literal">$.widget()</code> is called. This function accepts the name of the widget and an object containing widget properties. The name of the widget must be namespaced; we'll use the namespace <code class="literal">ljq</code> and the plugin name <code class="literal">tooltip</code>. As a result, our plugin will be invoked by calling <code class="literal">.tooltip()</code> on a jQuery object.</p><p>The first widget property we'll define is <code class="literal">._create()</code>:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.widget('ljq.tooltip', {
+    _create: function() {
+      this._tooltipDiv = $('&lt;div&gt;&lt;/div&gt;')
+        .addClass('ljq-tooltip-text ' +
+          'ui-widget ui-state-highlight ui-corner-all')
+        .hide().appendTo('body');
+      this.element
+        .addClass('ljq-tooltip-trigger')
+        .on('mouseenter.ljq-tooltip',
+          $.proxy(this._open, this))
+        .on('mouseleave.ljq-tooltip',
+          $.proxy(this._close, this));
+    }
+  });
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.16</em></span>
+</p><p>This property is a function <a id="id681" class="indexterm"/>that will be invoked by the widget factory whenever <code class="literal">.tooltip()</code> is called, once per matched element in the jQuery object.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip47"/>Tip</h3><p>Widget properties, such as <code class="literal">_create</code>, which begin with an underscore, are considered private. We will discuss public functions later.</p></div></div><p>Inside this creation function, we set up our tooltip for future displaying. To do this, we make the new <code class="literal">&lt;div&gt;</code> element and add it to the document. We're storing the created element in <code class="literal">this._tooltipDiv</code> for later use.</p><p>In the context of our function, <code class="literal">this</code> refers to the current widget instance and we can add whatever properties we want to this object. The object has some built-in properties that can be handy for us as well; in particular, <code class="literal">this.element</code> gives us a jQuery object pointing to the element that was originally selected.</p><p>We use <code class="literal">this.element</code> to bind the <code class="literal">mouseenter</code> and <code class="literal">mouseleave</code> handlers to the tooltip trigger element. We need these handlers to open the tooltip when the mouse begins hovering over the trigger and to close it when the mouse leaves. Note that the events are namespaced with the name of our plugin. As we discussed in <a class="link" href="ch03.html" title="Chapter&#xA0;3.&#xA0;Handling Events">Chapter 3</a>, <span class="emphasis"><em>Handling Events</em></span>, namespacing makes it easier for us to add and remove event handlers without stepping on the toes of other code that also wants to bind handlers to the elements.</p><p>These <code class="literal">.on()</code> calls contain another feature that is new to us: the event handlers are passed through the <code class="literal">$.proxy()</code> <a id="id682" class="indexterm"/>function. This function changes what <code class="literal">this</code> refers to in a method, so that in this case we can easily refer to the widget instance within the <code class="literal">._open()</code> method.</p><p>Next, we need to <a id="id683" class="indexterm"/>define the <code class="literal">._open()</code> and <code class="literal">._close()</code> methods that we bound to <a id="id684" class="indexterm"/>the <code class="literal">mouseenter</code> and <code class="literal">mouseleave</code> handlers:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.widget('ljq.tooltip', {
+    _create: function() {
+      // ...
+    },
+
+    _open: function() {
+      var elementOffset = this.element.offset();
+      this._tooltipDiv.css({
+        position: 'absolute',
+        left: elementOffset.left,
+        top: elementOffset.top + this.element.height()
+      }).text(this.element.data('tooltip-text'));
+      this._tooltipDiv.show();
+    },
+
+	 _close: function() {
+      this._tooltipDiv.hide();
+    }
+  });
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.17</em></span>
+</p><p>The <code class="literal">._open()</code> <a id="id685" class="indexterm"/>and <code class="literal">._close()</code> methods <a id="id686" class="indexterm"/>themselves are fairly self-explanatory. These are not special names, but rather illustrate that we can create whatever private functions we need within our widget so long as their names begin with underscores. When the tooltip is opened, we position it with CSS and show it; when it is closed, we simply hide it.</p><p>During the opening process, we need to populate the tooltip with information. We're using the <code class="literal">.data()</code> method <a id="id687" class="indexterm"/>for this, which can get and set arbitrary data associated with any element. In this case, we are using the method's capability to read HTML5 data attributes to fetch the value of the <code class="literal">data-tooltip-text</code> attribute of each element.</p><p>With our plugin in place, the code <code class="literal">$('a').tooltip()</code> will cause a tooltip to be displayed when the mouse is over any anchor:</p><div class="mediaobject"><img src="graphics/3145_08_08.jpg" alt="Creating a widget"/></div><p>The plugin thus far is not very long, but densely packed with sophisticated concepts. To make this sophistication pay off, the first thing we can do is to make our widget stateful. The widget's state will <a id="id688" class="indexterm"/>allow users to enable and disable it as needed or even destroy it entirely after creation.</p></div><div class="section" title="Destroying widgets"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec99"/>Destroying widgets</h2></div></div></div><p>We've seen that the widget <a id="id689" class="indexterm"/>factory creates a new jQuery method, in our case called <code class="literal">.tooltip()</code>, that can be called with no arguments to apply the widget to a set of <a id="id690" class="indexterm"/>elements. There's much more that this method can do, though. When we give this method a string argument, it calls the submethod with the appropriate name.</p><p>One of the built-in submethods is called <code class="literal">destroy</code>. Calling <code class="literal">.tooltip('destroy')</code> will remove the tooltip widget from the page. The widget factory does most of the work, but if we have modified parts of the document inside <code class="literal">._create()</code> (as we have here by creating the tooltip text <code class="literal">&lt;div&gt;</code>), we need to clean up after ourselves:</p><div class="informalexample"><pre class="programlisting">(function($) {
+  $.widget('ljq.tooltip', {
+    _create: function() {
+      // ...
+    },
+
+    destroy: function() {
+      this._tooltipDiv.remove();
+      this.element
+        .removeClass('ljq-tooltip-trigger')
+        .off('.ljq-tooltip');
+      $.Widget.prototype.destroy.apply(this, arguments);
+    },
+
+    _open: function() {
+      // ...
+    },
+
+    _close: function() {
+      // ...
+    }
+  });
+})(jQuery);</pre></div><p>
+<span class="emphasis"><em>Listing 8.18</em></span>
+</p><p>This new code is added as a new <a id="id691" class="indexterm"/>property of the widget. The function then undoes the modifications we performed, <a id="id692" class="indexterm"/>then calls the prototype's version of destroy so that the automatic cleanup occurs.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip48"/>Tip</h3><p>Note that destroy is not preceded with an underscore; this is a public submethod that we can call with <code class="literal">.tooltip('destroy')</code>.</p></div></div></div><div class="section" title="Enabling and disabling widgets"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec100"/>Enabling and disabling widgets</h2></div></div></div><p>In addition to being <a id="id693" class="indexterm"/>
+<a id="id694" class="indexterm"/>
+<a id="id695" class="indexterm"/>destroyed completely, any widget can be temporarily disabled and <a id="id696" class="indexterm"/>later re-enabled. The built-in submethods, <code class="literal">enable</code> and <code class="literal">disable</code>, assist us by setting the value of <code class="literal">this.options.disabled</code> to <code class="literal">true</code> or <code class="literal">false</code> as appropriate. All we have to do to support these submethods is to check this value before our widget takes any action:</p><div class="informalexample"><pre class="programlisting">_open: function() {
+<span class="strong"><strong>  if (!this.options.disabled) {</strong></span>
+    var elementOffset = this.element.offset();
+    this._tooltipDiv.css({
+      position: 'absolute',
+      left: elementOffset.left,
+      top: elementOffset.top + this.element.height()
+    }).text(this.element.data('tooltip-text'));
+    this._tooltipDiv.show();
+<span class="strong"><strong>  }</strong></span>
+},</pre></div><p>
+<span class="emphasis"><em>Listing 8.19</em></span>
+</p><p>With this extra check in place, the tooltips stop displaying once <code class="literal">.tooltip('disable')</code> is called and display once again after <code class="literal">.tooltip('enable')</code> is invoked.</p></div><div class="section" title="Accepting widget options"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec101"/>Accepting widget options</h2></div></div></div><p>Now it's time to make our <a id="id697" class="indexterm"/>widget customizable. As we saw when constructing the <a id="id698" class="indexterm"/>
+<code class="literal">.shadow()</code> plugin, it's friendly to <a id="id699" class="indexterm"/>provide a customizable set of defaults for a widget, and then to override those defaults with options the user specifies. Nearly all of the work in this process is performed by the widget factory. All we need to do is to provide an <code class="literal">options</code> property:</p><div class="informalexample"><pre class="programlisting">options: {
+  offsetX: 10,
+  offsetY: 10,
+  content: function() {
+    return $(this).data('tooltip-text');
+  }
+},</pre></div><p>
+<span class="emphasis"><em>Listing 8.20</em></span>
+</p><p>The <code class="literal">options</code> property is a <a id="id700" class="indexterm"/>plain object. All the valid options for our widget should be represented, so that none of them are mandatory for the user to provide. Here we're supplying x and y coordinates for the tooltip relative to its trigger element, as well as a function that generates the tooltip text for each element.</p><p>The only piece of our code that needs to examine these options is <code class="literal">._open()</code>:</p><div class="informalexample"><pre class="programlisting">_open: function() {
+  if (!this.options.disabled) {
+    var elementOffset = this.element.offset();
+    this._tooltipDiv.css({
+      position: 'absolute',
+      left: elementOffset.left + this.options.offsetX,
+      top: elementOffset.top + this.element.height()
+        + this.options.offsetY
+    }).text(this.options.content.call(this.element[0]));
+    this._tooltipDiv.show();
+  }
+},</pre></div><p>
+<span class="emphasis"><em>Listing 8.21</em></span>
+</p><p>Inside a submethod such as <code class="literal">_open</code>, we can access these properties using <code class="literal">this.options</code>. We will always get the correct value for the option this way: the default value or the overridden value if the user has provided one.</p><p>We can still add our widget without arguments, such as <code class="literal">.tooltip()</code>, and get the default behavior. Now we can supply options that override the default behavior: <code class="literal">.tooltip({offsetX: -10, offsetX: 25})</code>. The widget factory even lets us change these options after the widget is instantiated: <code class="literal">.tooltip('option', 'offsetX', 20)</code>. The next time the option is <a id="id701" class="indexterm"/>accessed, we will see the new value.</p><div class="note" title="Note" style=""><div class="inner"><h3 class="title"><a id="tip49"/>Tip</h3><p>
+<span class="strong"><strong>Reacting to option changes</strong></span>
+</p><p>If we need to immediately react to an option change, we can add a <code class="literal">_setOption</code> function to our <a id="id702" class="indexterm"/>widget that handles the change and then calls the default implementation of <code class="literal">_setOption</code>.</p></div></div></div><div class="section" title="Adding submethods"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec102"/>Adding submethods</h2></div></div></div><p>The built-in submethods are <a id="id703" class="indexterm"/>convenient, but often we will want to expose more hooks to the users of our plugin, as we've done with the built-in <code class="literal">destroy</code> submethod. We've already seen how to create new private functions inside our widget. <a id="id704" class="indexterm"/>Creating public functions (submethods) is just the same, except that the widget property names do not begin with an underscore. We can use this to create submethods that manually open and close the tooltip quite simply:</p><div class="informalexample"><pre class="programlisting">open: function() {
+  this._open();
+},
+close: function() {
+  this._close();
+},</pre></div><p>
+<span class="emphasis"><em>Listing 8.22</em></span>
+</p><p>That's it! By adding public submethods that call the private functions, we can now open a tooltip with <code class="literal">.tooltip('open')</code> and close it with <code class="literal">.tooltip('close')</code>. The widget factory even takes care of details for us like ensuring that chaining continues to work even if we don't return anything from our submethod.</p></div><div class="section" title="Triggering widget events"><div class="titlepage"><div><div><h2 class="title"><a id="ch08lvl2sec103"/>Triggering widget events</h2></div></div></div><p>A great plugin not only <a id="id705" class="indexterm"/>extends jQuery, but also offers plenty of opportunities for other code to extend the plugin itself. One simple way to offer <a id="id706" class="indexterm"/>this extensibility is to support a set of custom events related to the plugin. The widget factory makes this process straightforward:</p><div class="informalexample"><pre class="programlisting">_open: function() {
+  if (!this.options.disabled) {
+    var elementOffset = this.element.offset();
+    this._tooltipDiv.css({
+      left: elementOffset.left + this.options.offsetX,
+      top: elementOffset.top + this.element.height()
+        + this.options.offsetY
+    }).text(this.options.content.call(this.element[0]));
+    this._tooltipDiv.show();
+<span class="strong"><strong>    this._trigger('open');</strong></span>
+  }
+},
+_close: function() {
+  this._tooltipDiv.hide();
+<span class="strong"><strong>  this._trigger('close');</strong></span>
+}</pre></div><p>
+<span class="emphasis"><em>Listing 8.23</em></span>
+</p><p>Calling <code class="literal">this._trigger()</code> in one of our functions allows code to listen for the new custom event. The event's name will be prefixed with our widget name, so we don't have to worry much about conflicts <a id="id707" class="indexterm"/>with other events. If we call <code class="literal">this._trigger('open')</code> in our tooltip's opening function, for example, the event called <code class="literal">tooltipopen</code> will be issued each time the tooltip opens. We can listen for this event by <a id="id708" class="indexterm"/>calling <code class="literal">.on('tooltipopen')</code> on the element.</p><p>This only scratches the surface of what's possible with a full-fledged widget plugin, but gives us the tools we need to build a widget that has the features and conforms to the standards that jQuery UI users have come to expect.</p></div></div></body></html>

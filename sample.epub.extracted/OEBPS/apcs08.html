@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Miscellaneous properties and functions</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="section" title="Miscellaneous properties and functions"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec126"/>Miscellaneous properties and functions</h1></div></div></div><p>These utility methods do not fit neatly into the previous categories, but are often very useful when writing scripts using jQuery.</p><div class="section" title="Properties of the jQuery object"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec198"/>Properties of the jQuery object</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Property</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.support</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Returns an <a id="id1530" class="indexterm"/>object containing <a id="id1531" class="indexterm"/>properties indicating whether the browser supports various features and standards.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Arrays and objects"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec199"/>Arrays and objects</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Function</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.each(collection, callback)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Iterates over <a id="id1532" class="indexterm"/>
+<code class="literal">collection</code>, executing <code class="literal">callback</code> for each item.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.extend(target, addition, ...)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Modifies the <a id="id1533" class="indexterm"/>object <code class="literal">target</code> <a id="id1534" class="indexterm"/>by adding properties from the other supplied objects.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.grep(array, callback, [invert])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Filters <a id="id1535" class="indexterm"/>
+<code class="literal">array</code> by using <code class="literal">callback</code> as a test. </p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.makeArray(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Converts <a id="id1536" class="indexterm"/>
+<code class="literal">object</code> into an array.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.map(array, callback)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Constructs a new <a id="id1537" class="indexterm"/>array consisting of the result of <code class="literal">callback</code> being called on each item.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.inArray(value, array)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines <a id="id1538" class="indexterm"/>whether <code class="literal">value</code> is in <code class="literal">array</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.merge(array1, array2)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Combines the <a id="id1539" class="indexterm"/>contents of <code class="literal">array1</code> and <code class="literal">array2</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.unique(array)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes any <a id="id1540" class="indexterm"/>duplicate DOM elements from <code class="literal">array</code>.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Object introspection"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec200"/>Object introspection</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Function</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.isArray(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines <a id="id1541" class="indexterm"/>whether <code class="literal">object</code> is a <a id="id1542" class="indexterm"/>true JavaScript array.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.isEmptyObject(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines <a id="id1543" class="indexterm"/>whether <code class="literal">object</code> is empty.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.isFunction(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines <a id="id1544" class="indexterm"/>whether <code class="literal">object</code> is a function.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.isPlainObject(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines <a id="id1545" class="indexterm"/>whether <code class="literal">object</code> was created as an object literal or with <code class="literal">new Object</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.isNumeric(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines <a id="id1546" class="indexterm"/>whether <code class="literal">object</code> is a numeric scalar value.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.isWindow(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines whether <a id="id1547" class="indexterm"/>
+<code class="literal">object</code> represents a browser window.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.isXMLDoc(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Determines <a id="id1548" class="indexterm"/>
+<a id="id1549" class="indexterm"/>whether <code class="literal">object</code> is an XML node.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.type(object)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Gets the <a id="id1550" class="indexterm"/>JavaScript class of <code class="literal">object</code>.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Other"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec201"/>Other</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Function</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Description</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.trim(string)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Removes <a id="id1551" class="indexterm"/>whitespace from the ends of <code class="literal">string</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.noConflict([removeAll])</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Reverts <code class="literal">$</code> to its <a id="id1552" class="indexterm"/>pre-jQuery definition.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.noop()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>A function <a id="id1553" class="indexterm"/>that does nothing.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.now()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The current time <a id="id1554" class="indexterm"/>in milliseconds since the epoch.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">$.holdReady(hold)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Stops the <code class="literal">ready</code> <a id="id1555" class="indexterm"/>event from being triggered, or releases this hold.</p>
+</td></tr></tbody></table></div></div></div></body></html>

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>Appendix&#xA0;C.&#xA0;Quick Reference</title><link rel="stylesheet" href="epub.css" type="text/css"/><meta name="generator" content="DocBook XSL Stylesheets V1.75.2"/></head><body id="page"><div class="appendix" title="Appendix&#xA0;C.&#xA0;Quick Reference"><div class="titlepage"><div><div><h1 class="title"><a id="appC"/>Appendix&#xA0;C.&#xA0;Quick Reference</h1></div></div></div><p>This appendix is intended to be a quick reference for the jQuery API, including its selector expressions and methods. A more detailed discussion of each method and selector is available on the jQuery documentation site, <a class="ulink" href="http://api.jquery.com">http://api.jquery.com</a>.</p><div class="section" title="Selector expressions"><div class="titlepage"><div><div><h1 class="title"><a id="ch13lvl1sec119"/>Selector expressions</h1></div></div></div><p>The jQuery factory function <code class="literal">$()</code> is <a id="id1204" class="indexterm"/>used to find elements on the page to work with. This function takes a string composed of CSS-like syntax, called a selector expression. Selector expressions are discussed in detail in <a class="link" href="ch02.html" title="Chapter&#xA0;2.&#xA0;Selecting Elements">Chapter 2</a>, <span class="emphasis"><em>Selecting Elements</em></span>.</p><div class="section" title="Simple CSS"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec162"/>Simple CSS</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Selector</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Matches</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">*</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>All <a id="id1205" class="indexterm"/>elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">#id</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The element <a id="id1206" class="indexterm"/>
+<a id="id1207" class="indexterm"/>with the given ID.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">element</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>All elements <a id="id1208" class="indexterm"/>of the given type.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">.class</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>All elements <a id="id1209" class="indexterm"/>with the given class.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">a, b</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1210" class="indexterm"/>that are matched by <code class="literal">a</code> or <code class="literal">b</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">a b</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <code class="literal">b</code> <a id="id1211" class="indexterm"/>that are descendants of <code class="literal">a</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">a &gt; b</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <code class="literal">b</code> <a id="id1212" class="indexterm"/>that are children of <code class="literal">a</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">a + b</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <code class="literal">b</code> <a id="id1213" class="indexterm"/>that immediately follow <code class="literal">a</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">a ~ b</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1214" class="indexterm"/>
+<code class="literal">b</code> that are siblings of <code class="literal">a</code> and follow <code class="literal">a</code>.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Position among siblings"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec163"/>Position among siblings</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Selector</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Matches</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:nth-child(index)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1215" class="indexterm"/>
+<a id="id1216" class="indexterm"/>that are the <code class="literal">index</code> child of their parent element (1-based).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:nth-child(even)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements that are <a id="id1217" class="indexterm"/>an even child of their parent element (1-based).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:nth-child(odd)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements which <a id="id1218" class="indexterm"/>are an odd child of their parent element (1-based).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:nth-child(formula)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1219" class="indexterm"/>that are the nth child of their parent element (1-based). Formulas are of the form <code class="literal">an+b</code> for integers <code class="literal">a</code> and <code class="literal">b</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:nth-last-child()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <a id="id1220" class="indexterm"/>same as <code class="literal">:nth-child()</code>, but counting from the last element to the first.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:first-child</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1221" class="indexterm"/>that are the first child of their parent.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:last-child</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1222" class="indexterm"/>that are the last child of their parent.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:only-child</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1223" class="indexterm"/>that are the only child of their parent.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:nth-of-type()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <a id="id1224" class="indexterm"/>same as <code class="literal">:nth-child()</code>, but only counting elements of the same element name.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:nth-last-of-type()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The same as <code class="literal">:nth-last-child()</code>, but only counting <a id="id1225" class="indexterm"/>elements of the same element name.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:first-of-type</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1226" class="indexterm"/>which are the first child of the same element name among their siblings.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:last-of-type</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1227" class="indexterm"/>that are the last child of the same element name among their siblings.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:only-of-type()</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements that <a id="id1228" class="indexterm"/>are the only child of the same element name among their siblings.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Position among matched elements"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec164"/>Position among matched elements</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Selector</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Matches</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:first</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The first <a id="id1229" class="indexterm"/>
+<a id="id1230" class="indexterm"/>element in the result set.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:last</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The last <a id="id1231" class="indexterm"/>element in the result set.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:not(a)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>All <a id="id1232" class="indexterm"/>elements in the result set that are not matched by <code class="literal">a</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:even</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Even <a id="id1233" class="indexterm"/>
+<a id="id1234" class="indexterm"/>elements in the result set (0-based).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:odd</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Odd elements in the <a id="id1235" class="indexterm"/>result set (0-based).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:eq(index)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>A numbered <a id="id1236" class="indexterm"/>element in the result set (0-based).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:gt(index)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>All elements <a id="id1237" class="indexterm"/>in the result set after (greater than) the given index (0-based).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:lt(index)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>All elements in <a id="id1238" class="indexterm"/>the result set before (less than) the given index (0-based).</p>
+</td></tr></tbody></table></div></div><div class="section" title="Attributes"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec165"/>Attributes</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Selector</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Matches</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1239" class="indexterm"/>that have <a id="id1240" class="indexterm"/>the <a id="id1241" class="indexterm"/>attribute <code class="literal">attr</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr="value"]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1242" class="indexterm"/>whose <code class="literal">attr</code> attribute is <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr!="value"]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements whose <a id="id1243" class="indexterm"/>
+<code class="literal">attr</code> attribute is not <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr^="value"]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1244" class="indexterm"/>whose <code class="literal">attr</code> attribute begins with <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr$="value"]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1245" class="indexterm"/>whose <code class="literal">attr</code> attribute ends with <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr*="value"]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1246" class="indexterm"/>whose <code class="literal">attr</code> attribute contains the substring <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr~="value"]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1247" class="indexterm"/>whose <code class="literal">attr</code> attribute is a <a id="id1248" class="indexterm"/>space-delimited set of strings, one of which is <code class="literal">value</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">[attr|="value"]</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements whose <a id="id1249" class="indexterm"/>
+<code class="literal">attr</code> attributes is either equal to <code class="literal">value</code> or begins with <code class="literal">value</code> followed by a hyphen.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Forms"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec166"/>Forms</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Selector</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Matches</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:input</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>All <a id="id1250" class="indexterm"/>
+<code class="literal">&lt;input&gt;</code>, <code class="literal">&lt;select&gt;</code>, <a id="id1251" class="indexterm"/>
+<code class="literal">&lt;textarea&gt;</code>, and <code class="literal">&lt;button&gt;</code> elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:text</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <code class="literal">&lt;input&gt;</code> <a id="id1252" class="indexterm"/>elements with <code class="literal">type="text"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:password</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <a id="id1253" class="indexterm"/>
+<code class="literal">&lt;input&gt;</code> elements with <code class="literal">type="password"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:file</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <a id="id1254" class="indexterm"/>
+<code class="literal">&lt;input&gt;</code> elements with <code class="literal">type="file"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:radio</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <code class="literal">&lt;input&gt;</code> <a id="id1255" class="indexterm"/>elements with <code class="literal">type="radio"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:checkbox</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <code class="literal">&lt;input&gt;</code> <a id="id1256" class="indexterm"/>elements with <code class="literal">type="checkbox"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:submit</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <code class="literal">&lt;input&gt;</code> <a id="id1257" class="indexterm"/>elements with <code class="literal">type="submit"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:image</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <a id="id1258" class="indexterm"/>
+<code class="literal">&lt;input&gt;</code> elements <a id="id1259" class="indexterm"/>with <code class="literal">type="image"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:reset</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <code class="literal">&lt;input&gt;</code>
+<a id="id1260" class="indexterm"/> elements with <code class="literal">type="reset"</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:button</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <code class="literal">&lt;input&gt;</code>
+<a id="id1261" class="indexterm"/> elements with <code class="literal">type="button"</code> and <code class="literal">&lt;button&gt;</code> elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:enabled</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Enabled <a id="id1262" class="indexterm"/>form elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:disabled</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Disabled form <a id="id1263" class="indexterm"/>elements.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:checked</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Checked <a id="id1264" class="indexterm"/>checkboxes and radio buttons.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:selected</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Selected <a id="id1265" class="indexterm"/>
+<a id="id1266" class="indexterm"/>
+<code class="literal">&lt;option&gt;</code> elements.</p>
+</td></tr></tbody></table></div></div><div class="section" title="Miscellaneous selectors"><div class="titlepage"><div><div><h2 class="title"><a id="ch13lvl2sec167"/>Miscellaneous selectors</h2></div></div></div><div class="informaltable"><table border="1"><colgroup><col style="text-align: left"/><col style="text-align: left"/></colgroup><thead><tr><th style="text-align: left" valign="bottom">
+<p>Selector</p>
+</th><th style="text-align: left" valign="bottom">
+<p>Matches</p>
+</th></tr></thead><tbody><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:root</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <a id="id1267" class="indexterm"/>
+<a id="id1268" class="indexterm"/>root element of the document.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:header</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Header <a id="id1269" class="indexterm"/>elements (for example, <code class="literal">&lt;h1&gt;</code>, <code class="literal">&lt;h2&gt;</code>).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:animated</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1270" class="indexterm"/>with an animation in progress.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:contains(text)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements<a id="id1271" class="indexterm"/> containing the given text.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:empty</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements with no <a id="id1272" class="indexterm"/>child nodes.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:has(a)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1273" class="indexterm"/>containing a descendant element matching <code class="literal">a</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:parent</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements <a id="id1274" class="indexterm"/>that <a id="id1275" class="indexterm"/>have child nodes.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:hidden</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements that are <a id="id1276" class="indexterm"/>hidden, either through CSS or because they are <code class="literal">&lt;input type="hidden" /&gt;</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:visible</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The <a id="id1277" class="indexterm"/>inverse of <code class="literal">:hidden</code>.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:focus</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>The element<a id="id1278" class="indexterm"/> that has the keyboard focus.</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:lang(language)</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Elements<a id="id1279" class="indexterm"/> with the <a id="id1280" class="indexterm"/>given language code (either due to a <code class="literal">lang</code> attribute on the element or an ancestor, or a <code class="literal">&lt;meta&gt;</code> declaration).</p>
+</td></tr><tr><td style="text-align: left" valign="top">
+<p>
+<code class="literal">:target</code>
+</p>
+</td><td style="text-align: left" valign="top">
+<p>Whichever element is <a id="id1281" class="indexterm"/>targeted by the URI's fragment identifier, if any.</p>
+</td></tr></tbody></table></div></div></div></div></body></html>
