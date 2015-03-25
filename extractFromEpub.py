@@ -14,6 +14,7 @@ def get_epub_info(fname):
 
     # find the contents metafile
     txt = zip.read('META-INF/container.xml')
+    print txt
     tree = etree.fromstring(txt)
     cfname = tree.xpath('n:rootfiles/n:rootfile/@full-path',namespaces=ns)[0]
     #print cfname
@@ -21,6 +22,7 @@ def get_epub_info(fname):
     # grab the metadata block from the contents metafile
     cf = zip.read(cfname)
     tree = etree.fromstring(cf)
+    #print tree
     p = tree.xpath('/pkg:package/pkg:metadata',namespaces=ns)[0]
     #print p
 
@@ -28,8 +30,10 @@ def get_epub_info(fname):
     res = {}
     for s in dataterms.DataTerms:
         #check if the element exists before extracting 1st element from the list
-        if p.xpath('dc:%s/text()'%(s),namespaces=ns):
-            res[s] = p.xpath('dc:%s/text()'%(s),namespaces=ns)[0]
+        Xpath = p.xpath('dc:%s/text()'%(s),namespaces=ns)
+        if Xpath:
+            print Xpath
+            res[s] = Xpath[0]
 
     return res
 
