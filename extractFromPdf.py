@@ -7,7 +7,7 @@ from pdfminer.pdfpage import PDFPage
 from pdfminer.pdfpage import PDFTextExtractionNotAllowed
 
 # Open a PDF file.
-fp = open('sample.pdf', 'rb')
+fp = open('extras/sample.pdf', 'rb')
 # Create a PDF parser object associated with the file object.
 parser = PDFParser(fp)
 # Create a PDF document object that stores the document structure.

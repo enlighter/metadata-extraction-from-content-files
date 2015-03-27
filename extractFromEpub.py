@@ -43,4 +43,4 @@ def get_epub_info(fname):
 
     return res
 
-print(get_epub_info("sample.epub"))
+print(get_epub_info("extras/sample.epub"))
