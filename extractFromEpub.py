@@ -32,7 +32,7 @@ def get_epub_info(fname):
         #check if the element exists before extracting 1st element from the list
         Xpath = p.xpath('dc:%s/text()'%(s),namespaces=ns)
         if len(Xpath):
-            print Xpath
+            print(Xpath)
             res[s] = Xpath[0]
 
     return res
