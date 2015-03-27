@@ -3,3 +3,4 @@ Extract metadata automatically from content files (ebooks, articles, etc.)
 
 Currently supports filetype:
 - pdf
+- epub
