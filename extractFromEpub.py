@@ -6,7 +6,9 @@ def get_epub_info(fname):
     ns = {
         'n':'urn:oasis:names:tc:opendocument:xmlns:container',
         'pkg':'http://www.idpf.org/2007/opf',
-        'dc':'http://purl.org/dc/elements/1.1/'
+        'dc':'http://purl.org/dc/elements/1.1/',
+        'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+        'dcterms': 'http://purl.org/dc/terms/'
     }
 
     # prepare to read from the .epub file
@@ -37,7 +39,7 @@ def get_epub_info(fname):
             print(qualifierPath)
             res[s] = qualifierPath[0]
 
-    print( metadataPath.xpath('id="ncxtoc"',namespaces=ns) )
+    print( metadataPath.xpath('pkg:item',namespaces=ns) )
 
     return res
 
