@@ -23,17 +23,19 @@ def get_epub_info(fname):
     cf = zip.read(cfname)
     tree = etree.fromstring(cf)
     print( etree.tostring(tree, pretty_print=True) )
-    p = tree.xpath('/pkg:package/pkg:metadata',namespaces=ns)[0]
-    #print(p)
+    metadataPath = tree.xpath('/pkg:package/pkg:metadata',namespaces=ns)[0]
+    print(metadataPath)
+    manifestPath = tree.xpath('/pkg:package/pkg:manifest',namespaces=ns)[0]
+    print( len(manifestPath) )
 
     # repackage the data
     res = {}
     for s in dataterms.DataTerms:
         #check if the element exists before extracting 1st element from the list
-        Xpath = p.xpath('dc:%s/text()'%(s),namespaces=ns)
-        if len(Xpath):
-            print(Xpath)
-            res[s] = Xpath[0]
+        qualifierPath = metadataPath.xpath('dc:%s/text()'%(s),namespaces=ns)
+        if len(qualifierPath):  #check if 
+            print(qualifierPath)
+            res[s] = qualifierPath[0]
 
     return res
 
