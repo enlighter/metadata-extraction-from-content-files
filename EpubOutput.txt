@@ -433,10 +433,11 @@ OEBPS/content.opf
   </guide>
 </package>
 
-<Element {http://www.idpf.org/2007/opf}metadata at 0x7f93e044a6c8>
+<Element {http://www.idpf.org/2007/opf}metadata at 0x7f05606fc6c8>
 282
 ['Learning jQuery Fourth Edition']
 ['en']
 ['_id286448480']
 ['Packt Publishing']
+False
 {'publisher': 'Packt Publishing', 'identifier': '_id286448480', 'language': 'en', 'title': 'Learning jQuery Fourth Edition'}

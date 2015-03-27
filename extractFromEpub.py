@@ -37,6 +37,8 @@ def get_epub_info(fname):
             print(qualifierPath)
             res[s] = qualifierPath[0]
 
+    print( metadataPath.xpath('id="ncxtoc"',namespaces=ns) )
+
     return res
 
 print(get_epub_info("sample.epub"))
