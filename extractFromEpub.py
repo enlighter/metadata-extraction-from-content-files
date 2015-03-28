@@ -1,46 +1,37 @@
-import zipfile
+''' sudo -E pip install epubzilla
+	sudo -E pip install -U epubzilla (upgrade epubzilla and dependencies if already installed)
+	[make sure you have python-dev packages installed in your system ,such as python-dev, python-all-dev, python2.7-dev et al]
+
+	__author__: "Sushovan Mandal"
+	__license__: "GPLv2"
+	__email__: "mandal.sushovan92@gmail.com"
+
+	use epubzilla=0.1.1
+'''
+
+#from epubzilla.epubzilla import Files
+from epubzilla.epubzilla import Epub
 from lxml import etree
 import dataterms
 
-def get_epub_info(fname):
-    ns = {
-        'n':'urn:oasis:names:tc:opendocument:xmlns:container',
-        'pkg':'http://www.idpf.org/2007/opf',
-        'dc':'http://purl.org/dc/elements/1.1/',
-        'xsi': 'http://www.w3.org/2001/XMLSchema-instance',
-        'dcterms': 'http://purl.org/dc/terms/'
-    }
+def get_epub_info(filename):
 
-    # prepare to read from the .epub file
-    zip = zipfile.ZipFile(fname)
+	epub = Epub.from_file(filename)
+	for element in epub.metadata:
+		print "%s : %s" %(element.tag.localname, element.tag.text)
+		for k,v in element.tag.iteritems():
+			print "\t %s : %s" %(k,v)
 
-    # find the contents metafile
-    txt = zip.read('META-INF/container.xml')
-    #print(txt)
-    tree = etree.fromstring(txt)
-    cfname = tree.xpath('n:rootfiles/n:rootfile/@full-path',namespaces=ns)[0]
-    print(cfname)
+	print epub.author
 
-    # grab the metadata block from the contents metafile
-    cf = zip.read(cfname)
-    tree = etree.fromstring(cf)
-    print( etree.tostring(tree, pretty_print=True) )
-    metadataPath = tree.xpath('/pkg:package/pkg:metadata',namespaces=ns)[0]
-    print(metadataPath)
-    manifestPath = tree.xpath('/pkg:package/pkg:manifest',namespaces=ns)[0]
-    print( len(manifestPath) )
+	for item in epub.manifest:
+		if item.tag.attributes['id'] == dataterms.toc_ncx_id:
+			print "got ncx"
+			toc_ncx = item.get_file()
+			print toc_ncx
+			toc_tree = etree.fromstring(toc_ncx)
+			print toc_tree
+			break
 
-    # repackage the data
-    res = {}
-    for s in dataterms.DataTerms:
-        #check if the element exists before extracting 1st element from the list
-        qualifierPath = metadataPath.xpath('dc:%s/text()'%(s),namespaces=ns)
-        if len(qualifierPath):  #check if 
-            print(qualifierPath)
-            res[s] = qualifierPath[0]
-
-    print( metadataPath.xpath('pkg:item',namespaces=ns) )
-
-    return res
-
-print(get_epub_info("extras/sample.epub"))
+'''print( get_epub_info("sample.epub") )'''
+get_epub_info("extras/sample.epub")
