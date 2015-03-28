@@ -1,6 +1,6 @@
 #! sudo -E pip install epubzilla
 
-from epubzilla.epubzilla import Epub
+from epubzilla.epubzilla import Epub#, Files
 import dataterms
 
 def get_epub_info(filename):
@@ -14,7 +14,7 @@ def get_epub_info(filename):
 	for item in epub.manifest:
 		if item.tag.attributes['id'] == dataterms.toc_ncx_id:
 			print "got ncx"
-			print type(item.get_file())
+			#toc_ncx = Files.get_from_manifest_item(item)
 
 '''print( get_epub_info("sample.epub") )'''
-get_epub_info("sample.epub")
+get_epub_info("extras/sample.epub")
