@@ -11,6 +11,8 @@ def get_epub_info(filename):
 		for k,v in element.tag.iteritems():
 			print "\t %s : %s" %(k,v)
 
+	print epub.author
+
 	for item in epub.manifest:
 		if item.tag.attributes['id'] == dataterms.toc_ncx_id:
 			print "got ncx"
