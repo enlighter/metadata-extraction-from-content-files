@@ -1,5 +1,10 @@
-#Run the following command from your shell before running this python code file
-#sudo -E pip install --upgrade --ignore-installed pdfminer==20140328 or higher version
+''' Run the following command from your shell before running this python code file
+    sudo -E pip install --upgrade --ignore-installed pdfminer==20140328 or higher version
+    
+    __author__: "Sushovan Mandal"
+    __license__: "GPLv2"
+    __email__: "mandal.sushovan92@gmail.com"
+'''
 
 from pdfminer.pdfparser import PDFParser
 from pdfminer.pdfdocument import PDFDocument
