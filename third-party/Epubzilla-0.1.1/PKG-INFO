@@ -1,0 +1,24 @@
+Metadata-Version: 1.0
+Name: Epubzilla
+Version: 0.1.1
+Summary: a library for extracting data from EPUB files
+Home-page: http://pypi.python.org/pypi/Epubzilla/
+Author: Nicholas O'Deegan
+Author-email: odeegan@gmail.com
+License: LICENSE.txt
+Description: Epubzilla  Documentation
+        ========================
+        
+        Epubzilla is a Python library for extracting data from 
+        EPUB documents. 
+        
+        Visit the `Project Page <http://odeegan.com/epubzilla>`_ 
+        Check out the `Docs <http://epubzilla.odeegan.com>`_
+        
+        
+        Getting Help
+        ----------------
+        If you have questions about Epubzilla, send an email to 
+        odeegan @ gmail . com
+        
+Platform: UNKNOWN
