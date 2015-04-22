@@ -18,19 +18,19 @@ def get_epub_info(filename):
 
 	epub = Epub.from_file(filename)
 	for element in epub.metadata:
-		print "%s : %s" %(element.tag.localname, element.tag.text)
+		print("%s : %s")%(element.tag.localname, element.tag.text)
 		for k,v in element.tag.iteritems():
-			print "\t %s : %s" %(k,v)
+			print("\t %s : %s")%(k,v)
 
-	print epub.author
+	print(epub.author)
 
 	for item in epub.manifest:
 		if item.tag.attributes['id'] == dataterms.toc_ncx_id:
-			print "got ncx"
+			print("got ncx")
 			toc_ncx = item.get_file()
-			print toc_ncx
+			print(toc_ncx)
 			toc_tree = etree.fromstring(toc_ncx)
-			print toc_tree
+			print(toc_tree)
 			break
 
 '''print( get_epub_info("sample.epub") )'''
