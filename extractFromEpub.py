@@ -12,7 +12,7 @@
 
 #from epubzilla.epubzilla import Files
 #from epubzilla.epubzilla import Epub
-from dependencies.epubzilla.epubzilla.epubzilla import Epub
+from dependencies.epubzilla.epubzilla.epubzilla import Epub, Toc
 from lxml import etree
 import dataterms
 
@@ -27,12 +27,16 @@ def get_epub_info(filename):
 		#	print("\t %s : %s")%(key, value)
 
 	print(epub.author)
+	print(epub.container.path_to_content)
+	print(epub.manifest[0])
+	print(epub.cover)
 
 	for item in epub.manifest:
 		if item.attributes['id'] == dataterms.toc_ncx_id:
 			print("got ncx")
-			toc_ncx = item.get_file()
-			#print(toc_ncx)
+			print(item.attributes['href'])
+			toc_ncx = item.archive
+			print(toc_ncx)
 			toc_tree = etree.fromstring(toc_ncx)
 			print(toc_tree)
 			break
