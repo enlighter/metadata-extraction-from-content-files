@@ -1,6 +1,7 @@
 ''' sudo -E pip install epubzilla
 	sudo -E pip install -U epubzilla (upgrade epubzilla and dependencies if already installed)
-	[make sure you have python-dev packages installed in your system ,such as python-dev, python-all-dev, python2.7-dev et al]
+	[In Ubuntu based systems make sure you have python-dev packages installed in your system,
+	such as python-dev, python-all-dev, python2.7-dev et al]
 
 	__author__: "Sushovan Mandal"
 	__license__: "GPLv2"
@@ -25,12 +26,12 @@ def get_epub_info(filename):
 	print epub.author
 
 	for item in epub.manifest:
-		if item.tag.attributes['id'] == dataterms.toc_ncx_id:
-			print "got ncx"
+		if item.tag.attributes['id'] == dataterms.toc_html_id:
+			print "got toc"
 			toc_ncx = item.get_file()
 			print toc_ncx
-			toc_tree = etree.fromstring(toc_ncx)
-			print toc_tree
+			#toc_tree = etree.fromstring(toc_ncx)
+			#print toc_tree
 			break
 
 '''print( get_epub_info("sample.epub") )'''
