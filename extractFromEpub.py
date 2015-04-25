@@ -23,16 +23,23 @@ def get_epub_info(filename):
 	metadata = epub.metadata
 
 	extracted_elements = dataterms.dublin_core_elements
-	print extracted_elements
+	#print extracted_elements
 
-	for key,value in dataterms.dublin_core_elements.iteritems() :
+	for key,value in extracted_elements.iteritems() :
 		if type(value) == dict:
 			for k,v in value.iteritems():
-				print "%s : %s" %(k, metadata.get(k))
+				text = metadata.get(k)
+				if text:
+					extracted_elements[key][k] = text
 		else:
-			print "%s : %s" %(key, metadata.get(key))
+			text = metadata.get(key)
+			if text:
+				extracted_elements[key] = text
+	 
+	if epub.author:
+		extracted_elements['contributor']['author'] += epub.author
 
-	print "author : %s" %(epub.author)
+	print extracted_elements
 
 	for item in epub.manifest:
 		if item.tag.attributes['id'] == dataterms.toc_html_id:

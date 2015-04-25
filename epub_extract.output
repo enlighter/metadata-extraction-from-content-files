@@ -1,26 +1,2 @@
-{'description': (), 'format': {'mimetype': (), 'extent': ()}, 'contributor': {'illustrator': (), 'editor': (), 'author': ()}, 'relation': (), 'coverage': (), 'date': {'accessioned': (), 'copyright': (), 'created': ()}, 'subject': (), 'publisher': (), 'rights': (), 'language': (), 'title': (), 'creator': (), 'source': (), 'identifier': {'citation': (), 'issn': (), 'isbn': (), 'uri': ()}, 'type': ()}
-description : None
-mimetype : None
-extent : None
-illustrator : None
-editor : None
-author : None
-relation : None
-coverage : None
-accessioned : None
-copyright : None
-created : None
-subject : None
-publisher : Packt Publishing
-rights : None
-language : en
-title : Learning jQuery Fourth Edition
-creator : None
-source : None
-citation : None
-issn : None
-isbn : None
-uri : None
-type : None
-author : None
+{'description': (), 'format': {'mimetype': (), 'extent': ()}, 'contributor': {'illustrator': (), 'editor': (), 'author': ()}, 'relation': (), 'coverage': (), 'date': {'accessioned': (), 'copyright': (), 'created': ()}, 'subject': (), 'publisher': 'Packt Publishing', 'rights': (), 'language': 'en', 'title': 'Learning jQuery Fourth Edition', 'creator': (), 'source': (), 'identifier': {'citation': (), 'issn': (), 'isbn': (), 'uri': ()}, 'type': ()}
 got toc
