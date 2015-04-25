@@ -22,6 +22,9 @@ def get_epub_info(filename):
 	epub = Epub.from_file(filename)
 	metadata = epub.metadata
 
+	extracted_elements = dataterms.dublin_core_elements
+	print extracted_elements
+
 	for key,value in dataterms.dublin_core_elements.iteritems() :
 		if type(value) == dict:
 			for k,v in value.iteritems():
