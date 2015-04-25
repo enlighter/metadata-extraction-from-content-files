@@ -1,2 +1,18 @@
-{'description': (), 'format': {'mimetype': (), 'extent': ()}, 'contributor': {'illustrator': (), 'editor': (), 'author': ()}, 'relation': (), 'coverage': (), 'date': {'accessioned': (), 'copyright': (), 'created': ()}, 'subject': (), 'publisher': 'Packt Publishing', 'rights': (), 'language': 'en', 'title': 'Learning jQuery Fourth Edition', 'creator': (), 'source': (), 'identifier': {'citation': (), 'issn': (), 'isbn': (), 'uri': ()}, 'type': ()}
+{
+    'contributor': {'author': (), 'editor': (), 'illustrator': ()},
+    'coverage': (),
+    'creator': (),
+    'date': {'accessioned': (), 'copyright': (), 'created': ()},
+    'description': (),
+    'format': {'extent': (), 'mimetype': ()},
+    'identifier': {'citation': (), 'isbn': (), 'issn': (), 'uri': ()},
+    'language': 'en',
+    'publisher': 'Packt Publishing',
+    'relation': (),
+    'rights': (),
+    'source': (),
+    'subject': (),
+    'title': 'Learning jQuery Fourth Edition',
+    'type': (),
+}
 got toc
