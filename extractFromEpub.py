@@ -15,21 +15,27 @@ from epubzilla.epubzilla import Epub
 from lxml import etree
 import dataterms
 
+
 def get_epub_info(filename):
 
-	epub = Epub.from_file(filename)
-	for element in epub.metadata:
-		print "%s : %s" %(element.tag.localname, element.tag.text)
-		for k,v in element.tag.iteritems():
-			print "\t %s : %s" %(k,v)
 
-	print epub.author
+	epub = Epub.from_file(filename)
+	metadata = epub.metadata
+
+	for key,value in dataterms.dublin_core_elements.iteritems() :
+		if type(value) == dict:
+			for k,v in value.iteritems():
+				print "%s : %s" %(k, metadata.get(k))
+		else:
+			print "%s : %s" %(key, metadata.get(key))
+
+	print "author : %s" %(epub.author)
 
 	for item in epub.manifest:
 		if item.tag.attributes['id'] == dataterms.toc_html_id:
 			print "got toc"
 			toc_ncx = item.get_file()
-			print toc_ncx
+			#print toc_ncx
 			#toc_tree = etree.fromstring(toc_ncx)
 			#print toc_tree
 			break
