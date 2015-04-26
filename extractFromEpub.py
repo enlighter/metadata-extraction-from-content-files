@@ -18,8 +18,9 @@
 import sys
 import os
 from epubzilla.epubzilla import Epub #for epub
-import zipfile
+#import zipfile
 #from lxml import etree #for xml, html fast parser
+import lxml
 from pprintpp import pprint #pretty-print
 from bs4 import BeautifulSoup as bs #for html
 try:
