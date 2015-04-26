@@ -47,7 +47,7 @@ def dump_html(to_dump):
 	pickle.dump( to_dump, html_dump)
 	html_dump.close()
 
-def create_soup_from_dump():
+def create_soup_from_html_dump():
 	try:
 		html_dump = open(r'./tmp/temp_html','r')
 	except:
@@ -97,7 +97,7 @@ def get_epub_info(filename):
 	dump_html( get_html_from_manifest(epub, 'id', dataterms.toc_html_id) )
 
 	# HCREDITS : extract 'credits' info from html
-	soup = create_soup_from_dump()
+	soup = create_soup_from_html_dump()
 	for link in soup.find_all('a'):
 		link_text = link.get_text().encode('utf8')
 		if link_text.lower() == 'credits':
