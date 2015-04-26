@@ -26,7 +26,7 @@ try:
    import cPickle as pickle
 except:
    import pickle
-from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
+#from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
 import dataterms
 
 def get_html_from_manifest(epub, key, value):
@@ -61,6 +61,14 @@ def create_soup_from_html_dump():
 	html_dump.close()
 	return html_soup
 
+def finishing_touches(element_dict):
+	if element_dict['creator'] not in element_dict['contributor']['author']:
+		element_dict['contributor']['author'] += element_dict['creator']
+
+	ret = dict(element_dict)
+	del ret['creator']
+	return ret
+
 def get_epub_info(filename):
 
 	#archive = zipfile.ZipFile(filename)
@@ -82,7 +90,9 @@ def get_epub_info(filename):
 				extracted_elements[key] = text
 	 
 	if epub.author:
-		extracted_elements['contributor']['author'] += epub.author
+		extracted_elements['contributor']['author'] += (epub.author,)
+
+	extracted_elements['creator']  += ("testing",)
 
 	pprint(extracted_elements)
 
@@ -108,19 +118,24 @@ def get_epub_info(filename):
 	dump_html( get_html_from_manifest(epub, 'href', credits_file) )
 
 	soup = create_soup_from_html_dump()
-	credits_data = soup.find_all('p')
-	for link in credits_data:
+	credits_data = []
+	for link in soup.find_all('p'):
 		#print link.contents
 		#link_text = link.string
 		link_text = link.get_text().encode('utf8')
-		#print type(link_text)
 		link_text_stripped = link_text.strip() # strip whitespaces from both ends of the string
+		credits_data.extend([link_text_stripped.lower()])
 
 		# for debugging :
 		pickle.dump( link_text, sys.stdout )
-		# print link_text
 		# pickle the list using highest protocol avalailable
 		# that is what -1 signifies
+	print credits_data
+	#vector_space = vs(credits_data)
+	#print vector_space.related(0)
+
+	extracted_elements = finishing_touches(extracted_elements)
+	pprint(extracted_elements)
 
 '''print( get_epub_info("sample.epub") )'''
 get_epub_info("extras/sample.epub")
