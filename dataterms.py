@@ -37,7 +37,12 @@ synonymous = {
       'illustrator' : ("graphics", "cover",)
 }
 
-credits_headers = ["author","editor","illustrator","graphics","cover","coordinator","indexer","proofreader","reviewer"]
+# headers
+
+first = ["author","editor","illustrator","graphics","cover","coordinator","indexer","proofreader","reviewer"]
+headers = {
+      '1' : first
+}
 
 toc_ncx_id = 'ncxtoc'
 toc_html_id = 'toc'

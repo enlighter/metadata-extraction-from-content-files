@@ -73,7 +73,7 @@ def find_by(description, token_list, section):
 	extract = False
 	ret = ()
 	for token in token_list:
-		for header in dataterms.'%s_headers'%section:
+		for header in dataterms.headers[section]:
 			if header in token:
 				extract = False
 
@@ -83,9 +83,12 @@ def find_by(description, token_list, section):
 		if description in token:
 			extract = True
 		else:
-			for synonym in dataterms.synonymous[description]:
-				if synonym in token:
-					extract = True
+			try:
+				for synonym in dataterms.synonymous[description]:
+					if synonym in token:
+						extract = True
+			except KeyError:
+				print "no synonym, continuing..."
 	return ret
 
 def get_epub_info(filename):
@@ -111,9 +114,7 @@ def get_epub_info(filename):
 	if epub.author:
 		extracted_elements['contributor']['author'] += (epub.author,)
 
-	extracted_elements['creator']  += ("testing",)
-
-	pprint(extracted_elements)
+	#extracted_elements['creator']  += ("testing",)
 
 	# # for item in epub.manifest:
 	# # 	if item.tag.attributes['id'] == dataterms.toc_html_id:
@@ -149,10 +150,14 @@ def get_epub_info(filename):
 		pickle.dump( link_text, sys.stdout )
 		# pickle the list using highest protocol avalailable
 		# that is what -1 signifies
-	print credits_data
+	#print credits_data
 	#vector_space = vs(credits_data)
 	#print vector_space.related(0)
-	
+
+	# HEXTCREDITS: extract from credits
+	for key in extracted_elements['contributor']:
+		extracted_elements['contributor'][key] += find_by(key, credits_data, '1')
+	# HEXTCREDITS: done
 
 	extracted_elements = finishing_touches(extracted_elements)
 	pprint(extracted_elements)
