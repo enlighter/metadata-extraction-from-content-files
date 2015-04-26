@@ -3,6 +3,7 @@
 	[In Ubuntu based systems make sure you have python-dev packages installed in your system,
 	such as python-dev, python-all-dev, python2.7-dev et al]
 	sudo [-E] pip install pprintpp
+	sudo [-E] pip install beautifulsoup4
 	In case of python3 as system default, use pip2 instead
 
 	__author__: "Sushovan Mandal"
@@ -14,9 +15,16 @@
 '''
 #!/usr/bin/python2
 
-from epubzilla.epubzilla import Epub
-from lxml import etree
-from pprintpp import pprint
+#import sys
+import os
+from epubzilla.epubzilla import Epub #for epub
+#from lxml import etree #for xml
+from pprintpp import pprint #pretty-print
+from bs4 import BeautifulSoup as bs #for html
+try:
+   import cPickle as pickle
+except:
+   import pickle
 import dataterms
 
 
@@ -45,6 +53,16 @@ def get_epub_info(filename):
 
 	pprint(extracted_elements)
 
+	# HDUMP : open and store the toc html file for extraction ---------------------
+	#os.chdir('tmp')
+	#os.listdir(r'./')
+	try:
+		html_dump = open(r'./tmp/temp_html','wb')
+	except:
+		e = sys.exc_info()
+		pprint(e)
+	#os.chdir('..')
+
 	for item in epub.manifest:
 		if item.tag.attributes['id'] == dataterms.toc_html_id:
 			print "got toc"
@@ -53,6 +71,10 @@ def get_epub_info(filename):
 			#toc_tree = etree.fromstring(toc_ncx)
 			#print toc_tree
 			break
+
+	pickle.dump(toc_ncx, html_dump)
+
+	html_dump.close()
 
 '''print( get_epub_info("sample.epub") )'''
 get_epub_info("extras/sample.epub")
