@@ -101,8 +101,16 @@ def get_epub_info(filename):
 	for link in soup.find_all('a'):
 		link_text = link.get_text().encode('utf8')
 		if link_text.lower() == 'credits':
-			print link.get('href')
+			credits_file = link.get('href')
 	# HCREDITS: done
+
+	dump_html( get_html_from_manifest(epub, 'href', credits_file) )
+
+	soup = create_soup_from_html_dump()
+	for link in soup.find_all('p'):
+		link_text = link.get_text().encode('utf8')
+		#if link_text != '\n':
+		print link_text
 
 '''print( get_epub_info("sample.epub") )'''
 get_epub_info("extras/sample.epub")
