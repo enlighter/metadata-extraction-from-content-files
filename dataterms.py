@@ -33,5 +33,11 @@ dublin_core_elements = {'title':(),
              'rights':()
 }
 
+synonymous = {
+      'illustrator' : ("graphics", "cover",)
+}
+
+credits_headers = ["author","editor","illustrator","graphics","cover","coordinator","indexer","proofreader","reviewer"]
+
 toc_ncx_id = 'ncxtoc'
 toc_html_id = 'toc'

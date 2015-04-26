@@ -69,6 +69,25 @@ def finishing_touches(element_dict):
 	del ret['creator']
 	return ret
 
+def find_by(description, token_list, section):
+	extract = False
+	ret = ()
+	for token in token_list:
+		for header in dataterms.'%s_headers'%section:
+			if header in token:
+				extract = False
+
+		if extract:
+			ret += (token,)
+
+		if description in token:
+			extract = True
+		else:
+			for synonym in dataterms.synonymous[description]:
+				if synonym in token:
+					extract = True
+	return ret
+
 def get_epub_info(filename):
 
 	#archive = zipfile.ZipFile(filename)
@@ -133,6 +152,7 @@ def get_epub_info(filename):
 	print credits_data
 	#vector_space = vs(credits_data)
 	#print vector_space.related(0)
+	
 
 	extracted_elements = finishing_touches(extracted_elements)
 	pprint(extracted_elements)
