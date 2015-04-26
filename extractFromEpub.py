@@ -27,6 +27,11 @@ except:
    import pickle
 import dataterms
 
+def get_html_from_manifest(epub, ID):
+	for item in epub.manifest:
+		if item.tag.attributes['id'] == ID:
+			print "got %s" %ID
+			return item.get_file()
 
 def get_epub_info(filename):
 
@@ -63,16 +68,17 @@ def get_epub_info(filename):
 		pprint(e)
 	#os.chdir('..')
 
-	for item in epub.manifest:
-		if item.tag.attributes['id'] == dataterms.toc_html_id:
-			print "got toc"
-			toc_ncx = item.get_file()
-			#print toc_ncx
-			#toc_tree = etree.fromstring(toc_ncx)
-			#print toc_tree
-			break
+	# for item in epub.manifest:
+	# 	if item.tag.attributes['id'] == dataterms.toc_html_id:
+	# 		print "got toc"
+	# 		toc_ncx = item.get_file()
+	# 		#print toc_ncx
+	# 		#toc_tree = etree.fromstring(toc_ncx)
+	# 		#print toc_tree
+	# 		break
 
-	pickle.dump(toc_ncx, html_dump)
+	pickle.dump( get_html_from_manifest(epub,dataterms.toc_html_id) , html_dump)
+	# HDUMP: done --------------------------------------------
 
 	html_dump.close()
 
