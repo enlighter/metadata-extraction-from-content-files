@@ -15,7 +15,7 @@
 '''
 #!/usr/bin/python2
 
-#import sys
+import sys
 import os
 from epubzilla.epubzilla import Epub #for epub
 import zipfile
@@ -44,12 +44,12 @@ def dump_html(to_dump):
 		pprint(e)
 	#os.chdir('..')
 
-	pickle.dump( to_dump, html_dump)
+	pickle.dump( to_dump, html_dump, -1)
 	html_dump.close()
 
 def create_soup_from_html_dump():
 	try:
-		html_dump = open(r'./tmp/temp_html','r')
+		html_dump = open(r'./tmp/temp_html','rb')
 	except:
 		e = sys.exc_info()
 		pprint(e)
@@ -107,10 +107,19 @@ def get_epub_info(filename):
 	dump_html( get_html_from_manifest(epub, 'href', credits_file) )
 
 	soup = create_soup_from_html_dump()
-	for link in soup.find_all('p'):
+	credits_data = soup.find_all('p')
+	for link in credits_data:
+		#print link.contents
+		#link_text = link.string
 		link_text = link.get_text().encode('utf8')
-		#if link_text != '\n':
-		print link_text
+		#print type(link_text)
+		link_text_stripped = link_text.strip() # strip whitespaces from both ends of the string
+
+		# for debugging :
+		pickle.dump( link_text, sys.stdout )
+		# print link_text
+		# pickle the list using highest protocol avalailable
+		# that is what -1 signifies
 
 '''print( get_epub_info("sample.epub") )'''
 get_epub_info("extras/sample.epub")

@@ -17,54 +17,62 @@
 }
 got toc
 got pr02.html
-
-Authors
-
-Jonathan Chaffer
-Karl Swedberg
-
-Reviewers
-
-Kaiser Ahmed
-Carlos Estebes
-Alex Libby
-Natalie MacLees
-
-Acquisition Editor
-
-Rukhsana Khambatta
-
-Lead Technical Editor
-
-Dayan Hyames
-
-Technical Editors
-
-Veena Pagare
-Zafeer Rais
-Kaustubh S. Mayekar
-
-Project Coordinator
-
-Leena Purkait
-
-Proofreader
-
-Paul Hindle
-
-Indexer
-
-Monica Ajmera Mehta
-
-Graphics
-
-Ronak Dhruv
-Abhinash Sahu
-
-Production Coordinator
-
-Aditi Gajjar
-
-Cover Work
-
-Aditi Gajjar
+S'\nAuthors\n'
+p1
+.S'Jonathan Chaffer'
+p1
+.S'Karl Swedberg'
+p1
+.S'\nReviewers\n'
+p1
+.S'Kaiser Ahmed'
+p1
+.S'Carlos Estebes'
+p1
+.S'Alex Libby'
+p1
+.S'Natalie MacLees'
+p1
+.S'\nAcquisition Editor\n'
+p1
+.S'Rukhsana Khambatta'
+p1
+.S'\nLead Technical Editor\n'
+p1
+.S'Dayan Hyames'
+p1
+.S'\nTechnical Editors\n'
+p1
+.S'Veena Pagare'
+p1
+.S'Zafeer Rais'
+p1
+.S'Kaustubh S. Mayekar'
+p1
+.S'\nProject Coordinator\n'
+p1
+.S'Leena Purkait'
+p1
+.S'\nProofreader\n'
+p1
+.S'Paul Hindle'
+p1
+.S'\nIndexer\n'
+p1
+.S'Monica Ajmera Mehta'
+p1
+.S'\nGraphics\n'
+p1
+.S'Ronak Dhruv'
+p1
+.S'Abhinash Sahu'
+p1
+.S'\nProduction Coordinator\n'
+p1
+.S'Aditi Gajjar'
+p1
+.S'\nCover Work\n'
+p1
+.S'Aditi Gajjar'
+p1
+.
