@@ -26,6 +26,7 @@ try:
    import cPickle as pickle
 except:
    import pickle
+from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
 import dataterms
 
 def get_html_from_manifest(epub, key, value):
