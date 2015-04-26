@@ -1,3 +1,0 @@
-[submodule "dependencies/semanticpy"]
-	path = dependencies/semanticpy
-	url = https://github.com/enlighter/semanticpy.git
