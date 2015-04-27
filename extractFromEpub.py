@@ -106,11 +106,11 @@ def get_epub_info(filename):
 			for k,v in value.iteritems():
 				text = metadata.get(k)
 				if text:
-					extracted_elements[key][k] = text
+					extracted_elements[key][k] += (text,)
 		else:
 			text = metadata.get(key)
 			if text:
-				extracted_elements[key] = text
+				extracted_elements[key] += (text,)
 	 
 	if epub.author:
 		extracted_elements['contributor']['author'] += (epub.author,)
@@ -156,8 +156,12 @@ def get_epub_info(filename):
 	#print vector_space.related(0)
 
 	# HEXTCREDITS: extract from credits
+	pprint(extracted_elements)
 	for key in extracted_elements['contributor']:
 		extracted_elements['contributor'][key] += find_by(key, credits_data, '1')
+	print type(extracted_elements['publisher'])
+	extracted_elements['publisher'] += find_by('publisher', credits_data, '1')
+	extracted_elements['creator'] += find_by('creator', credits_data, '1')
 	# HEXTCREDITS: done
 
 	extracted_elements = finishing_touches(extracted_elements)
