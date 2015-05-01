@@ -12,19 +12,20 @@
 	use python3
 	use ebooklib=0.15
 '''
-#!/usr/bin/python2
+# !/usr/bin/python2
 
 import sys
 import os
-from ebooklib import epub #for epub
-#from lxml import etree #for xml, html fast parser
-from pprintpp import pprint #pretty-print
-from bs4 import BeautifulSoup as bs #for html
+from ebooklib import epub  # for epub
+# from lxml import etree #for xml, html fast parser
+from pprintpp import pprint  # pretty-print
+from bs4 import BeautifulSoup as bs  # for html
+
 try:
-   import cPickle as pickle
+	import cPickle as pickle
 except:
-   import pickle
-#from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
+	import pickle
+# from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
 import dataterms
 
 # def get_html_from_manifest(epub, key, value):
@@ -89,12 +90,34 @@ import dataterms
 # 				print("no synonym, continuing...")
 # 	return ret
 
+class metadata_extraction(epub.EpubReader):
+	def __init__(self, filename=''):
+		epub.EpubReader.__init__(self, filename)
+		self.book = self.load()
+		self.process()
+		self.def_met = {}	# the default metadata from epub's metadata
+
+	def default_metadata(self):
+		namespace = epub.NAMESPACES['DC']
+		self.def_met = self.book.metadata[namespace]
+
+	def extract(self):
+		self.default_metadata()
+		pprint(self.def_met)
+
+	def __repr__(self):
+		return "Class <metadata_extraction(epub.EpubReader)>"
+
 def get_epub_info(filename):
 	book = epub.read_epub(filename)
 	metadata = book.metadata
 	pprint(metadata)
-	publisher = book.get_metadata('DC','publisher') # get metadata from namespace DC and name publisher
+	publisher = book.get_metadata('DC', 'publisher')  # get metadata from namespace DC and name publisher
 	pprint(publisher)
+	met = metadata_extraction(filename)
+	print(met)
+	met.extract()
+
 
 get_epub_info("extras/sample0.epub")
 get_epub_info("extras/sample1.epub")

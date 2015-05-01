@@ -10,6 +10,13 @@
     },
 }
 [('Packt Publishing', {})]
+Class <metadata_extraction(epub.EpubReader)>
+{
+    'identifier': [('_id286448480', {'id': 'bookid'})],
+    'language': [('en', {})],
+    'publisher': [('Packt Publishing', {})],
+    'title': [('Learning jQuery Fourth Edition', {})],
+}
 {
     'http://calibre.kovidgoyal.net/2009/metadata': {
         'timestamp': [
@@ -69,3 +76,32 @@
     'http://www.w3.org/2001/XMLSchema-instance': {},
 }
 [('Pan Books', {})]
+Class <metadata_extraction(epub.EpubReader)>
+{
+    'contributor': [
+        (
+            'calibre (0.8.29) [http://calibre-ebook.com]',
+            {'{http://www.idpf.org/2007/opf}role': 'bkp'},
+        ),
+    ],
+    'creator': [
+        (
+            'Guha, Ramachandra',
+            {
+                '{http://www.idpf.org/2007/opf}file-as': 'Guha, Ramachandra',
+                '{http://www.idpf.org/2007/opf}role': 'aut',
+            },
+        ),
+    ],
+    'date': [('2011-02-09T16:00:00+00:00', {})],
+    'identifier': [
+        (
+            'cee3ce64-6245-4360-9ee5-70a2aaba296d',
+            {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
+        ),
+    ],
+    'language': [('en', {})],
+    'publisher': [('Pan Books', {})],
+    'subject': [('General Fiction', {})],
+    'title': [('India After Gandhi', {})],
+}
