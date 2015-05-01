@@ -92,9 +92,9 @@ import dataterms
 def get_epub_info(filename):
 	book = epub.read_epub(filename)
 	metadata = book.metadata
-	print(metadata)
+	pprint(metadata)
 	publisher = book.get_metadata('DC','publisher') # get metadata from namespace DC and name publisher
-	print(publisher)
+	pprint(publisher)
 
 get_epub_info("extras/sample0.epub")
 get_epub_info("extras/sample1.epub")

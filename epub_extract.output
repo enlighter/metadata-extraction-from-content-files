@@ -1,4 +1,71 @@
-{'http://www.idpf.org/2007/opf': {'cover': [(None, {'content': 'cover-image', 'name': 'cover'})]}, 'http://purl.org/dc/elements/1.1/': {'language': [('en', {})], 'identifier': [('_id286448480', {'id': 'bookid'})], 'publisher': [('Packt Publishing', {})], 'title': [('Learning jQuery Fourth Edition', {})]}}
+{
+    'http://purl.org/dc/elements/1.1/': {
+        'identifier': [('_id286448480', {'id': 'bookid'})],
+        'language': [('en', {})],
+        'publisher': [('Packt Publishing', {})],
+        'title': [('Learning jQuery Fourth Edition', {})],
+    },
+    'http://www.idpf.org/2007/opf': {
+        'cover': [(None, {'content': 'cover-image', 'name': 'cover'})],
+    },
+}
 [('Packt Publishing', {})]
-{'http://www.idpf.org/2007/opf': {'cover': [(None, {'content': 'cover', 'name': 'cover'})]}, 'http://purl.org/dc/elements/1.1/': {'creator': [('Guha, Ramachandra', {'{http://www.idpf.org/2007/opf}role': 'aut', '{http://www.idpf.org/2007/opf}file-as': 'Guha, Ramachandra'})], 'contributor': [('calibre (0.8.29) [http://calibre-ebook.com]', {'{http://www.idpf.org/2007/opf}role': 'bkp'})], 'publisher': [('Pan Books', {})], 'subject': [('General Fiction', {})], 'identifier': [('cee3ce64-6245-4360-9ee5-70a2aaba296d', {'{http://www.idpf.org/2007/opf}scheme': 'uuid', 'id': 'uuid_id'})], 'language': [('en', {})], 'title': [('India After Gandhi', {})], 'date': [('2011-02-09T16:00:00+00:00', {})]}, 'http://www.w3.org/2001/XMLSchema-instance': {}, 'http://calibre.kovidgoyal.net/2009/metadata': {'title_sort': [(None, {'content': 'India After Gandhi', 'name': 'calibre:title_sort'})], 'timestamp': [(None, {'content': '2012-09-30T01:12:38+00:00', 'name': 'calibre:timestamp'})]}, 'http://purl.org/dc/terms/': {}}
+{
+    'http://calibre.kovidgoyal.net/2009/metadata': {
+        'timestamp': [
+            (
+                None,
+                {
+                    'content': '2012-09-30T01:12:38+00:00',
+                    'name': 'calibre:timestamp',
+                },
+            ),
+        ],
+        'title_sort': [
+            (
+                None,
+                {
+                    'content': 'India After Gandhi',
+                    'name': 'calibre:title_sort',
+                },
+            ),
+        ],
+    },
+    'http://purl.org/dc/elements/1.1/': {
+        'contributor': [
+            (
+                'calibre (0.8.29) [http://calibre-ebook.com]',
+                {'{http://www.idpf.org/2007/opf}role': 'bkp'},
+            ),
+        ],
+        'creator': [
+            (
+                'Guha, Ramachandra',
+                {
+                    '{http://www.idpf.org/2007/opf}file-as': 'Guha, Ramachandra',
+                    '{http://www.idpf.org/2007/opf}role': 'aut',
+                },
+            ),
+        ],
+        'date': [('2011-02-09T16:00:00+00:00', {})],
+        'identifier': [
+            (
+                'cee3ce64-6245-4360-9ee5-70a2aaba296d',
+                {
+                    'id': 'uuid_id',
+                    '{http://www.idpf.org/2007/opf}scheme': 'uuid',
+                },
+            ),
+        ],
+        'language': [('en', {})],
+        'publisher': [('Pan Books', {})],
+        'subject': [('General Fiction', {})],
+        'title': [('India After Gandhi', {})],
+    },
+    'http://purl.org/dc/terms/': {},
+    'http://www.idpf.org/2007/opf': {
+        'cover': [(None, {'content': 'cover', 'name': 'cover'})],
+    },
+    'http://www.w3.org/2001/XMLSchema-instance': {},
+}
 [('Pan Books', {})]

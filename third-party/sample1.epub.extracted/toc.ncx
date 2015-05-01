@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="eng">
+  <head>
+    <meta content="cee3ce64-6245-4360-9ee5-70a2aaba296d" name="dtb:uid"/>
+    <meta content="2" name="dtb:depth"/>
+    <meta content="calibre (0.8.29)" name="dtb:generator"/>
+    <meta content="0" name="dtb:totalPageCount"/>
+    <meta content="0" name="dtb:maxPageNumber"/>
+  </head>
+  <docTitle>
+    <text>India After Gandhi</text>
+  </docTitle>
+  <navMap>
+    <navPoint class="chapter" id="f14111ea-4125-48fd-841d-80bb8481eaf0" playOrder="1">
+      <navLabel>
+        <text>Prologue: Unnatural Nation</text>
+      </navLabel>
+      <content src="dummy_split_006.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e8831d63-b864-4b03-aaea-cb828dbc3668" playOrder="2">
+      <navLabel>
+        <text>P ART O NE – P ICKING UP THE P IECES</text>
+      </navLabel>
+      <content src="dummy_split_008.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="aea0b9c1-c8c8-4ab1-a2b0-dff5cfb50e96" playOrder="3">
+      <navLabel>
+        <text>1. Freedom and Parricide</text>
+      </navLabel>
+      <content src="dummy_split_010.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="0a7bb171-745c-4268-ba70-6531dbe78286" playOrder="4">
+      <navLabel>
+        <text>2. The Logic of Division</text>
+      </navLabel>
+      <content src="dummy_split_011.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="f6bbca5a-401e-41dc-bdf0-447125e6298a" playOrder="5">
+      <navLabel>
+        <text>3. Apples in the Basket</text>
+      </navLabel>
+      <content src="dummy_split_012.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="856b8f73-b1f4-4b05-8b97-f439e69c35b2" playOrder="6">
+      <navLabel>
+        <text>4. A Valley Bloody and Beautiful</text>
+      </navLabel>
+      <content src="dummy_split_013.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="cbc517f8-b27e-4390-83e0-8528dee31832" playOrder="7">
+      <navLabel>
+        <text>5. Refugees and the Republic</text>
+      </navLabel>
+      <content src="dummy_split_014.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="30069f6f-dd74-4d9b-9c12-9bdc2f44a8fe" playOrder="8">
+      <navLabel>
+        <text>6. Ideas of India</text>
+      </navLabel>
+      <content src="dummy_split_015.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="0158da2a-f02f-4746-9dcb-158d38025e7d" playOrder="9">
+      <navLabel>
+        <text>P ART T WO – N EHRU ’ S I NDIA</text>
+      </navLabel>
+      <content src="dummy_split_016.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="5709f3ca-4726-4da0-b5cc-515be8a31660" playOrder="10">
+      <navLabel>
+        <text>7. The Biggest Gamble in History</text>
+      </navLabel>
+      <content src="dummy_split_018.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="6fbd358a-84cd-487b-9cf4-fcabcffc5118" playOrder="11">
+      <navLabel>
+        <text>8. Home and the World</text>
+      </navLabel>
+      <content src="dummy_split_019.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="1d868f77-4009-4421-bf41-787bb7ad5e1e" playOrder="12">
+      <navLabel>
+        <text>9. Redrawing the Map</text>
+      </navLabel>
+      <content src="dummy_split_020.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="0d6191d4-07d9-445a-822d-9936af2deea9" playOrder="13">
+      <navLabel>
+        <text>10. The Conquest of Nature</text>
+      </navLabel>
+      <content src="dummy_split_022.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="121a12af-f850-4566-99c0-a5ebb7223acc" playOrder="14">
+      <navLabel>
+        <text>11. The Law and the Prophets</text>
+      </navLabel>
+      <content src="dummy_split_024.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="eb767600-fbd3-425c-8af1-6c5e4ba13b5d" playOrder="15">
+      <navLabel>
+        <text>12. Securing Kashmir</text>
+      </navLabel>
+      <content src="dummy_split_026.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b2c2c1c3-4a80-4d9b-a93b-a94fafda9685" playOrder="16">
+      <navLabel>
+        <text>13. Tribal Trouble</text>
+      </navLabel>
+      <content src="dummy_split_028.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="6ab9e11a-a847-4bd1-bf42-ae9d52184387" playOrder="17">
+      <navLabel>
+        <text>P ART T HREE – S HAKING THE C ENTRE</text>
+      </navLabel>
+      <content src="dummy_split_030.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="c40a8002-ad56-450e-8b0f-79979b239c53" playOrder="18">
+      <navLabel>
+        <text>14. The Southern Challenge</text>
+      </navLabel>
+      <content src="dummy_split_032.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="ebadd7b0-800d-47d5-a1ae-2adcfceaeeb9" playOrder="19">
+      <navLabel>
+        <text>15. The Experience of Defeat</text>
+      </navLabel>
+      <content src="dummy_split_034.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b3a8e0cc-620e-435c-91c2-610bdd58f584" playOrder="20">
+      <navLabel>
+        <text>16. Peace in Our Time</text>
+      </navLabel>
+      <content src="dummy_split_036.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="78516910-65bd-4c08-b508-d45b8f349dc6" playOrder="21">
+      <navLabel>
+        <text>17. Minding the Minorities</text>
+      </navLabel>
+      <content src="dummy_split_038.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="7943623d-b83b-4070-858b-25bfca6e6ce8" playOrder="22">
+      <navLabel>
+        <text>P ART F OUR – THE R ISE OF P OPULISM</text>
+      </navLabel>
+      <content src="dummy_split_040.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="06238dca-703d-425b-ba76-f29163227a89" playOrder="23">
+      <navLabel>
+        <text>18. War and Succession</text>
+      </navLabel>
+      <content src="dummy_split_042.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="bdbad223-705e-4721-9525-c17f98fe1059" playOrder="24">
+      <navLabel>
+        <text>19. Leftward Turns</text>
+      </navLabel>
+      <content src="dummy_split_044.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="f365087a-456d-41e5-8c18-0888bb0a205b" playOrder="25">
+      <navLabel>
+        <text>20. The Elixir of Victory</text>
+      </navLabel>
+      <content src="dummy_split_046.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="3c6d3908-dda9-4d58-8a31-6b7cb23362d7" playOrder="26">
+      <navLabel>
+        <text>21. The Rivals</text>
+      </navLabel>
+      <content src="dummy_split_048.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="44e0201d-ef20-4ed3-8cbd-d0032e739c2f" playOrder="27">
+      <navLabel>
+        <text>22. Autumn of the Matriarch</text>
+      </navLabel>
+      <content src="dummy_split_050.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="c2cf2676-33d2-41d5-8a75-b496cda10384" playOrder="28">
+      <navLabel>
+        <text>23. Life Without the Congress</text>
+      </navLabel>
+      <content src="dummy_split_053.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="5b9dfcc3-7d51-45fc-a9f9-e2652ff24925" playOrder="29">
+      <navLabel>
+        <text>24. Democracy in Disarray</text>
+      </navLabel>
+      <content src="dummy_split_055.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="fa1de231-1670-45e7-bb7b-4fb58e108c3e" playOrder="30">
+      <navLabel>
+        <text>25. This Son also Rises</text>
+      </navLabel>
+      <content src="dummy_split_057.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="a7f472d8-f877-4b5f-ae05-053f58d510fd" playOrder="31">
+      <navLabel>
+        <text>P ART F IVE – A H ISTORY OF E VENTS</text>
+      </navLabel>
+      <content src="dummy_split_059.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="b110259f-02d9-428b-837e-270abe49992a" playOrder="32">
+      <navLabel>
+        <text>26. Rights</text>
+      </navLabel>
+      <content src="dummy_split_061.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="1287dcd1-453d-4106-8236-2557ca10715d" playOrder="33">
+      <navLabel>
+        <text>27. Riots</text>
+      </navLabel>
+      <content src="dummy_split_063.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="c83f43e7-e7d1-4d5f-aad0-6a6f59218b43" playOrder="34">
+      <navLabel>
+        <text>28. Rulers</text>
+      </navLabel>
+      <content src="dummy_split_065.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="33a02d40-6445-4f79-b386-895cbc0e6225" playOrder="35">
+      <navLabel>
+        <text>29. Riches</text>
+      </navLabel>
+      <content src="dummy_split_067.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="63e01e0b-323f-44ec-8cf8-65b610e08755" playOrder="36">
+      <navLabel>
+        <text>30. A People’s Entertainments</text>
+      </navLabel>
+      <content src="dummy_split_069.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="6fa35cbb-d679-4e68-b5b3-aa614ec3cb14" playOrder="37">
+      <navLabel>
+        <text>Epilogue: Why India Survives</text>
+      </navLabel>
+      <content src="dummy_split_071.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="e94709de-6c8f-4e6b-b5ec-063a1985a013" playOrder="38">
+      <navLabel>
+        <text>Acknowledgements</text>
+      </navLabel>
+      <content src="dummy_split_075.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="9852020b-2cb3-45d8-ba84-e175301fee6a" playOrder="39">
+      <navLabel>
+        <text>Notes</text>
+      </navLabel>
+      <content src="dummy_split_076.html"/>
+    </navPoint>
+    <navPoint class="chapter" id="d17714aa-5949-44a4-93d6-e482cbf4666c" playOrder="40">
+      <navLabel>
+        <text>Index</text>
+      </navLabel>
+      <content src="dummy_split_080.html"/>
+    </navPoint>
+  </navMap>
+</ncx>
