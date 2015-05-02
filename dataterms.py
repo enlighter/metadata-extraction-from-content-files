@@ -8,23 +8,27 @@ dublin_core_elements = {'title':(),
              'contributor': {
              				'author' : (),
              				'illustrator' : (),
-             				'editor' : ()
+             				'editor' : (),
+                                    'none' : ()
              				},
              'date': {
              			'created' : (),
              			'accessioned' : (),
-             			'copyright' : ()
+             			'copyright' : (),
+                              'none' : ()
              			},
              'type':(),
              'format': {
              			'extent' : (),
-             			'mimetype' : ()
+             			'mimetype' : (),
+                              'none' : ()
              			},
              'identifier': {
              				'uri' : (),
              				'isbn' : (),
              				'issn' : (),
-             				'citation' : ()
+             				'citation' : (),
+                                    'none' : ()
              				},
              'source':(),
              'language':(),
@@ -32,6 +36,10 @@ dublin_core_elements = {'title':(),
              'coverage':(),
              'rights':()
 }
+
+# dc_elements_helper = {
+#       'author' :
+# }
 
 synonymous = {
       'illustrator' : ("graphics", "cover",)
