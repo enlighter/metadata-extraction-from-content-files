@@ -97,17 +97,25 @@ class metadata_extraction(epub.EpubReader):
 		self.process()
 		self.def_met = {}	# the default metadata from epub's metadata
 		self.extracted_elements = dataterms.dublin_core_elements
+		# self.ee_helper = dataterms.
 
-	def _reduce_to_tuple_(self, given_list=[]):
+	def _reduce_list_(self, given_list=[]):
 	# relevant to ebooklib metadata elements
-		return_tuple = ()
+		ret_dict = {}
 
-		# list the tuples inside list
-		for iteritem in given_list:
-			if iteritem:
-				return_tuple += iteritem
+		for element in given_list:
+				#type(element) = tuple
+				namespace = epub.NAMESPACES['OPF']
+				sub_dict = element[1]
+				#type(sub_dict) = dict
+				if sub_dict:
+					for k,v in sub_dict.items():
+						if namespace not in k:
+							ret_dict[v] = element[0]
+				else:
+					ret_dict[element[0]] = None
 
-		return return_tuple
+		return ret_dict
 
 	def default_metadata(self):
 		namespace = epub.NAMESPACES['DC']
@@ -119,16 +127,10 @@ class metadata_extraction(epub.EpubReader):
 
 		for key,value in self.def_met.items() :
 			# type(value) = list.
-			for element in value:
-				#type(element) = tuple
-				print(element[0])
-				namespace = epub.NAMESPACES['OPF']
-				s = element[1]
-				#type(s) = dict
-				if s:
-					for k,v in s.items():
-						if namespace not in k:
-							print("%s:%s"%(k,v))
+			print("%{0}%".format(key))
+			pprint(value)
+			sub_dict = self._reduce_list_(value)
+			pprint(sub_dict)
 
 	def extract(self):
 		self.default_metadata()
@@ -148,7 +150,7 @@ def get_epub_info(filename):
 	publisher = book.get_metadata('DC', 'publisher')  # get metadata from namespace DC and name publisher
 	pprint(publisher)
 	met = metadata_extraction(filename)
-	print(met)
+	#print(met)
 	#met.extract_default_metadata()
 	met.extract()
 
