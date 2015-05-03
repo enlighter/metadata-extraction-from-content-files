@@ -10,7 +10,7 @@ dublin_core_elements = {'title':(),
              				'illustrator' : (),
              				'editor' : (),
                                     'none' : ()
-             				},
+                                    },
              'date': {
              			'created' : (),
              			'accessioned' : (),
@@ -32,7 +32,13 @@ dublin_core_elements = {'title':(),
              				},
              'source':(),
              'language':(),
-             'relation':(), # 'ispartof', 'ispartofseries', 'haspart', 'isrefencedby', 'refernces' to be got from this
+             'relation': {    
+                              'ispartof' : (),
+                              'ispartofseries' : (),
+                              'haspart' : (),
+                              'isrefencedby' : (),
+                              'refernces' : ()
+                              },
              'coverage':(),
              'rights':()
 }
