@@ -123,7 +123,6 @@ class metadata_extraction(epub.EpubReader):
 
 	def extract_default_metadata(self):
 		pprint(self.extracted_elements)
-		print(self.extracted_elements.get('coverage'))
 
 		for key,value in self.def_met.items() :
 			# type(value) = list.
@@ -131,6 +130,23 @@ class metadata_extraction(epub.EpubReader):
 			pprint(value)
 			sub_dict = self._reduce_list_(value)
 			pprint(sub_dict)
+
+			if key in self.extracted_elements:
+				if type(self.extracted_elements[key]) == dict:
+				# if this condition is fulfilled then check if sub_dict element is a
+				# standalone value or if it is a sub-qualifier value
+					for k,v in sub_dict.items():
+						if v:
+						# if this condition is fulfilled then sub_dict element is a
+						# sub-qualifier value
+							if k in self.extracted_elements[key]:
+								self.extracted_elements[key][k] += (v,)
+						else:
+						# if this condition is fulfilled then sub_dict element is a
+						# standalone value
+							self.extracted_elements[key]['none'] += (k,)
+
+		pprint(self.extracted_elements)
 
 	def extract(self):
 		self.default_metadata()

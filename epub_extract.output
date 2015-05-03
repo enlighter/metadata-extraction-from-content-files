@@ -1,5 +1,4 @@
 [('Packt Publishing', {})]
-Class <metadata_extraction(epub.EpubReader)>
 {
     'identifier': [('_id286448480', {'id': 'bookid'})],
     'language': [('en', {})],
@@ -29,7 +28,9 @@ Class <metadata_extraction(epub.EpubReader)>
     'title': (),
     'type': (),
 }
-()
+%identifier%
+[('_id286448480', {'id': 'bookid'})]
+{'bookid': '_id286448480'}
 %language%
 [('en', {})]
 {'en': None}
@@ -39,11 +40,30 @@ Class <metadata_extraction(epub.EpubReader)>
 %title%
 [('Learning jQuery Fourth Edition', {})]
 {'Learning jQuery Fourth Edition': None}
-%identifier%
-[('_id286448480', {'id': 'bookid'})]
-{'bookid': '_id286448480'}
+{
+    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
+    'coverage': (),
+    'creator': (),
+    'date': {'accessioned': (), 'copyright': (), 'created': (), 'none': ()},
+    'description': (),
+    'format': {'extent': (), 'mimetype': (), 'none': ()},
+    'identifier': {
+        'citation': (),
+        'isbn': (),
+        'issn': (),
+        'none': (),
+        'uri': (),
+    },
+    'language': (),
+    'publisher': (),
+    'relation': (),
+    'rights': (),
+    'source': (),
+    'subject': (),
+    'title': (),
+    'type': (),
+}
 [('Pan Books', {})]
-Class <metadata_extraction(epub.EpubReader)>
 {
     'contributor': [
         (
@@ -95,10 +115,26 @@ Class <metadata_extraction(epub.EpubReader)>
     'title': (),
     'type': (),
 }
-()
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
+%identifier%
+[
+    (
+        'cee3ce64-6245-4360-9ee5-70a2aaba296d',
+        {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
+    ),
+]
+{'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d'}
+%publisher%
+[('Pan Books', {})]
+{'Pan Books': None}
+%title%
+[('India After Gandhi', {})]
+{'India After Gandhi': None}
+%language%
+[('en', {})]
+{'en': None}
 %contributor%
 [
     (
@@ -107,15 +143,9 @@ Class <metadata_extraction(epub.EpubReader)>
     ),
 ]
 {}
-%language%
-[('en', {})]
-{'en': None}
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
 %creator%
 [
     (
@@ -127,14 +157,31 @@ Class <metadata_extraction(epub.EpubReader)>
     ),
 ]
 {}
-%identifier%
-[
-    (
-        'cee3ce64-6245-4360-9ee5-70a2aaba296d',
-        {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
-    ),
-]
-{'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d'}
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
+{
+    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
+    'coverage': (),
+    'creator': (),
+    'date': {
+        'accessioned': (),
+        'copyright': (),
+        'created': (),
+        'none': ('2011-02-09T16:00:00+00:00', ),
+    },
+    'description': (),
+    'format': {'extent': (), 'mimetype': (), 'none': ()},
+    'identifier': {
+        'citation': (),
+        'isbn': (),
+        'issn': (),
+        'none': (),
+        'uri': (),
+    },
+    'language': (),
+    'publisher': (),
+    'relation': (),
+    'rights': (),
+    'source': (),
+    'subject': (),
+    'title': (),
+    'type': (),
+}
