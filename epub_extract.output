@@ -28,18 +28,18 @@
     'title': (),
     'type': (),
 }
-%identifier%
-[('_id286448480', {'id': 'bookid'})]
-{'bookid': '_id286448480'}
-%language%
-[('en', {})]
-{'en': None}
 %publisher%
 [('Packt Publishing', {})]
 {'Packt Publishing': None}
 %title%
 [('Learning jQuery Fourth Edition', {})]
 {'Learning jQuery Fourth Edition': None}
+%identifier%
+[('_id286448480', {'id': 'bookid'})]
+{'bookid': '_id286448480'}
+%language%
+[('en', {})]
+{'en': None}
 {
     'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
     'coverage': (),
@@ -115,6 +115,12 @@
     'title': (),
     'type': (),
 }
+%title%
+[('India After Gandhi', {})]
+{'India After Gandhi': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
 %date%
 [('2011-02-09T16:00:00+00:00', {})]
 {'2011-02-09T16:00:00+00:00': None}
@@ -125,16 +131,10 @@
         {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
     ),
 ]
-{'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d'}
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
-%language%
-[('en', {})]
-{'en': None}
+{
+    'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
+    'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
+}
 %contributor%
 [
     (
@@ -142,10 +142,10 @@
         {'{http://www.idpf.org/2007/opf}role': 'bkp'},
     ),
 ]
-{}
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
+{'calibre (0.8.29) [http://calibre-ebook.com]': None}
+%publisher%
+[('Pan Books', {})]
+{'Pan Books': None}
 %creator%
 [
     (
@@ -156,9 +156,17 @@
         },
     ),
 ]
-{}
+{'Guha, Ramachandra': None}
+%language%
+[('en', {})]
+{'en': None}
 {
-    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
+    'contributor': {
+        'author': (),
+        'editor': (),
+        'illustrator': (),
+        'none': ('calibre (0.8.29) [http://calibre-ebook.com]', ),
+    },
     'coverage': (),
     'creator': (),
     'date': {
@@ -173,7 +181,7 @@
         'citation': (),
         'isbn': (),
         'issn': (),
-        'none': (),
+        'none': ('cee3ce64-6245-4360-9ee5-70a2aaba296d', ),
         'uri': (),
     },
     'language': (),

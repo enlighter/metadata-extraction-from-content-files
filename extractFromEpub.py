@@ -112,6 +112,8 @@ class metadata_extraction(epub.EpubReader):
 					for k,v in sub_dict.items():
 						if namespace not in k:
 							ret_dict[v] = element[0]
+						else :
+							ret_dict[element[0]] = None
 				else:
 					ret_dict[element[0]] = None
 
