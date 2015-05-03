@@ -9,7 +9,7 @@
 	__license__: "GPLv2"
 	__email__: "mandal.sushovan92@gmail.com"
 
-	use python3
+	use python >= 3.4
 	use ebooklib=0.15
 '''
 # !/usr/bin/python2
@@ -92,13 +92,24 @@ import dataterms
 
 class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
+		print("Creating new instance")
 		epub.EpubReader.__init__(self, filename)
 		self.book = self.load()
 		self.process()
+		self.__reset__()
+		# self.ee_helper = dataterms.
+
+	def __reset__(self):
 		self.def_met = {}
 		''' the default metadata from epub's metadata '''
-		self.extracted_elements = dataterms.dublin_core_elements
-		# self.ee_helper = dataterms.
+		dc = dataterms.dc_elems()
+		self.extracted_elements = dc.dublin_core_elements
+
+	# def __enter__(self):
+	# 	print("creating object")
+	# 	#self.__init__(filename)
+
+	# 	return self
 
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
@@ -141,7 +152,7 @@ class metadata_extraction(epub.EpubReader):
 		self.def_met = self.book.metadata[namespace]
 
 	def extract_default_metadata(self):
-		#pprint(self.extracted_elements)
+		pprint(self.extracted_elements)
 
 		for key,value in self.def_met.items() :
 			''' type(value) = list. '''
@@ -185,6 +196,10 @@ class metadata_extraction(epub.EpubReader):
 
 	def __repr__(self):
 		return "metadata_extraction(\"" + self.file_name + "\")"
+
+	# def __del__(self):
+	# 	print("Deleting '" + self.file_name + "'instance")
+	# 	self.extracted_elements.clear()
 
 def get_epub_info(filename):
 	book = epub.read_epub(filename)

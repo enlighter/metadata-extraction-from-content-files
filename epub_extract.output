@@ -1,3 +1,5 @@
+Creating new instance
+Creating new dc instance
 Class <metadata_extraction(epub.EpubReader)>
 metadata_extraction("extras/sample0.epub")
 {
@@ -6,18 +8,47 @@ metadata_extraction("extras/sample0.epub")
     'publisher': [('Packt Publishing', {})],
     'title': [('Learning jQuery Fourth Edition', {})],
 }
+{
+    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
+    'coverage': (),
+    'creator': (),
+    'date': {'accessioned': (), 'copyright': (), 'created': (), 'none': ()},
+    'description': (),
+    'format': {'extent': (), 'mimetype': (), 'none': ()},
+    'identifier': {
+        'citation': (),
+        'isbn': (),
+        'issn': (),
+        'none': (),
+        'uri': (),
+    },
+    'language': (),
+    'publisher': (),
+    'relation': {
+        'haspart': (),
+        'ispartof': (),
+        'ispartofseries': (),
+        'isrefencedby': (),
+        'refernces': (),
+    },
+    'rights': (),
+    'source': (),
+    'subject': (),
+    'title': (),
+    'type': (),
+}
 %publisher%
 [('Packt Publishing', {})]
 {'Packt Publishing': None}
 %title%
 [('Learning jQuery Fourth Edition', {})]
 {'Learning jQuery Fourth Edition': None}
-%language%
-[('en', {})]
-{'en': None}
 %identifier%
 [('_id286448480', {'id': 'bookid'})]
 {'bookid': '_id286448480'}
+%language%
+[('en', {})]
+{'en': None}
 {
     'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
     'coverage': (),
@@ -47,6 +78,8 @@ metadata_extraction("extras/sample0.epub")
     'title': ('Learning jQuery Fourth Edition', ),
     'type': (),
 }
+Creating new instance
+Creating new dc instance
 Class <metadata_extraction(epub.EpubReader)>
 metadata_extraction("extras/sample1.epub")
 {
@@ -77,20 +110,38 @@ metadata_extraction("extras/sample1.epub")
     'subject': [('General Fiction', {})],
     'title': [('India After Gandhi', {})],
 }
-%contributor%
-[
-    (
-        'calibre (0.8.29) [http://calibre-ebook.com]',
-        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
-    ),
-]
-{'calibre (0.8.29) [http://calibre-ebook.com]': None}
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
+{
+    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
+    'coverage': (),
+    'creator': (),
+    'date': {'accessioned': (), 'copyright': (), 'created': (), 'none': ()},
+    'description': (),
+    'format': {'extent': (), 'mimetype': (), 'none': ()},
+    'identifier': {
+        'citation': (),
+        'isbn': (),
+        'issn': (),
+        'none': (),
+        'uri': (),
+    },
+    'language': (),
+    'publisher': (),
+    'relation': {
+        'haspart': (),
+        'ispartof': (),
+        'ispartofseries': (),
+        'isrefencedby': (),
+        'refernces': (),
+    },
+    'rights': (),
+    'source': (),
+    'subject': (),
+    'title': (),
+    'type': (),
+}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
 %identifier%
 [
     (
@@ -102,9 +153,26 @@ metadata_extraction("extras/sample1.epub")
     'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
     'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
 }
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
+%language%
+[('en', {})]
+{'en': None}
+%contributor%
+[
+    (
+        'calibre (0.8.29) [http://calibre-ebook.com]',
+        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
+    ),
+]
+{'calibre (0.8.29) [http://calibre-ebook.com]': None}
+%title%
+[('India After Gandhi', {})]
+{'India After Gandhi': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
+%publisher%
+[('Pan Books', {})]
+{'Pan Books': None}
 %creator%
 [
     (
@@ -116,12 +184,6 @@ metadata_extraction("extras/sample1.epub")
     ),
 ]
 {'Guha, Ramachandra': None}
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
-%language%
-[('en', {})]
-{'en': None}
 {
     'contributor': {
         'author': (),
@@ -146,8 +208,8 @@ metadata_extraction("extras/sample1.epub")
         'none': ('cee3ce64-6245-4360-9ee5-70a2aaba296d', ),
         'uri': (),
     },
-    'language': ('en', 'en'),
-    'publisher': ('Packt Publishing', 'Pan Books'),
+    'language': ('en', ),
+    'publisher': ('Pan Books', ),
     'relation': {
         'haspart': (),
         'ispartof': (),
@@ -158,6 +220,6 @@ metadata_extraction("extras/sample1.epub")
     'rights': (),
     'source': (),
     'subject': ('General Fiction', ),
-    'title': ('Learning jQuery Fourth Edition', 'India After Gandhi'),
+    'title': ('India After Gandhi', ),
     'type': (),
 }
