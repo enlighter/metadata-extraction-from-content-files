@@ -95,19 +95,20 @@ class metadata_extraction(epub.EpubReader):
 		epub.EpubReader.__init__(self, filename)
 		self.book = self.load()
 		self.process()
-		self.def_met = {}	# the default metadata from epub's metadata
+		self.def_met = {}
+		''' the default metadata from epub's metadata '''
 		self.extracted_elements = dataterms.dublin_core_elements
 		# self.ee_helper = dataterms.
 
 	def _reduce_list_(self, given_list=[]):
-	# relevant to ebooklib metadata elements
+		''' relevant to ebooklib metadata elements '''
 		ret_dict = {}
 
 		for element in given_list:
-				#type(element) = tuple
+				''' type(element) = tuple '''
 				namespace = epub.NAMESPACES['OPF']
 				sub_dict = element[1]
-				#type(sub_dict) = dict
+				''' type(sub_dict) = dict '''
 				if sub_dict:
 					for k,v in sub_dict.items():
 						if namespace not in k:
@@ -119,15 +120,31 @@ class metadata_extraction(epub.EpubReader):
 
 		return ret_dict
 
+	def _value_from_(self, get_dict={}):
+		''' relevant to dictionaries returned by _reduce_list_ '''
+		ret = ()
+
+		for k,v in get_dict.items():
+			if v:
+				''' if this condition is fulfilled then get_dict element is a
+				sub-qualifier value '''
+				ret += (v,)
+			else:
+				''' if this condition is fulfilled then get_dict element is a
+				standalone value '''
+				ret += (k,)
+
+		return ret
+
 	def default_metadata(self):
 		namespace = epub.NAMESPACES['DC']
 		self.def_met = self.book.metadata[namespace]
 
 	def extract_default_metadata(self):
-		pprint(self.extracted_elements)
+		#pprint(self.extracted_elements)
 
 		for key,value in self.def_met.items() :
-			# type(value) = list.
+			''' type(value) = list. '''
 			print("%{0}%".format(key))
 			pprint(value)
 			sub_dict = self._reduce_list_(value)
@@ -135,28 +152,25 @@ class metadata_extraction(epub.EpubReader):
 
 			if key in self.extracted_elements:
 				if type(self.extracted_elements[key]) == dict:
-				# if this condition is fulfilled then check if sub_dict element is a
-				# standalone value or if it is a sub-qualifier value
+					''' if this condition is fulfilled then check if sub_dict element is a
+					standalone value or if it is a sub-qualifier value '''
 					for k,v in sub_dict.items():
 						if v:
-						# if this condition is fulfilled then sub_dict element is a
-						# sub-qualifier value
+							''' if this condition is fulfilled then sub_dict element is a
+							sub-qualifier value '''
 							if k in self.extracted_elements[key]:
 								self.extracted_elements[key][k] += (v,)
 						else:
-						# if this condition is fulfilled then sub_dict element is a
-						# standalone value
+							''' if this condition is fulfilled then sub_dict element is a
+							standalone value '''
 							self.extracted_elements[key]['none'] += (k,)
 				else:
-					for k,v in sub_dict.items():
-						if v:
-						# if this condition is fulfilled then sub_dict element is a
-						# sub-qualifier value
-							self.extracted_elements[key] += (v,)
-						else:
-						# if this condition is fulfilled then sub_dict element is a
-						# standalone value
-							self.extracted_elements[key] += (k,)
+					self.extracted_elements[key] += self._value_from_(sub_dict)
+			else:
+				for k in self.extracted_elements:
+					if key in self.extracted_elements[k]:
+						self.extracted_elements[k][key] += self._value_from_(sub_dict)
+
 
 		pprint(self.extracted_elements)
 
@@ -166,8 +180,6 @@ class metadata_extraction(epub.EpubReader):
 
 		self.extract_default_metadata()
 
-		#pprint( self._reduce_to_tuple(self.book.get_metadata('DC', 'publisher')) )
-
 	def __str__(self):
 		return "Class <metadata_extraction(epub.EpubReader)>"
 
@@ -175,8 +187,8 @@ def get_epub_info(filename):
 	book = epub.read_epub(filename)
 	# metadata = book.metadata
 	# pprint(metadata)
-	publisher = book.get_metadata('DC', 'publisher')  # get metadata from namespace DC and name publisher
-	pprint(publisher)
+	#publisher = book.get_metadata('DC', 'publisher')  # get metadata from namespace DC and name publisher
+	#pprint(publisher)
 	met = metadata_extraction(filename)
 	#print(met)
 	#met.extract_default_metadata()

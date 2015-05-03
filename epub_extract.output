@@ -1,48 +1,18 @@
-[('Packt Publishing', {})]
 {
     'identifier': [('_id286448480', {'id': 'bookid'})],
     'language': [('en', {})],
     'publisher': [('Packt Publishing', {})],
     'title': [('Learning jQuery Fourth Edition', {})],
 }
-{
-    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
-    'coverage': (),
-    'creator': (),
-    'date': {'accessioned': (), 'copyright': (), 'created': (), 'none': ()},
-    'description': (),
-    'format': {'extent': (), 'mimetype': (), 'none': ()},
-    'identifier': {
-        'citation': (),
-        'isbn': (),
-        'issn': (),
-        'none': (),
-        'uri': (),
-    },
-    'language': (),
-    'publisher': (),
-    'relation': {
-        'haspart': (),
-        'ispartof': (),
-        'ispartofseries': (),
-        'isrefencedby': (),
-        'refernces': (),
-    },
-    'rights': (),
-    'source': (),
-    'subject': (),
-    'title': (),
-    'type': (),
-}
+%identifier%
+[('_id286448480', {'id': 'bookid'})]
+{'bookid': '_id286448480'}
 %language%
 [('en', {})]
 {'en': None}
 %publisher%
 [('Packt Publishing', {})]
 {'Packt Publishing': None}
-%identifier%
-[('_id286448480', {'id': 'bookid'})]
-{'bookid': '_id286448480'}
 %title%
 [('Learning jQuery Fourth Edition', {})]
 {'Learning jQuery Fourth Edition': None}
@@ -75,7 +45,6 @@
     'title': ('Learning jQuery Fourth Edition', ),
     'type': (),
 }
-[('Pan Books', {})]
 {
     'contributor': [
         (
@@ -104,41 +73,6 @@
     'subject': [('General Fiction', {})],
     'title': [('India After Gandhi', {})],
 }
-{
-    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
-    'coverage': (),
-    'creator': (),
-    'date': {'accessioned': (), 'copyright': (), 'created': (), 'none': ()},
-    'description': (),
-    'format': {'extent': (), 'mimetype': (), 'none': ()},
-    'identifier': {
-        'citation': (),
-        'isbn': (),
-        'issn': (),
-        'none': (),
-        'uri': (),
-    },
-    'language': ('en', ),
-    'publisher': ('Packt Publishing', ),
-    'relation': {
-        'haspart': (),
-        'ispartof': (),
-        'ispartofseries': (),
-        'isrefencedby': (),
-        'refernces': (),
-    },
-    'rights': (),
-    'source': (),
-    'subject': (),
-    'title': ('Learning jQuery Fourth Edition', ),
-    'type': (),
-}
-%language%
-[('en', {})]
-{'en': None}
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
 %contributor%
 [
     (
@@ -158,9 +92,15 @@
     ),
 ]
 {'Guha, Ramachandra': None}
+%publisher%
+[('Pan Books', {})]
+{'Pan Books': None}
 %title%
 [('India After Gandhi', {})]
 {'India After Gandhi': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
 %identifier%
 [
     (
@@ -172,9 +112,9 @@
     'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
     'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
 }
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
+%language%
+[('en', {})]
+{'en': None}
 %date%
 [('2011-02-09T16:00:00+00:00', {})]
 {'2011-02-09T16:00:00+00:00': None}
