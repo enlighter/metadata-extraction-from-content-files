@@ -60,14 +60,6 @@ import dataterms
 # 	html_dump.close()
 # 	return html_soup
 
-# def finishing_touches(element_dict):
-# 	if element_dict['creator'] not in element_dict['contributor']['author']:
-# 		element_dict['contributor']['author'] += element_dict['creator']
-
-# 	ret = dict(element_dict)
-# 	del ret['creator']
-# 	return ret
-
 # def find_by(description, token_list, section):
 # 	extract = False
 # 	ret = ()
@@ -141,6 +133,18 @@ class metadata_extraction(epub.EpubReader):
 
 		return ret
 
+	def _finishing_touches_(self):
+		if self.extracted_elements['creator'] not in self.extracted_elements['contributor']['author']:
+			self.extracted_elements['contributor']['author'] += self.extracted_elements['creator']
+		# if element_dict['creator'] not in element_dict['contributor']['author']:
+		# 	element_dict['contributor']['author'] += element_dict['creator']
+		self.extracted_elements.__delitem__('creator')
+
+		# ret = dict(element_dict)
+		# ret.__delitem__('creator')
+		# #del ret['creator']
+		# return ret
+
 	def default_metadata(self):
 		namespace = epub.NAMESPACES['DC']
 		self.def_met = self.book.metadata[namespace]
@@ -176,14 +180,14 @@ class metadata_extraction(epub.EpubReader):
 					if key in self.extracted_elements[k]:
 						self.extracted_elements[k][key] += self._value_from_(sub_dict)
 
-
-		pprint(self.extracted_elements)
-
 	def extract(self):
 		self.default_metadata()
 		pprint(self.def_met)
 
 		self.extract_default_metadata()
+		self._finishing_touches_()
+
+		pprint(self.extracted_elements)
 
 	def __str__(self):
 		return "Class <metadata_extraction(epub.EpubReader)>"

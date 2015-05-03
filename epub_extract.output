@@ -37,22 +37,21 @@ metadata_extraction("extras/sample0.epub")
     'title': (),
     'type': (),
 }
-%publisher%
-[('Packt Publishing', {})]
-{'Packt Publishing': None}
-%title%
-[('Learning jQuery Fourth Edition', {})]
-{'Learning jQuery Fourth Edition': None}
 %identifier%
 [('_id286448480', {'id': 'bookid'})]
 {'bookid': '_id286448480'}
+%title%
+[('Learning jQuery Fourth Edition', {})]
+{'Learning jQuery Fourth Edition': None}
 %language%
 [('en', {})]
 {'en': None}
+%publisher%
+[('Packt Publishing', {})]
+{'Packt Publishing': None}
 {
     'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
     'coverage': (),
-    'creator': (),
     'date': {'accessioned': (), 'copyright': (), 'created': (), 'none': ()},
     'description': (),
     'format': {'extent': (), 'mimetype': (), 'none': ()},
@@ -139,9 +138,6 @@ metadata_extraction("extras/sample1.epub")
     'title': (),
     'type': (),
 }
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
 %identifier%
 [
     (
@@ -153,9 +149,12 @@ metadata_extraction("extras/sample1.epub")
     'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
     'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
 }
-%language%
-[('en', {})]
-{'en': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
 %contributor%
 [
     (
@@ -164,15 +163,12 @@ metadata_extraction("extras/sample1.epub")
     ),
 ]
 {'calibre (0.8.29) [http://calibre-ebook.com]': None}
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
 %publisher%
 [('Pan Books', {})]
 {'Pan Books': None}
+%language%
+[('en', {})]
+{'en': None}
 %creator%
 [
     (
@@ -184,15 +180,17 @@ metadata_extraction("extras/sample1.epub")
     ),
 ]
 {'Guha, Ramachandra': None}
+%title%
+[('India After Gandhi', {})]
+{'India After Gandhi': None}
 {
     'contributor': {
-        'author': (),
+        'author': ('Guha, Ramachandra', ),
         'editor': (),
         'illustrator': (),
         'none': ('calibre (0.8.29) [http://calibre-ebook.com]', ),
     },
     'coverage': (),
-    'creator': ('Guha, Ramachandra', ),
     'date': {
         'accessioned': (),
         'copyright': (),
