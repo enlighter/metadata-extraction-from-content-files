@@ -183,6 +183,9 @@ class metadata_extraction(epub.EpubReader):
 	def __str__(self):
 		return "Class <metadata_extraction(epub.EpubReader)>"
 
+	def __repr__(self):
+		return "metadata_extraction(\"" + self.file_name + "\")"
+
 def get_epub_info(filename):
 	book = epub.read_epub(filename)
 	# metadata = book.metadata
@@ -190,7 +193,8 @@ def get_epub_info(filename):
 	#publisher = book.get_metadata('DC', 'publisher')  # get metadata from namespace DC and name publisher
 	#pprint(publisher)
 	met = metadata_extraction(filename)
-	#print(met)
+	print(met)
+	print(repr(met))
 	#met.extract_default_metadata()
 	met.extract()
 
