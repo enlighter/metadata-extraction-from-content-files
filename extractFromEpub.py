@@ -34,27 +34,7 @@ import dataterms
 # 			print "got %s" %value
 # 			return item.get_file()
 
-# def dump_html(to_dump):
-# 	#os.chdir('tmp')
-# 	#os.listdir(r'./')
-# 	try:
-# 		html_dump = open(r'./tmp/temp_html','wb')
-# 	except:
-# 		e = sys.exc_info()
-# 		pprint(e)
-# 	#os.chdir('..')
-
-# 	pickle.dump( to_dump, html_dump, -1)
-# 	html_dump.close()
-
 # def create_soup_from_html_dump():
-# 	try:
-# 		html_dump = open(r'./tmp/temp_html','rb')
-# 	except:
-# 		e = sys.exc_info()
-# 		pprint(e)
-# 		return
-
 # 	html_soup = bs( pickle.load(html_dump), "lxml") #markup using lxml's html parser
 
 # 	html_dump.close()
@@ -81,6 +61,30 @@ import dataterms
 # 			except KeyError:
 # 				print("no synonym, continuing...")
 # 	return ret
+
+class data_dump:
+	def __init__(self, to_dump):
+		self.to_dump = to_dump
+		self.__data_dump = None
+		self.__data_load = None
+
+	def dump(self):
+		try:
+			self.__data_dump = open(r'./tmp/extract','wb')
+		except:
+			e = sys.exc_info()
+			pprint(e)
+		pickle.dump( self.to_dump, self.__data_dump, -1)
+		self.__data_dump.close()
+
+	def load(self):
+		try:
+			self.__data_load = open(r'./tmp/extract','rb')
+		except:
+			e = sys.exc_info()
+			pprint(e)
+		ret = pickle.load(self.__data_load)
+		self.__data_load.close()
 
 class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
