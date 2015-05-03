@@ -54,13 +54,13 @@
         'none': (),
         'uri': (),
     },
-    'language': (),
-    'publisher': (),
+    'language': ('en', ),
+    'publisher': ('Packt Publishing', ),
     'relation': (),
     'rights': (),
     'source': (),
     'subject': (),
-    'title': (),
+    'title': ('Learning jQuery Fourth Edition', ),
     'type': (),
 }
 [('Pan Books', {})]
@@ -106,43 +106,15 @@
         'none': (),
         'uri': (),
     },
-    'language': (),
-    'publisher': (),
+    'language': ('en', ),
+    'publisher': ('Packt Publishing', ),
     'relation': (),
     'rights': (),
     'source': (),
     'subject': (),
-    'title': (),
+    'title': ('Learning jQuery Fourth Edition', ),
     'type': (),
 }
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
-%identifier%
-[
-    (
-        'cee3ce64-6245-4360-9ee5-70a2aaba296d',
-        {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
-    ),
-]
-{
-    'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
-    'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
-}
-%contributor%
-[
-    (
-        'calibre (0.8.29) [http://calibre-ebook.com]',
-        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
-    ),
-]
-{'calibre (0.8.29) [http://calibre-ebook.com]': None}
 %publisher%
 [('Pan Books', {})]
 {'Pan Books': None}
@@ -160,6 +132,34 @@
 %language%
 [('en', {})]
 {'en': None}
+%title%
+[('India After Gandhi', {})]
+{'India After Gandhi': None}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
+%contributor%
+[
+    (
+        'calibre (0.8.29) [http://calibre-ebook.com]',
+        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
+    ),
+]
+{'calibre (0.8.29) [http://calibre-ebook.com]': None}
+%identifier%
+[
+    (
+        'cee3ce64-6245-4360-9ee5-70a2aaba296d',
+        {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
+    ),
+]
+{
+    'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
+    'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
+}
 {
     'contributor': {
         'author': (),
@@ -168,7 +168,7 @@
         'none': ('calibre (0.8.29) [http://calibre-ebook.com]', ),
     },
     'coverage': (),
-    'creator': (),
+    'creator': ('Guha, Ramachandra', ),
     'date': {
         'accessioned': (),
         'copyright': (),
@@ -184,12 +184,12 @@
         'none': ('cee3ce64-6245-4360-9ee5-70a2aaba296d', ),
         'uri': (),
     },
-    'language': (),
-    'publisher': (),
+    'language': ('en', 'en'),
+    'publisher': ('Packt Publishing', 'Pan Books'),
     'relation': (),
     'rights': (),
     'source': (),
-    'subject': (),
-    'title': (),
+    'subject': ('General Fiction', ),
+    'title': ('Learning jQuery Fourth Edition', 'India After Gandhi'),
     'type': (),
 }

@@ -147,6 +147,18 @@ class metadata_extraction(epub.EpubReader):
 						# if this condition is fulfilled then sub_dict element is a
 						# standalone value
 							self.extracted_elements[key]['none'] += (k,)
+				else:
+					for k,v in sub_dict.items():
+						if v:
+						# if this condition is fulfilled then sub_dict element is a
+						# sub-qualifier value
+							if not self.extracted_elements[key][k]:
+								self.extracted_elements[key][k] = ()
+							self.extracted_elements[key][k] += (v,)
+						else:
+						# if this condition is fulfilled then sub_dict element is a
+						# standalone value
+							self.extracted_elements[key] += (k,)
 
 		pprint(self.extracted_elements)
 
