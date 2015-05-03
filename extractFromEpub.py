@@ -105,12 +105,6 @@ class metadata_extraction(epub.EpubReader):
 		dc = dataterms.dc_elems()
 		self.extracted_elements = dc.dublin_core_elements
 
-	# def __enter__(self):
-	# 	print("creating object")
-	# 	#self.__init__(filename)
-
-	# 	return self
-
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
 		ret_dict = {}
@@ -197,16 +191,11 @@ class metadata_extraction(epub.EpubReader):
 	def __repr__(self):
 		return "metadata_extraction(\"" + self.file_name + "\")"
 
-	# def __del__(self):
-	# 	print("Deleting '" + self.file_name + "'instance")
-	# 	self.extracted_elements.clear()
 
 def get_epub_info(filename):
 	book = epub.read_epub(filename)
 	# metadata = book.metadata
 	# pprint(metadata)
-	#publisher = book.get_metadata('DC', 'publisher')  # get metadata from namespace DC and name publisher
-	#pprint(publisher)
 	met = metadata_extraction(filename)
 	print(met)
 	print(repr(met))
