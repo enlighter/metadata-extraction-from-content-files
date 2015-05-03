@@ -63,14 +63,15 @@ import dataterms
 # 	return ret
 
 class data_dump:
-	def __init__(self, to_dump):
+	def __init__(self, to_dump, data_type='extract'):
 		self.to_dump = to_dump
+		self.type = data_type
 		self.__data_dump = None
 		self.__data_load = None
 
 	def dump(self):
 		try:
-			self.__data_dump = open(r'./tmp/extract','wb')
+			self.__data_dump = open(r'./tmp/%s'%self.type,'wb')
 		except:
 			e = sys.exc_info()
 			pprint(e)
@@ -79,12 +80,14 @@ class data_dump:
 
 	def load(self):
 		try:
-			self.__data_load = open(r'./tmp/extract','rb')
+			self.__data_load = open(r'./tmp/%s'%self.type,'rb')
 		except:
 			e = sys.exc_info()
 			pprint(e)
 		ret = pickle.load(self.__data_load)
 		self.__data_load.close()
+
+		return ret
 
 class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
@@ -192,6 +195,14 @@ class metadata_extraction(epub.EpubReader):
 		self._finishing_touches_()
 
 		pprint(self.extracted_elements)
+
+	def save_to_file(self, to_save):
+		filer = data_dump(to_save)
+		filer.dump()
+
+	def load_from_file(self):
+		filer = data_dump(None)
+		return filer.load()
 
 	def __str__(self):
 		return "Class <metadata_extraction(epub.EpubReader)>"
