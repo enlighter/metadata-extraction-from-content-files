@@ -12,7 +12,7 @@
 	use python >= 3.4
 	use ebooklib=0.15
 '''
-# !/usr/bin/python2
+#!/usr/bin/python3
 
 import sys
 import os
@@ -20,13 +20,9 @@ from ebooklib import epub  # for epub
 # from lxml import etree #for xml, html fast parser
 from pprintpp import pprint  # pretty-print
 from bs4 import BeautifulSoup as bs  # for html
-
-try:
-	import cPickle as pickle
-except:
-	import pickle
 # from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
-import dataterms
+import utils.dataterms as dataterms
+from utils.datahandler import data_dump
 
 # def get_html_from_manifest(epub, key, value):
 # 	for item in epub.manifest:
@@ -61,33 +57,6 @@ import dataterms
 # 			except KeyError:
 # 				print("no synonym, continuing...")
 # 	return ret
-
-class data_dump:
-	def __init__(self, to_dump, data_type='extract'):
-		self.to_dump = to_dump
-		self.type = data_type
-		self.__data_dump = None
-		self.__data_load = None
-
-	def dump(self):
-		try:
-			self.__data_dump = open(r'./tmp/%s'%self.type,'wb')
-		except:
-			e = sys.exc_info()
-			pprint(e)
-		pickle.dump( self.to_dump, self.__data_dump, -1)
-		self.__data_dump.close()
-
-	def load(self):
-		try:
-			self.__data_load = open(r'./tmp/%s'%self.type,'rb')
-		except:
-			e = sys.exc_info()
-			pprint(e)
-		ret = pickle.load(self.__data_load)
-		self.__data_load.close()
-
-		return ret
 
 class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
@@ -146,11 +115,6 @@ class metadata_extraction(epub.EpubReader):
 		# if element_dict['creator'] not in element_dict['contributor']['author']:
 		# 	element_dict['contributor']['author'] += element_dict['creator']
 		self.extracted_elements.__delitem__('creator')
-
-		# ret = dict(element_dict)
-		# ret.__delitem__('creator')
-		# #del ret['creator']
-		# return ret
 
 	def default_metadata(self):
 		namespace = epub.NAMESPACES['DC']
@@ -220,6 +184,7 @@ def get_epub_info(filename):
 	print(repr(met))
 	#met.extract_default_metadata()
 	met.extract()
+	met.save_to_file(met.extracted_elements)
 
 
 get_epub_info("extras/sample0.epub")
