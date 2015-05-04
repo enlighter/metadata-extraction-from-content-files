@@ -49,7 +49,7 @@ class metadata:
 		# use decode explicitly in python 3 as tostring return a byte type object
 		# which needs to be decoded to string (preferably immediately) so the program
 		# internally works only on strings
-		return tostring( self.xml, xml_declaration=True, encoding='UTF-8').decode()
+		return tostring( self.xml, pretty_print=True, xml_declaration=True, encoding='UTF-8').decode()
 
 class epub_data(metadata):
 	def __init__(self):
