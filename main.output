@@ -1,2 +1,45 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dublin_core schema="dc"/>
+Creating new instance
+Creating new dc instance
+{
+    'contributor': {
+        'author': ('Guha, Ramachandra', ),
+        'editor': (),
+        'illustrator': (),
+        'none': ('calibre (0.8.29) [http://calibre-ebook.com]', ),
+    },
+    'coverage': (),
+    'date': {
+        'accessioned': (),
+        'copyright': (),
+        'created': (),
+        'none': ('2011-02-09T16:00:00+00:00', ),
+    },
+    'description': (),
+    'format': {'extent': (), 'mimetype': (), 'none': ()},
+    'identifier': {
+        'citation': (),
+        'isbn': (),
+        'issn': (),
+        'none': ('cee3ce64-6245-4360-9ee5-70a2aaba296d', ),
+        'uri': (),
+    },
+    'language': ('en', ),
+    'publisher': ('Pan Books', ),
+    'relation': {
+        'haspart': (),
+        'ispartof': (),
+        'ispartofseries': (),
+        'isrefencedby': (),
+        'refernces': (),
+    },
+    'rights': (),
+    'source': (),
+    'subject': ('General Fiction', ),
+    'title': ('India After Gandhi', ),
+    'type': (),
+}
+2011-02-09T16:00:00+00:00, element="date", qualifier="none",
+cee3ce64-6245-4360-9ee5-70a2aaba296d, element="identifier", qualifier="none",
+calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",
+Guha, Ramachandra, element="contributor", qualifier="author",
+None
