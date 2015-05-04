@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dublin_core schema="dc">
+  <dcvalue qualifier="none" element="date" language="en">2011-02-09T16:00:00+00:00</dcvalue>
+  <dcvalue qualifier="none" element="publisher" language="en">Pan Books</dcvalue>
+  <dcvalue qualifier="none" element="language" language="en">en</dcvalue>
+  <dcvalue qualifier="none" element="identifier" language="en">cee3ce64-6245-4360-9ee5-70a2aaba296d</dcvalue>
+  <dcvalue qualifier="none" element="title" language="en">India After Gandhi</dcvalue>
+  <dcvalue qualifier="none" element="subject" language="en">General Fiction</dcvalue>
+  <dcvalue qualifier="none" element="contributor" language="en">calibre (0.8.29) [http://calibre-ebook.com]</dcvalue>
+  <dcvalue qualifier="author" element="contributor" language="en">Guha, Ramachandra</dcvalue>
+</dublin_core>
