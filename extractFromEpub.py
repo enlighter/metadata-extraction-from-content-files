@@ -15,16 +15,16 @@
 # !/usr/bin/python2
 
 import sys
-#import os
+import os
 from ebooklib import epub  # for epub
 # from lxml import etree #for xml, html fast parser
 from pprintpp import pprint  # pretty-print
-#from bs4 import BeautifulSoup as bs  # for html
+from bs4 import BeautifulSoup as bs  # for html
 
-# try:
-# 	import cPickle as pickle
-# except:
-# 	import pickle
+try:
+	import cPickle as pickle
+except:
+	import pickle
 # from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
 import dataterms
 
