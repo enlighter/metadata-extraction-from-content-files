@@ -22,10 +22,10 @@ from extractFromEpub import metadata_extraction as epub_extraction
 
 class metadata:
 	def __init__(self):
-		self._xml_wrapper_head = 'E.dublin_core("",'
-		self._xml_wrapper_tail = 'schema="dc")'
+		self._xml_wrapper_head = 'E.dublin_core('
+		self._xml_wrapper_tail = ',schema="dc")'
 		self._xml_element_head = 'E.dcvalue('
-		self._xml_element_tail = 'language="en")'
+		self._xml_element_tail = ' language="en")'
 		self._xml_body = ''
 		self.xml = ''
 
@@ -39,6 +39,8 @@ class metadata:
 		return ret
 
 	def _append_element_(self, args=''):
+		if self._xml_body:
+			self._xml_body += ','
 		self._xml_body += self._xml_element_head + args + self._xml_element_tail
 		print(self._xml_body)
 
@@ -63,15 +65,17 @@ class epub_data(metadata):
 				for k,v in self.epub_extractor.extracted_elements[key].items():
 					if v:
 						for element in v:
-							attr = element + ', element="' + key + '", qualifier="' + k + '",'
+							attr = '"' + element + '", element="' + key + '", qualifier="' + k + '",'
 							print(attr)
 							self._append_element_(attr)
 			elif value:
 				# value is a tuple here
 				for element in value:
-					attr = element + ', element="' + key + '", qualifier="none",'
+					attr = '"' + element + '", element="' + key + '", qualifier="none",'
 					print(attr)
 					self._append_element_(attr)
+
+		return self._create_xml_()
 
 
 mt = epub_data()
@@ -79,3 +83,6 @@ mt.load()
 pprint(mt.epub_extractor.extracted_elements)
 XML = mt.create_xml()
 print(XML)
+# xml = E.dublin_core(E.dcvalue("India After Gandhi", element="title", qualifier="none",language="en"),schema="dc")
+# result = tostring( xml, xml_declaration=True, encoding='UTF-8').decode()
+# print(result)
