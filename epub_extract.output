@@ -37,12 +37,12 @@ metadata_extraction("extras/sample0.epub")
     'title': (),
     'type': (),
 }
-%identifier%
-[('_id286448480', {'id': 'bookid'})]
-{'bookid': '_id286448480'}
 %title%
 [('Learning jQuery Fourth Edition', {})]
 {'Learning jQuery Fourth Edition': None}
+%identifier%
+[('_id286448480', {'id': 'bookid'})]
+{'bookid': '_id286448480'}
 %language%
 [('en', {})]
 {'en': None}
@@ -138,6 +138,9 @@ metadata_extraction("extras/sample1.epub")
     'title': (),
     'type': (),
 }
+%language%
+[('en', {})]
+{'en': None}
 %identifier%
 [
     (
@@ -149,26 +152,6 @@ metadata_extraction("extras/sample1.epub")
     'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
     'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
 }
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
-%contributor%
-[
-    (
-        'calibre (0.8.29) [http://calibre-ebook.com]',
-        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
-    ),
-]
-{'calibre (0.8.29) [http://calibre-ebook.com]': None}
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
-%language%
-[('en', {})]
-{'en': None}
 %creator%
 [
     (
@@ -180,9 +163,26 @@ metadata_extraction("extras/sample1.epub")
     ),
 ]
 {'Guha, Ramachandra': None}
+%publisher%
+[('Pan Books', {})]
+{'Pan Books': None}
 %title%
 [('India After Gandhi', {})]
 {'India After Gandhi': None}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
+%contributor%
+[
+    (
+        'calibre (0.8.29) [http://calibre-ebook.com]',
+        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
+    ),
+]
+{'calibre (0.8.29) [http://calibre-ebook.com]': None}
 {
     'contributor': {
         'author': ('Guha, Ramachandra', ),

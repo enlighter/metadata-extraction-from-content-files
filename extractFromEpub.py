@@ -12,7 +12,7 @@
 	use python >= 3.4
 	use ebooklib=0.15
 '''
-# !/usr/bin/python2
+#!/usr/bin/python3
 
 import sys
 import os
@@ -20,13 +20,9 @@ from ebooklib import epub  # for epub
 # from lxml import etree #for xml, html fast parser
 from pprintpp import pprint  # pretty-print
 from bs4 import BeautifulSoup as bs  # for html
-
-try:
-	import cPickle as pickle
-except:
-	import pickle
 # from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
-import dataterms
+import utils.dataterms as dataterms
+from utils.datahandler import data_dump
 
 # def get_html_from_manifest(epub, key, value):
 # 	for item in epub.manifest:
@@ -34,27 +30,7 @@ import dataterms
 # 			print "got %s" %value
 # 			return item.get_file()
 
-# def dump_html(to_dump):
-# 	#os.chdir('tmp')
-# 	#os.listdir(r'./')
-# 	try:
-# 		html_dump = open(r'./tmp/temp_html','wb')
-# 	except:
-# 		e = sys.exc_info()
-# 		pprint(e)
-# 	#os.chdir('..')
-
-# 	pickle.dump( to_dump, html_dump, -1)
-# 	html_dump.close()
-
 # def create_soup_from_html_dump():
-# 	try:
-# 		html_dump = open(r'./tmp/temp_html','rb')
-# 	except:
-# 		e = sys.exc_info()
-# 		pprint(e)
-# 		return
-
 # 	html_soup = bs( pickle.load(html_dump), "lxml") #markup using lxml's html parser
 
 # 	html_dump.close()
@@ -140,11 +116,6 @@ class metadata_extraction(epub.EpubReader):
 		# 	element_dict['contributor']['author'] += element_dict['creator']
 		self.extracted_elements.__delitem__('creator')
 
-		# ret = dict(element_dict)
-		# ret.__delitem__('creator')
-		# #del ret['creator']
-		# return ret
-
 	def default_metadata(self):
 		namespace = epub.NAMESPACES['DC']
 		self.def_met = self.book.metadata[namespace]
@@ -189,6 +160,14 @@ class metadata_extraction(epub.EpubReader):
 
 		pprint(self.extracted_elements)
 
+	def save_to_file(self, to_save):
+		filer = data_dump(to_save)
+		filer.dump()
+
+	def load_from_file(self):
+		filer = data_dump(None)
+		return filer.load()
+
 	def __str__(self):
 		return "Class <metadata_extraction(epub.EpubReader)>"
 
@@ -205,7 +184,8 @@ def get_epub_info(filename):
 	print(repr(met))
 	#met.extract_default_metadata()
 	met.extract()
+	met.save_to_file(met.extracted_elements)
 
 
-get_epub_info("extras/sample0.epub")
+#get_epub_info("extras/sample0.epub")
 get_epub_info("extras/sample1.epub")

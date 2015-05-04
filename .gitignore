@@ -5,6 +5,10 @@ __pycache__/
 # C extensions
 *.so
 
+#IDE & development
+.idea/
+third-party/
+
 # Distribution / packaging
 .Python
 env/
