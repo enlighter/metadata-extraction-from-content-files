@@ -19,6 +19,7 @@ from pprintpp import pprint  # pretty-print
 from lxml.etree import tostring
 from lxml.builder import E
 from extractFromEpub import metadata_extraction as epub_extraction
+from utils.datahandler import xml_dump
 
 class metadata:
 	def __init__(self):
@@ -46,7 +47,7 @@ class metadata:
 
 	def _create_xml_(self):
 		self.xml = eval(self._xml_bind_(self._xml_body))
-		# use decode explicitly in python 3 as tostring return a byte type object
+		# use decode explicitly in python 3 as tostring returns a byte type object
 		# which needs to be decoded to string (preferably immediately) so the program
 		# internally works only on strings
 		return tostring( self.xml, pretty_print=True, xml_declaration=True, encoding='UTF-8').decode()
@@ -58,6 +59,11 @@ class epub_data(metadata):
 
 	def load(self):
 		self.epub_extractor.extracted_elements = dict(self.epub_extractor.load_from_file())
+
+	def write_xml(self, xml_string):
+		xml_writer = xml_dump(xml_string)
+		print(xml_writer.to_dump)
+		xml_writer.dump()
 
 	def create_xml(self):
 		for key,value in self.epub_extractor.extracted_elements.items():
@@ -83,6 +89,4 @@ mt.load()
 pprint(mt.epub_extractor.extracted_elements)
 XML = mt.create_xml()
 print(XML)
-# xml = E.dublin_core(E.dcvalue("India After Gandhi", element="title", qualifier="none",language="en"),schema="dc")
-# result = tostring( xml, xml_declaration=True, encoding='UTF-8').decode()
-# print(result)
+mt.write_xml(XML)

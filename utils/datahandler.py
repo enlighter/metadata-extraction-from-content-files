@@ -14,20 +14,27 @@ class data_dump:
 		self._is_binary = True
 
 	def dump(self):
-		try:
-			if self._is_binary:
+		if self._is_binary:
+			try:
 				# write mode = binary
 				self._data_dump = open(r'./tmp/%s'%self.type,'wb')
-			else:
-				# write mode = text
-				# Todo: in case of non-binary object the object my change
-				# object may even need to be user-defined
-				self._data_dump = open(r'./tmp/%s'%self.type,'wt')
-		except:
-			e = sys.exc_info()
-			pprint(e)
-		pickle.dump( self.to_dump, self._data_dump, -1)
-		self._data_dump.close()
+			except:
+				e = sys.exc_info()
+				pprint(e)
+			pickle.dump( self.to_dump, self._data_dump, -1)
+			self._data_dump.close()
+		else:
+			# write mode = text
+			# Todo: in case of non-binary object the object my change
+			# object may even need to be user-defined
+			try:
+				with open(r'./tmp/%s'%self.type,'w') as self._data_dump:
+					self._data_dump.write(self.to_dump)
+			except:
+				e = sys.exc_info()
+				pprint(e)
+
+		# self._data_dump.close()
 
 	def load(self):
 		try:
