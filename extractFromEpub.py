@@ -187,5 +187,5 @@ def get_epub_info(filename):
 	met.save_to_file(met.extracted_elements)
 
 
-get_epub_info("extras/sample0.epub")
+#get_epub_info("extras/sample0.epub")
 get_epub_info("extras/sample1.epub")
