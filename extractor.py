@@ -34,10 +34,13 @@ class metadata:
 		if body:
 			ret += body
 		ret += self._xml_wrapper_tail
+		print("whole xml structure:")
+		print(ret)
 		return ret
 
-	def _append_element_(args=''):
-		self.body += self._xml_element_head + args + self._xml_element_tail
+	def _append_element_(self, args=''):
+		self._xml_body += self._xml_element_head + args + self._xml_element_tail
+		print(self._xml_body)
 
 	def _create_xml_(self):
 		self.xml = eval(self._xml_bind_(self._xml_body))
@@ -62,7 +65,13 @@ class epub_data(metadata):
 						for element in v:
 							attr = element + ', element="' + key + '", qualifier="' + k + '",'
 							print(attr)
-							
+							self._append_element_(attr)
+			elif value:
+				# value is a tuple here
+				for element in value:
+					attr = element + ', element="' + key + '", qualifier="none",'
+					print(attr)
+					self._append_element_(attr)
 
 
 mt = epub_data()

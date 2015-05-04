@@ -38,8 +38,20 @@ Creating new dc instance
     'title': ('India After Gandhi', ),
     'type': (),
 }
-2011-02-09T16:00:00+00:00, element="date", qualifier="none",
-cee3ce64-6245-4360-9ee5-70a2aaba296d, element="identifier", qualifier="none",
-calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",
+Pan Books, element="publisher", qualifier="none",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")
 Guha, Ramachandra, element="contributor", qualifier="author",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")E.dcvalue(Guha, Ramachandra, element="contributor", qualifier="author",language="en")
+calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")E.dcvalue(Guha, Ramachandra, element="contributor", qualifier="author",language="en")E.dcvalue(calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",language="en")
+India After Gandhi, element="title", qualifier="none",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")E.dcvalue(Guha, Ramachandra, element="contributor", qualifier="author",language="en")E.dcvalue(calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",language="en")E.dcvalue(India After Gandhi, element="title", qualifier="none",language="en")
+2011-02-09T16:00:00+00:00, element="date", qualifier="none",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")E.dcvalue(Guha, Ramachandra, element="contributor", qualifier="author",language="en")E.dcvalue(calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",language="en")E.dcvalue(India After Gandhi, element="title", qualifier="none",language="en")E.dcvalue(2011-02-09T16:00:00+00:00, element="date", qualifier="none",language="en")
+General Fiction, element="subject", qualifier="none",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")E.dcvalue(Guha, Ramachandra, element="contributor", qualifier="author",language="en")E.dcvalue(calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",language="en")E.dcvalue(India After Gandhi, element="title", qualifier="none",language="en")E.dcvalue(2011-02-09T16:00:00+00:00, element="date", qualifier="none",language="en")E.dcvalue(General Fiction, element="subject", qualifier="none",language="en")
+en, element="language", qualifier="none",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")E.dcvalue(Guha, Ramachandra, element="contributor", qualifier="author",language="en")E.dcvalue(calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",language="en")E.dcvalue(India After Gandhi, element="title", qualifier="none",language="en")E.dcvalue(2011-02-09T16:00:00+00:00, element="date", qualifier="none",language="en")E.dcvalue(General Fiction, element="subject", qualifier="none",language="en")E.dcvalue(en, element="language", qualifier="none",language="en")
+cee3ce64-6245-4360-9ee5-70a2aaba296d, element="identifier", qualifier="none",
+E.dcvalue(Pan Books, element="publisher", qualifier="none",language="en")E.dcvalue(Guha, Ramachandra, element="contributor", qualifier="author",language="en")E.dcvalue(calibre (0.8.29) [http://calibre-ebook.com], element="contributor", qualifier="none",language="en")E.dcvalue(India After Gandhi, element="title", qualifier="none",language="en")E.dcvalue(2011-02-09T16:00:00+00:00, element="date", qualifier="none",language="en")E.dcvalue(General Fiction, element="subject", qualifier="none",language="en")E.dcvalue(en, element="language", qualifier="none",language="en")E.dcvalue(cee3ce64-6245-4360-9ee5-70a2aaba296d, element="identifier", qualifier="none",language="en")
 None
