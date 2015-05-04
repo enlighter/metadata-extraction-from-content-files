@@ -25,7 +25,7 @@ class metadata:
 		self._xml_wrapper_head = 'E.dublin_core("",'
 		self._xml_wrapper_tail = 'schema="dc")'
 		self._xml_element_head = 'E.dcvalue('
-		self._xml_element_tail = ')'
+		self._xml_element_tail = 'language="en")'
 		self.xml = ''
 
 	def _xml_bind_(self, body=''):
@@ -46,6 +46,14 @@ class metadata:
 		# which needs to be decoded to string (preferably immediately) so the program
 		# internally works only on strings
 		return tostring( self.xml, xml_declaration=True, encoding='UTF-8').decode()
+
+class epub_data(metadata):
+	def __init__(self):
+		metadata.__init__()
+		self.epub_extractor = epub_extraction('')
+
+	def load(self):
+		self.epub_extractor.extracted_elements = dict(self.epub_extractor.load_from_file())
 
 
 mt = metadata()
