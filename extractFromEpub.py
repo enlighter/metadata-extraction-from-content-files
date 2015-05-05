@@ -24,12 +24,6 @@ from bs4 import BeautifulSoup as bs  # for html
 import utils.dataterms as dataterms
 from utils.datahandler import data_dump
 
-# def get_html_from_manifest(epub, key, value):
-# 	for item in epub.manifest:
-# 		if item.tag.attributes[key] == value:
-# 			print "got %s" %value
-# 			return item.get_file()
-
 # def create_soup_from_html_dump():
 # 	html_soup = bs( pickle.load(html_dump), "lxml") #markup using lxml's html parser
 
@@ -72,6 +66,7 @@ class metadata_extraction(epub.EpubReader):
 		dc = dataterms.dc_elems()
 		self.extracted_elements = dc.dublin_core_elements
 		self.manifest = self.container.find('{%s}%s' % (epub.NAMESPACES['OPF'], 'manifest'))
+		self._credits_href = ''
 
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
@@ -183,12 +178,12 @@ class metadata_extraction(epub.EpubReader):
 				# no table of contents present in the book
 				print("Table of Contents not found! Continuing...")
 				return False
-			# if 'acknowledgement' in link.title.lower():
-			# 	# found acknowledgements page:
-			# 	self.ack_id = link.uid
-			# 	self.ack_href = link.href
-			# 	print("Found acknowledgements page with link: %s"%self.ack_href)
 			if link.title:
+				if 'credits' in link.title.lower():
+					# found credits page:
+					if link.href:
+						self._credits_href = link.href
+						print('%s:%s'%(link.title, link.href))
 				if not toc:
 					toc += link.title
 				else:
@@ -198,20 +193,21 @@ class metadata_extraction(epub.EpubReader):
 		# add toc : done
 		return True
 
-	# def _parse_ack_(self):
-	# 	ack = self.book.get_item_with_href(self.ack_href)
-	# 	if ack:
-	# 		# ack is an epub.EpubHtml type object
-	# 		contents = ack.get_content().decode()
-	# 		print(contents)
-	# 	else:
-	# 		print("Unable to open the acknowledgements page!Continuing...")
+	def _parse_credits_(self):
+		cred = self.book.get_item_with_href(self._credits_href)
+		if cred:
+			# ack is an epub.EpubHtml type object
+			contents = cred.get_content().decode()
+			contents = contents[contents.find('<html'):]
+			print(contents)
+		else:
+			print("Unable to open the acknowledgements page!Continuing...")
 
 	def extract_metadata_from_book(self):
 		if not self.extracted_elements['description']['toc']:
 			self._get_toc_()
-		# if self.ack_href:
-		# 	self._parse_ack_()
+		if self._credits_href:
+			self._parse_credits_()
 
 	def extract(self):
 		self.default_metadata()
