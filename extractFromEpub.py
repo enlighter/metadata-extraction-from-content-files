@@ -169,15 +169,14 @@ class metadata_extraction(epub.EpubReader):
 						item = list(item)
 					#print(item)
 					if type(item) == list:
-						components.extend(_get_componenets_(item))
+						components.extend(_get_components_(item))
 					if isinstance(item, epub.Section):
-						print(item.title)
+						components.extend([item])
 					elif isinstance(item, epub.Link):
 						components.extend([item])
 			return components
 
 		link_list = _get_components_(self.book.toc)
-		pprint(link_list)
 
 		for link in link_list:
 			if not link:
@@ -189,12 +188,13 @@ class metadata_extraction(epub.EpubReader):
 			# 	self.ack_id = link.uid
 			# 	self.ack_href = link.href
 			# 	print("Found acknowledgements page with link: %s"%self.ack_href)
-			if not toc:
-				toc += link.title
-			else:
-				toc += ' -- ' + link.title
+			if link.title:
+				if not toc:
+					toc += link.title
+				else:
+					toc += ' -- ' + link.title
 		self.extracted_elements['description']['toc'] += (toc,)
-		print(toc)
+		#print(toc)
 		# add toc : done
 		return True
 
@@ -248,6 +248,7 @@ def get_epub_info(filename):
 	met.extract()
 	met.save_to_file(met.extracted_elements)
 	met.extract_metadata_from_book()
+	pprint(met.extracted_elements)
 	print(met.manifest)
 
 
