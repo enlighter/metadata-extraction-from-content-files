@@ -15,7 +15,7 @@
 #!/usr/bin/python3
 
 import sys
-import os
+#import os
 from ebooklib import epub  # for epub
 # from lxml import etree #for xml, html fast parser
 from pprintpp import pprint  # pretty-print
@@ -28,11 +28,6 @@ from bs4 import BeautifulSoup as bs  # for html
 import utils.dataterms as dataterms
 from utils.datahandler import data_dump
 
-# def create_soup_from_html_dump():
-# 	html_soup = bs( pickle.load(html_dump), "lxml") #markup using lxml's html parser
-
-# 	html_dump.close()
-# 	return html_soup
 
 class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
@@ -265,6 +260,6 @@ def get_epub_info(filename):
 	print(met.manifest)
 
 
-get_epub_info("extras/sample0.epub")
-get_epub_info("extras/sample1.epub")
+# get_epub_info("extras/sample0.epub")
+# get_epub_info("extras/sample1.epub")
 #pprint(list(("aby","get")))

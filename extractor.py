@@ -61,7 +61,7 @@ class epub_data(metadata):
 
 	def write_xml(self, xml_string):
 		xml_writer = xml_dump(xml_string)
-		print(xml_writer.to_dump)
+		#print(xml_writer.to_dump)
 		xml_writer.dump()
 
 	def create_xml(self):
@@ -71,13 +71,13 @@ class epub_data(metadata):
 					if v:
 						for element in v:
 							attr = '"' + element + '", element="' + key + '", qualifier="' + k + '",'
-							print(attr)
+							#print(attr)
 							self._append_element_(attr)
 			elif value:
 				# value is a tuple here
 				for element in value:
 					attr = '"' + element + '", element="' + key + '", qualifier="none",'
-					print(attr)
+					#print(attr)
 					self._append_element_(attr)
 
 		return self._create_xml_()

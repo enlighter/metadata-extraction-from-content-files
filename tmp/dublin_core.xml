@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <dublin_core schema="dc">
-  <dcvalue qualifier="none" element="date" language="en">2011-02-09T16:00:00+00:00</dcvalue>
-  <dcvalue qualifier="none" element="publisher" language="en">Pan Books</dcvalue>
-  <dcvalue qualifier="none" element="language" language="en">en</dcvalue>
-  <dcvalue qualifier="none" element="identifier" language="en">cee3ce64-6245-4360-9ee5-70a2aaba296d</dcvalue>
-  <dcvalue qualifier="none" element="title" language="en">India After Gandhi</dcvalue>
-  <dcvalue qualifier="none" element="subject" language="en">General Fiction</dcvalue>
-  <dcvalue qualifier="none" element="contributor" language="en">calibre (0.8.29) [http://calibre-ebook.com]</dcvalue>
-  <dcvalue qualifier="author" element="contributor" language="en">Guha, Ramachandra</dcvalue>
+  <dcvalue language="en" element="publisher" qualifier="none">Pan Books</dcvalue>
+  <dcvalue language="en" element="subject" qualifier="none">General Fiction</dcvalue>
+  <dcvalue language="en" element="date" qualifier="none">2011-02-09T16:00:00+00:00</dcvalue>
+  <dcvalue language="en" element="identifier" qualifier="none">cee3ce64-6245-4360-9ee5-70a2aaba296d</dcvalue>
+  <dcvalue language="en" element="title" qualifier="none">India After Gandhi</dcvalue>
+  <dcvalue language="en" element="language" qualifier="none">en</dcvalue>
+  <dcvalue language="en" element="description" qualifier="toc">Prologue: Unnatural Nation -- P ART O NE – P ICKING UP THE P IECES -- 1. Freedom and Parricide -- 2. The Logic of Division -- 3. Apples in the Basket -- 4. A Valley Bloody and Beautiful -- 5. Refugees and the Republic -- 6. Ideas of India -- P ART T WO – N EHRU ’ S I NDIA -- 7. The Biggest Gamble in History -- 8. Home and the World -- 9. Redrawing the Map -- 10. The Conquest of Nature -- 11. The Law and the Prophets -- 12. Securing Kashmir -- 13. Tribal Trouble -- P ART T HREE – S HAKING THE C ENTRE -- 14. The Southern Challenge -- 15. The Experience of Defeat -- 16. Peace in Our Time -- 17. Minding the Minorities -- P ART F OUR – THE R ISE OF P OPULISM -- 18. War and Succession -- 19. Leftward Turns -- 20. The Elixir of Victory -- 21. The Rivals -- 22. Autumn of the Matriarch -- 23. Life Without the Congress -- 24. Democracy in Disarray -- 25. This Son also Rises -- P ART F IVE – A H ISTORY OF E VENTS -- 26. Rights -- 27. Riots -- 28. Rulers -- 29. Riches -- 30. A People’s Entertainments -- Epilogue: Why India Survives -- Acknowledgements -- Notes -- Index</dcvalue>
+  <dcvalue language="en" element="contributor" qualifier="none">calibre (0.8.29) [http://calibre-ebook.com]</dcvalue>
+  <dcvalue language="en" element="contributor" qualifier="author">Guha, Ramachandra</dcvalue>
 </dublin_core>
