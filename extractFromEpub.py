@@ -20,6 +20,10 @@ from ebooklib import epub  # for epub
 # from lxml import etree #for xml, html fast parser
 from pprintpp import pprint  # pretty-print
 from bs4 import BeautifulSoup as bs  # for html
+# try:
+# 	import cPickle as pickle
+# except:
+# 	import pickle
 # from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
 import utils.dataterms as dataterms
 from utils.datahandler import data_dump
@@ -201,9 +205,15 @@ class metadata_extraction(epub.EpubReader):
 			contents = cred.get_content().decode()
 			contents = contents[contents.find('<html'):]
 			self.html_soup = bs( contents, "lxml")
-			pprint(self.html_soup)
+			#pprint(self.html_soup)
+			credits_data = []
+			for link in self.html_soup.find_all('p'):
+				link_text = link.get_text()
+				link_text_stripped = link_text.strip() # strip whitespaces from both ends of the string
+				credits_data.extend([link_text_stripped.lower()])
+			pprint(credits_data)
 		else:
-			print("Unable to open the acknowledgements page!Continuing...")
+			print("Unable to open the credits page!Continuing...")
 
 	def extract_metadata_from_book(self):
 		if not self.extracted_elements['description']['toc']:

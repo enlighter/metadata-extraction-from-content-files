@@ -2,7 +2,6 @@
 	such as python-dev, python-all-dev, python3-dev et al]
 	sudo [-E] pip install lxml
 	sudo [-E] pip install pprintpp
-	sudo [-E] pip install beautifulsoup4
 	In case of python2 as system default, use pip3 instead
 
 	__author__: "Sushovan Mandal"
