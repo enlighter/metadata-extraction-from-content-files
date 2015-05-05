@@ -72,6 +72,7 @@ class metadata_extraction(epub.EpubReader):
 		''' the default metadata from epub's metadata '''
 		dc = dataterms.dc_elems()
 		self.extracted_elements = dc.dublin_core_elements
+		self.ack_id = ''
 
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
@@ -151,6 +152,30 @@ class metadata_extraction(epub.EpubReader):
 					if key in self.extracted_elements[k]:
 						self.extracted_elements[k][key] += self._value_from_(sub_dict)
 
+	def _get_toc_(self):
+		toc = ''
+		# get table of contents
+		for link in self.book.toc:
+			if not link:
+				# no table of contents present in the book
+				print("Table of Contents not found! Continuing...")
+				return False
+			if 'acknowledgement' in link.title:
+				# found acknowledgements page:
+				self.
+			if not toc:
+				toc += link.title
+			else:
+				toc += ' -- ' + link.title
+		self.extracted_elements['description']['toc'] += (toc,)
+		print(toc)
+		# add toc : done
+		return True
+
+	def extract_metadata_from_book(self):
+		if not self.extracted_elements['description']['toc']:
+			self._get_toc_()
+
 	def extract(self):
 		self.default_metadata()
 		pprint(self.def_met)
@@ -185,7 +210,8 @@ def get_epub_info(filename):
 	#met.extract_default_metadata()
 	met.extract()
 	met.save_to_file(met.extracted_elements)
+	met.extract_metadata_from_book()
 
 
 #get_epub_info("extras/sample0.epub")
-# get_epub_info("extras/sample1.epub")
+get_epub_info("extras/sample1.epub")
