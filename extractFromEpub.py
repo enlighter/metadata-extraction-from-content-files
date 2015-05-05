@@ -34,28 +34,6 @@ from utils.datahandler import data_dump
 # 	html_dump.close()
 # 	return html_soup
 
-# def find_by(description, token_list, section):
-# 	extract = False
-# 	ret = ()
-# 	for token in token_list:
-# 		for header in dataterms.headers[section]:
-# 			if header in token:
-# 				extract = False
-
-# 		if extract:
-# 			ret += (token,)
-
-# 		if description in token:
-# 			extract = True
-# 		else:
-# 			try:
-# 				for synonym in dataterms.synonymous[description]:
-# 					if synonym in token:
-# 						extract = True
-# 			except KeyError:
-# 				print("no synonym, continuing...")
-# 	return ret
-
 class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
 		print("Creating new instance")
@@ -72,6 +50,7 @@ class metadata_extraction(epub.EpubReader):
 		self.manifest = self.container.find('{%s}%s' % (epub.NAMESPACES['OPF'], 'manifest'))
 		self._credits_href = ''
 		self.html_soup = None
+		self.extractor = False # binary flag
 
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
@@ -107,6 +86,28 @@ class metadata_extraction(epub.EpubReader):
 				standalone value '''
 				ret += (k,)
 
+		return ret
+
+	def _find_by_(self, description, token_list, section):
+		self.extractor = False
+		ret = ()
+		for token in token_list:
+			for header in dataterms.headers[section]:
+				if header in token:
+					self.extractor = False
+
+			if self.extractor:
+				ret += (token,)
+
+			if description in token:
+				self.extractor = True
+			else:
+				try:
+					for synonym in dataterms.synonymous[description]:
+						if synonym in token:
+							self.extractor = True
+				except KeyError:
+					print("no synonym, continuing...")
 		return ret
 
 	def _finishing_touches_(self):
@@ -212,6 +213,11 @@ class metadata_extraction(epub.EpubReader):
 				link_text_stripped = link_text.strip() # strip whitespaces from both ends of the string
 				credits_data.extend([link_text_stripped.lower()])
 			pprint(credits_data)
+
+			for key in self.extracted_elements['contributor']:
+				self.extracted_elements['contributor'][key] += self._find_by_(key, credits_data, '1')
+			self.extracted_elements['publisher'] += self._find_by_('publisher', credits_data, '1')
+			self.extracted_elements['creator'] += self._find_by_('creator', credits_data, '1')
 		else:
 			print("Unable to open the credits page!Continuing...")
 
@@ -226,6 +232,7 @@ class metadata_extraction(epub.EpubReader):
 		pprint(self.def_met)
 
 		self.extract_default_metadata()
+		self.extract_metadata_from_book()
 		self._finishing_touches_()
 
 		pprint(self.extracted_elements)
@@ -255,8 +262,6 @@ def get_epub_info(filename):
 	#met.extract_default_metadata()
 	met.extract()
 	met.save_to_file(met.extracted_elements)
-	met.extract_metadata_from_book()
-	pprint(met.extracted_elements)
 	print(met.manifest)
 
 
