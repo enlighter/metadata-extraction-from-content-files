@@ -72,7 +72,7 @@ class metadata_extraction(epub.EpubReader):
 		''' the default metadata from epub's metadata '''
 		dc = dataterms.dc_elems()
 		self.extracted_elements = dc.dublin_core_elements
-		self.ack_id = ''
+		self.ack_href = ''
 
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
@@ -160,9 +160,11 @@ class metadata_extraction(epub.EpubReader):
 				# no table of contents present in the book
 				print("Table of Contents not found! Continuing...")
 				return False
-			if 'acknowledgement' in link.title:
+			if 'acknowledgement' in link.title.lower():
 				# found acknowledgements page:
-				self.
+				self.ack_id = link.uid
+				self.ack_href = link.href
+				print("Found acknowledgements page with link: %s"%self.ack_href)
 			if not toc:
 				toc += link.title
 			else:
@@ -172,9 +174,15 @@ class metadata_extraction(epub.EpubReader):
 		# add toc : done
 		return True
 
+	def _parse_ack_(self):
+		ack = self.book.get_item_with_href(self.ack_href)
+		print(ack)
+
 	def extract_metadata_from_book(self):
 		if not self.extracted_elements['description']['toc']:
 			self._get_toc_()
+		if self.ack_href:
+			self._parse_ack_()
 
 	def extract(self):
 		self.default_metadata()

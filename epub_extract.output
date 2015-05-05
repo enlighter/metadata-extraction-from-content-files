@@ -73,14 +73,6 @@ metadata_extraction("extras/sample1.epub")
     ),
 ]
 {'Guha, Ramachandra': None}
-%contributor%
-[
-    (
-        'calibre (0.8.29) [http://calibre-ebook.com]',
-        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
-    ),
-]
-{'calibre (0.8.29) [http://calibre-ebook.com]': None}
 %identifier%
 [
     (
@@ -95,15 +87,23 @@ metadata_extraction("extras/sample1.epub")
 %language%
 [('en', {})]
 {'en': None}
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
 %subject%
 [('General Fiction', {})]
 {'General Fiction': None}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
+%title%
+[('India After Gandhi', {})]
+{'India After Gandhi': None}
+%contributor%
+[
+    (
+        'calibre (0.8.29) [http://calibre-ebook.com]',
+        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
+    ),
+]
+{'calibre (0.8.29) [http://calibre-ebook.com]': None}
 {
     'contributor': {
         'author': ('Guha, Ramachandra', ),
@@ -142,4 +142,6 @@ metadata_extraction("extras/sample1.epub")
     'title': ('India After Gandhi', ),
     'type': (),
 }
-('Prologue: Unnatural Nation -- P ART O NE – P ICKING UP THE P IECES -- 1. Freedom and Parricide -- 2. The Logic of Division -- 3. Apples in the Basket -- 4. A Valley Bloody and Beautiful -- 5. Refugees and the Republic -- 6. Ideas of India -- P ART T WO – N EHRU ’ S I NDIA -- 7. The Biggest Gamble in History -- 8. Home and the World -- 9. Redrawing the Map -- 10. The Conquest of Nature -- 11. The Law and the Prophets -- 12. Securing Kashmir -- 13. Tribal Trouble -- P ART T HREE – S HAKING THE C ENTRE -- 14. The Southern Challenge -- 15. The Experience of Defeat -- 16. Peace in Our Time -- 17. Minding the Minorities -- P ART F OUR – THE R ISE OF P OPULISM -- 18. War and Succession -- 19. Leftward Turns -- 20. The Elixir of Victory -- 21. The Rivals -- 22. Autumn of the Matriarch -- 23. Life Without the Congress -- 24. Democracy in Disarray -- 25. This Son also Rises -- P ART F IVE – A H ISTORY OF E VENTS -- 26. Rights -- 27. Riots -- 28. Rulers -- 29. Riches -- 30. A People’s Entertainments -- Epilogue: Why India Survives -- Acknowledgements -- Notes -- Index',)
+Found acknowledgements page with uid : e94709de-6c8f-4e6b-b5ec-063a1985a013 and href: dummy_split_075.html
+Prologue: Unnatural Nation -- P ART O NE – P ICKING UP THE P IECES -- 1. Freedom and Parricide -- 2. The Logic of Division -- 3. Apples in the Basket -- 4. A Valley Bloody and Beautiful -- 5. Refugees and the Republic -- 6. Ideas of India -- P ART T WO – N EHRU ’ S I NDIA -- 7. The Biggest Gamble in History -- 8. Home and the World -- 9. Redrawing the Map -- 10. The Conquest of Nature -- 11. The Law and the Prophets -- 12. Securing Kashmir -- 13. Tribal Trouble -- P ART T HREE – S HAKING THE C ENTRE -- 14. The Southern Challenge -- 15. The Experience of Defeat -- 16. Peace in Our Time -- 17. Minding the Minorities -- P ART F OUR – THE R ISE OF P OPULISM -- 18. War and Succession -- 19. Leftward Turns -- 20. The Elixir of Victory -- 21. The Rivals -- 22. Autumn of the Matriarch -- 23. Life Without the Congress -- 24. Democracy in Disarray -- 25. This Son also Rises -- P ART F IVE – A H ISTORY OF E VENTS -- 26. Rights -- 27. Riots -- 28. Rulers -- 29. Riches -- 30. A People’s Entertainments -- Epilogue: Why India Survives -- Acknowledgements -- Notes -- Index
+<EpubHtml:id117:dummy_split_075.html>
