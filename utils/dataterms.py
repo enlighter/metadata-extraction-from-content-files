@@ -5,7 +5,9 @@ class dc_elems:
         print("Creating new dc instance")
         self.dublin_core_elements = {'title':(),
              'creator': (), # creator to be merged into author in final xml
-             'subject':(),
+             'subject': { 'lcc' : (),
+                        'ddc' : (),
+                        'none' : ()},
              'description': {
                               'abstract' : (),
                               'toc' : (),

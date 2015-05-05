@@ -33,22 +33,22 @@ metadata_extraction("extras/sample0.epub")
     },
     'rights': (),
     'source': (),
-    'subject': (),
+    'subject': {'ddc': (), 'lcc': (), 'none': ()},
     'title': (),
     'type': (),
 }
-%publisher%
-[('Packt Publishing', {})]
-{'Packt Publishing': None}
 %identifier%
 [('_id286448480', {'id': 'bookid'})]
 {'bookid': '_id286448480'}
-%language%
-[('en', {})]
-{'en': None}
+%publisher%
+[('Packt Publishing', {})]
+{'Packt Publishing': None}
 %title%
 [('Learning jQuery Fourth Edition', {})]
 {'Learning jQuery Fourth Edition': None}
+%language%
+[('en', {})]
+{'en': None}
 Credits:pr02.html
 [
     'authors',
@@ -263,11 +263,11 @@ no synonym, continuing...
     },
     'rights': (),
     'source': (),
-    'subject': (),
+    'subject': {'ddc': (), 'lcc': (), 'none': ()},
     'title': ('Learning jQuery Fourth Edition', ),
     'type': (),
 }
-<Element {http://www.idpf.org/2007/opf}manifest at 0x7f8df64e17c8>
+<Element {http://www.idpf.org/2007/opf}manifest at 0x7f11067a1808>
 Creating new instance
 Creating new dc instance
 Class <metadata_extraction(epub.EpubReader)>
@@ -325,19 +325,10 @@ metadata_extraction("extras/sample1.epub")
     },
     'rights': (),
     'source': (),
-    'subject': (),
+    'subject': {'ddc': (), 'lcc': (), 'none': ()},
     'title': (),
     'type': (),
 }
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
-%language%
-[('en', {})]
-{'en': None}
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
 %contributor%
 [
     (
@@ -357,9 +348,12 @@ metadata_extraction("extras/sample1.epub")
     ),
 ]
 {'Guha, Ramachandra': None}
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
 %identifier%
 [
     (
@@ -371,9 +365,15 @@ metadata_extraction("extras/sample1.epub")
     'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
     'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
 }
+%publisher%
+[('Pan Books', {})]
+{'Pan Books': None}
 %title%
 [('India After Gandhi', {})]
 {'India After Gandhi': None}
+%language%
+[('en', {})]
+{'en': None}
 {
     'contributor': {
         'author': ('Guha, Ramachandra', ),
@@ -414,8 +414,8 @@ metadata_extraction("extras/sample1.epub")
     },
     'rights': (),
     'source': (),
-    'subject': ('General Fiction', ),
+    'subject': {'ddc': (), 'lcc': (), 'none': ('General Fiction', )},
     'title': ('India After Gandhi', ),
     'type': (),
 }
-<Element {http://www.idpf.org/2007/opf}manifest at 0x7f8df64c85c8>
+<Element {http://www.idpf.org/2007/opf}manifest at 0x7f1106789608>
