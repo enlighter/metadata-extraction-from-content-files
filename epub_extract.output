@@ -1,34 +1,12 @@
 Creating new instance
 Creating new dc instance
 Class <metadata_extraction(epub.EpubReader)>
-metadata_extraction("extras/sample1.epub")
+metadata_extraction("extras/sample0.epub")
 {
-    'contributor': [
-        (
-            'calibre (0.8.29) [http://calibre-ebook.com]',
-            {'{http://www.idpf.org/2007/opf}role': 'bkp'},
-        ),
-    ],
-    'creator': [
-        (
-            'Guha, Ramachandra',
-            {
-                '{http://www.idpf.org/2007/opf}file-as': 'Guha, Ramachandra',
-                '{http://www.idpf.org/2007/opf}role': 'aut',
-            },
-        ),
-    ],
-    'date': [('2011-02-09T16:00:00+00:00', {})],
-    'identifier': [
-        (
-            'cee3ce64-6245-4360-9ee5-70a2aaba296d',
-            {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
-        ),
-    ],
+    'identifier': [('_id286448480', {'id': 'bookid'})],
     'language': [('en', {})],
-    'publisher': [('Pan Books', {})],
-    'subject': [('General Fiction', {})],
-    'title': [('India After Gandhi', {})],
+    'publisher': [('Packt Publishing', {})],
+    'title': [('Learning jQuery Fourth Edition', {})],
 }
 {
     'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
@@ -59,76 +37,33 @@ metadata_extraction("extras/sample1.epub")
     'title': (),
     'type': (),
 }
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
-%creator%
-[
-    (
-        'Guha, Ramachandra',
-        {
-            '{http://www.idpf.org/2007/opf}file-as': 'Guha, Ramachandra',
-            '{http://www.idpf.org/2007/opf}role': 'aut',
-        },
-    ),
-]
-{'Guha, Ramachandra': None}
 %identifier%
-[
-    (
-        'cee3ce64-6245-4360-9ee5-70a2aaba296d',
-        {'id': 'uuid_id', '{http://www.idpf.org/2007/opf}scheme': 'uuid'},
-    ),
-]
-{
-    'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
-    'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
-}
+[('_id286448480', {'id': 'bookid'})]
+{'bookid': '_id286448480'}
+%publisher%
+[('Packt Publishing', {})]
+{'Packt Publishing': None}
+%title%
+[('Learning jQuery Fourth Edition', {})]
+{'Learning jQuery Fourth Edition': None}
 %language%
 [('en', {})]
 {'en': None}
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
-%contributor%
-[
-    (
-        'calibre (0.8.29) [http://calibre-ebook.com]',
-        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
-    ),
-]
-{'calibre (0.8.29) [http://calibre-ebook.com]': None}
 {
-    'contributor': {
-        'author': ('Guha, Ramachandra', ),
-        'editor': (),
-        'illustrator': (),
-        'none': ('calibre (0.8.29) [http://calibre-ebook.com]', ),
-    },
+    'contributor': {'author': (), 'editor': (), 'illustrator': (), 'none': ()},
     'coverage': (),
-    'date': {
-        'accessioned': (),
-        'copyright': (),
-        'created': (),
-        'none': ('2011-02-09T16:00:00+00:00', ),
-    },
+    'date': {'accessioned': (), 'copyright': (), 'created': (), 'none': ()},
     'description': {'abstract': (), 'none': (), 'toc': ()},
     'format': {'extent': (), 'mimetype': (), 'none': ()},
     'identifier': {
         'citation': (),
         'isbn': (),
         'issn': (),
-        'none': ('cee3ce64-6245-4360-9ee5-70a2aaba296d', ),
+        'none': (),
         'uri': (),
     },
     'language': ('en', ),
-    'publisher': ('Pan Books', ),
+    'publisher': ('Packt Publishing', ),
     'relation': {
         'haspart': (),
         'ispartof': (),
@@ -138,10 +73,7 @@ metadata_extraction("extras/sample1.epub")
     },
     'rights': (),
     'source': (),
-    'subject': ('General Fiction', ),
-    'title': ('India After Gandhi', ),
+    'subject': (),
+    'title': ('Learning jQuery Fourth Edition', ),
     'type': (),
 }
-Found acknowledgements page with uid : e94709de-6c8f-4e6b-b5ec-063a1985a013 and href: dummy_split_075.html
-Prologue: Unnatural Nation -- P ART O NE – P ICKING UP THE P IECES -- 1. Freedom and Parricide -- 2. The Logic of Division -- 3. Apples in the Basket -- 4. A Valley Bloody and Beautiful -- 5. Refugees and the Republic -- 6. Ideas of India -- P ART T WO – N EHRU ’ S I NDIA -- 7. The Biggest Gamble in History -- 8. Home and the World -- 9. Redrawing the Map -- 10. The Conquest of Nature -- 11. The Law and the Prophets -- 12. Securing Kashmir -- 13. Tribal Trouble -- P ART T HREE – S HAKING THE C ENTRE -- 14. The Southern Challenge -- 15. The Experience of Defeat -- 16. Peace in Our Time -- 17. Minding the Minorities -- P ART F OUR – THE R ISE OF P OPULISM -- 18. War and Succession -- 19. Leftward Turns -- 20. The Elixir of Victory -- 21. The Rivals -- 22. Autumn of the Matriarch -- 23. Life Without the Congress -- 24. Democracy in Disarray -- 25. This Son also Rises -- P ART F IVE – A H ISTORY OF E VENTS -- 26. Rights -- 27. Riots -- 28. Rulers -- 29. Riches -- 30. A People’s Entertainments -- Epilogue: Why India Survives -- Acknowledgements -- Notes -- Index
-<EpubHtml:id117:dummy_split_075.html>

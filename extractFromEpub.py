@@ -65,14 +65,13 @@ class metadata_extraction(epub.EpubReader):
 		self.book = self.load()
 		self.process()
 		self.__reset__()
-		# self.ee_helper = dataterms.
 
 	def __reset__(self):
 		self.def_met = {}
 		''' the default metadata from epub's metadata '''
 		dc = dataterms.dc_elems()
 		self.extracted_elements = dc.dublin_core_elements
-		self.ack_href = ''
+		self.manifest = self.container.find('{%s}%s' % (epub.NAMESPACES['OPF'], 'manifest'))
 
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
@@ -152,19 +151,44 @@ class metadata_extraction(epub.EpubReader):
 					if key in self.extracted_elements[k]:
 						self.extracted_elements[k][key] += self._value_from_(sub_dict)
 
+	
+
 	def _get_toc_(self):
 		toc = ''
 		# get table of contents
-		for link in self.book.toc:
+		#pprint(self.book.toc)
+
+		def _get_components_(given_list=[]):
+			#pprint(given_list)
+			components = []
+			for item in given_list:
+				if item:
+					# item is not empty
+					#pprint(item)
+					if type(item) == tuple:
+						item = list(item)
+					#print(item)
+					if type(item) == list:
+						components.extend(_get_componenets_(item))
+					if isinstance(item, epub.Section):
+						print(item.title)
+					elif isinstance(item, epub.Link):
+						components.extend([item])
+			return components
+
+		link_list = _get_components_(self.book.toc)
+		pprint(link_list)
+
+		for link in link_list:
 			if not link:
 				# no table of contents present in the book
 				print("Table of Contents not found! Continuing...")
 				return False
-			if 'acknowledgement' in link.title.lower():
-				# found acknowledgements page:
-				self.ack_id = link.uid
-				self.ack_href = link.href
-				print("Found acknowledgements page with link: %s"%self.ack_href)
+			# if 'acknowledgement' in link.title.lower():
+			# 	# found acknowledgements page:
+			# 	self.ack_id = link.uid
+			# 	self.ack_href = link.href
+			# 	print("Found acknowledgements page with link: %s"%self.ack_href)
 			if not toc:
 				toc += link.title
 			else:
@@ -174,15 +198,20 @@ class metadata_extraction(epub.EpubReader):
 		# add toc : done
 		return True
 
-	def _parse_ack_(self):
-		ack = self.book.get_item_with_href(self.ack_href)
-		print(ack)
+	# def _parse_ack_(self):
+	# 	ack = self.book.get_item_with_href(self.ack_href)
+	# 	if ack:
+	# 		# ack is an epub.EpubHtml type object
+	# 		contents = ack.get_content().decode()
+	# 		print(contents)
+	# 	else:
+	# 		print("Unable to open the acknowledgements page!Continuing...")
 
 	def extract_metadata_from_book(self):
 		if not self.extracted_elements['description']['toc']:
 			self._get_toc_()
-		if self.ack_href:
-			self._parse_ack_()
+		# if self.ack_href:
+		# 	self._parse_ack_()
 
 	def extract(self):
 		self.default_metadata()
@@ -219,7 +248,9 @@ def get_epub_info(filename):
 	met.extract()
 	met.save_to_file(met.extracted_elements)
 	met.extract_metadata_from_book()
+	print(met.manifest)
 
 
-#get_epub_info("extras/sample0.epub")
+get_epub_info("extras/sample0.epub")
 get_epub_info("extras/sample1.epub")
+#pprint(list(("aby","get")))
