@@ -67,6 +67,7 @@ class metadata_extraction(epub.EpubReader):
 		self.extracted_elements = dc.dublin_core_elements
 		self.manifest = self.container.find('{%s}%s' % (epub.NAMESPACES['OPF'], 'manifest'))
 		self._credits_href = ''
+		self.html_soup = None
 
 	def _reduce_list_(self, given_list=[]):
 		''' relevant to ebooklib metadata elements '''
@@ -199,7 +200,8 @@ class metadata_extraction(epub.EpubReader):
 			# ack is an epub.EpubHtml type object
 			contents = cred.get_content().decode()
 			contents = contents[contents.find('<html'):]
-			print(contents)
+			self.html_soup = bs( contents, "lxml")
+			pprint(self.html_soup)
 		else:
 			print("Unable to open the acknowledgements page!Continuing...")
 

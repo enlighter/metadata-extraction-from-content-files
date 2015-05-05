@@ -37,15 +37,15 @@ metadata_extraction("extras/sample0.epub")
     'title': (),
     'type': (),
 }
-%publisher%
-[('Packt Publishing', {})]
-{'Packt Publishing': None}
 %title%
 [('Learning jQuery Fourth Edition', {})]
 {'Learning jQuery Fourth Edition': None}
 %identifier%
 [('_id286448480', {'id': 'bookid'})]
 {'bookid': '_id286448480'}
+%publisher%
+[('Packt Publishing', {})]
+{'Packt Publishing': None}
 %language%
 [('en', {})]
 {'en': None}
@@ -78,70 +78,70 @@ metadata_extraction("extras/sample0.epub")
     'type': (),
 }
 Credits:pr02.html
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/#" lang="en" xml:lang="en">
-  <head/>
-  <body>
-    <div class="preface" title="Credits">
-      <div class="titlepage">
-        <div>
-          <div>
-            <h1 class="title"><a id="pref01"/>Credits</h1>
-          </div>
-        </div>
-      </div>
-      <p>
+<html epub:prefix="z3998: http://www.daisy.org/z3998/2012/vocab/structure/#" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
+<head></head>
+<body>
+<div class="preface" title="Credits">
+<div class="titlepage">
+<div>
+<div>
+<h1 class="title"><a id="pref01"></a>Credits</h1>
+</div>
+</div>
+</div>
+<p>
 <span class="strong"><strong>Authors</strong></span>
 </p>
-      <p>Jonathan Chaffer</p>
-      <p>Karl Swedberg</p>
-      <p>
+<p>Jonathan Chaffer</p>
+<p>Karl Swedberg</p>
+<p>
 <span class="strong"><strong>Reviewers</strong></span>
 </p>
-      <p>Kaiser Ahmed</p>
-      <p>Carlos Estebes</p>
-      <p>Alex Libby</p>
-      <p>Natalie MacLees</p>
-      <p>
+<p>Kaiser Ahmed</p>
+<p>Carlos Estebes</p>
+<p>Alex Libby</p>
+<p>Natalie MacLees</p>
+<p>
 <span class="strong"><strong>Acquisition Editor</strong></span>
 </p>
-      <p>Rukhsana Khambatta</p>
-      <p>
+<p>Rukhsana Khambatta</p>
+<p>
 <span class="strong"><strong>Lead Technical Editor</strong></span>
 </p>
-      <p>Dayan Hyames</p>
-      <p>
+<p>Dayan Hyames</p>
+<p>
 <span class="strong"><strong>Technical Editors</strong></span>
 </p>
-      <p>Veena Pagare</p>
-      <p>Zafeer Rais</p>
-      <p>Kaustubh S. Mayekar</p>
-      <p>
+<p>Veena Pagare</p>
+<p>Zafeer Rais</p>
+<p>Kaustubh S. Mayekar</p>
+<p>
 <span class="strong"><strong>Project Coordinator</strong></span>
 </p>
-      <p>Leena Purkait</p>
-      <p>
+<p>Leena Purkait</p>
+<p>
 <span class="strong"><strong>Proofreader</strong></span>
 </p>
-      <p>Paul Hindle</p>
-      <p>
+<p>Paul Hindle</p>
+<p>
 <span class="strong"><strong>Indexer</strong></span>
 </p>
-      <p>Monica Ajmera Mehta</p>
-      <p>
+<p>Monica Ajmera Mehta</p>
+<p>
 <span class="strong"><strong>Graphics</strong></span>
 </p>
-      <p>Ronak Dhruv</p>
-      <p>Abhinash Sahu</p>
-      <p>
+<p>Ronak Dhruv</p>
+<p>Abhinash Sahu</p>
+<p>
 <span class="strong"><strong>Production Coordinator</strong></span>
 </p>
-      <p>Aditi Gajjar</p>
-      <p>
+<p>Aditi Gajjar</p>
+<p>
 <span class="strong"><strong>Cover Work</strong></span>
 </p>
-      <p>Aditi Gajjar</p>
-    </div>
-  </body>
+<p>Aditi Gajjar</p>
+</div>
+</body>
 </html>
 
 {
@@ -178,7 +178,7 @@ Credits:pr02.html
     'title': ('Learning jQuery Fourth Edition', ),
     'type': (),
 }
-<Element {http://www.idpf.org/2007/opf}manifest at 0x7f2f2125a588>
+<Element {http://www.idpf.org/2007/opf}manifest at 0x7fc98ce4c5c8>
 Creating new instance
 Creating new dc instance
 Class <metadata_extraction(epub.EpubReader)>
@@ -240,23 +240,6 @@ metadata_extraction("extras/sample1.epub")
     'title': (),
     'type': (),
 }
-%date%
-[('2011-02-09T16:00:00+00:00', {})]
-{'2011-02-09T16:00:00+00:00': None}
-%title%
-[('India After Gandhi', {})]
-{'India After Gandhi': None}
-%contributor%
-[
-    (
-        'calibre (0.8.29) [http://calibre-ebook.com]',
-        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
-    ),
-]
-{'calibre (0.8.29) [http://calibre-ebook.com]': None}
-%subject%
-[('General Fiction', {})]
-{'General Fiction': None}
 %creator%
 [
     (
@@ -279,12 +262,29 @@ metadata_extraction("extras/sample1.epub")
     'cee3ce64-6245-4360-9ee5-70a2aaba296d': None,
     'uuid_id': 'cee3ce64-6245-4360-9ee5-70a2aaba296d',
 }
-%publisher%
-[('Pan Books', {})]
-{'Pan Books': None}
+%subject%
+[('General Fiction', {})]
+{'General Fiction': None}
 %language%
 [('en', {})]
 {'en': None}
+%title%
+[('India After Gandhi', {})]
+{'India After Gandhi': None}
+%date%
+[('2011-02-09T16:00:00+00:00', {})]
+{'2011-02-09T16:00:00+00:00': None}
+%publisher%
+[('Pan Books', {})]
+{'Pan Books': None}
+%contributor%
+[
+    (
+        'calibre (0.8.29) [http://calibre-ebook.com]',
+        {'{http://www.idpf.org/2007/opf}role': 'bkp'},
+    ),
+]
+{'calibre (0.8.29) [http://calibre-ebook.com]': None}
 {
     'contributor': {
         'author': ('Guha, Ramachandra', ),
@@ -367,4 +367,4 @@ metadata_extraction("extras/sample1.epub")
     'title': ('India After Gandhi', ),
     'type': (),
 }
-<Element {http://www.idpf.org/2007/opf}manifest at 0x7f2f21232508>
+<Element {http://www.idpf.org/2007/opf}manifest at 0x7fc98ce334c8>
