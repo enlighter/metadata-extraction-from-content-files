@@ -6,7 +6,11 @@ class dc_elems:
         self.dublin_core_elements = {'title':(),
              'creator': (), # creator to be merged into author in final xml
              'subject':(),
-             'description':(), # 2 different subfileds 'abstract' and 'toc' to be created from this field
+             'description': {
+                              'abstract' : (),
+                              'toc' : (),
+                              'none' : ()
+                              },
              'publisher':(),
              'contributor': {
              				'author' : (),
