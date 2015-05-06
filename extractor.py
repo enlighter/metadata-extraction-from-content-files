@@ -14,11 +14,12 @@
 #!/usr/bin/python3
 
 import sys
+import os
 from pprintpp import pprint  # pretty-print
 from lxml.etree import tostring
 from lxml.builder import E
 from extractFromEpub import metadata_extraction as epub_extraction
-from utils.datahandler import xml_dump
+from utils.datahandler import xml_dump, empty_contents
 
 class metadata:
 	def __init__(self):
@@ -58,7 +59,7 @@ class epub_data(metadata):
 
 	def execute(self):
 		self.epub_extractor.extract()
-		self.create_xml()
+		return self.create_xml()
 
 	def load(self):
 		self.epub_extractor.extracted_elements = dict(self.epub_extractor.load_from_file())
@@ -102,10 +103,40 @@ class sipData():
 			return False
 
 		self.filename = filename
+		self.contents = None
 
-mt = epub_data("extras/sample1.epub")
-mt.load()
-pprint(mt.epub_extractor.extracted_elements)
-XML = mt.create_xml()
-print(XML)
-mt.write_xml(XML)
+	def execute(self):
+		dc_xml = self.met.execute()
+		print(dc_xml)
+		sub_path = 100001 # sip sub-directory id
+		for i in range(9999):
+			full_path = './import/' + str(sub_path) + '/'
+			try:
+				if os.path.exists(full_path):
+					sub_path = sub_path + i
+					continue
+				else:
+					os.makedirs(full_path)
+					break
+			except:
+				e = sys.exc_info()
+				pprint(e)
+				print("Aborting...")
+				return False
+
+		sub_directory = str(sub_path) + '/'
+		# write the dublin_core.xml
+		self.met.write_xml(dc_xml, sub_directory)
+		# write the empty contents file
+		self.contents = empty_contents('', sub_directory)
+		self.contents.dump()
+
+# mt = epub_data("extras/sample1.epub")
+# mt.load()
+# pprint(mt.epub_extractor.extracted_elements)
+# XML = mt.create_xml()
+# print(XML)
+# mt.write_xml(XML)
+
+mySip = sipData("extras/sample1.epub", 'epub')
+mySip.execute()
