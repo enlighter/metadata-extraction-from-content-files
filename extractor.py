@@ -52,9 +52,13 @@ class metadata:
 		return tostring( self.xml, pretty_print=True, xml_declaration=True, encoding='UTF-8').decode()
 
 class epub_data(metadata):
-	def __init__(self):
+	def __init__(self, epub_file):
 		metadata.__init__(self)
-		self.epub_extractor = epub_extraction('extras/sample1.epub')
+		self.epub_extractor = epub_extraction(epub_file)
+
+	def execute(self):
+		self.epub_extractor.extract()
+		self.create_xml()
 
 	def load(self):
 		self.epub_extractor.extracted_elements = dict(self.epub_extractor.load_from_file())
@@ -87,12 +91,19 @@ class sipData():
 	Creates SIP format directory
 	structure with data from required
 	metadata classes"""
-	def __init__(self, arg):
-		self.arg = arg
-		
+	def __init__(self, filename, mode=''):
+		if 'epub' in mode.lower():
+			self.met = epub_data(filename)
+		elif 'pdf' in mode.lower():
+			self.met = None
+			# Todo: pdf_data class to be made
+			# and instantiated here
+		else:
+			return False
 
+		self.filename = filename
 
-mt = epub_data()
+mt = epub_data("extras/sample1.epub")
 mt.load()
 pprint(mt.epub_extractor.extracted_elements)
 XML = mt.create_xml()

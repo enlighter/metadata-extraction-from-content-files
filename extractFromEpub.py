@@ -261,5 +261,5 @@ def get_epub_info(filename):
 
 
 # get_epub_info("extras/sample0.epub")
-# get_epub_info("extras/sample1.epub")
+get_epub_info("extras/sample1.epub")
 #pprint(list(("aby","get")))

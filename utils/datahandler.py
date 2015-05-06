@@ -6,8 +6,9 @@ except:
 	import pickle
 
 class data_dump:
-	def __init__(self, to_dump, data_type='extract'):
+	def __init__(self, to_dump, data_type='extract', dump_path='./tmp/'):
 		self.to_dump = to_dump
+		self.dump_path = dump_path
 		self.type = data_type
 		self._data_dump = None
 		self._data_load = None
@@ -17,7 +18,8 @@ class data_dump:
 		if self._is_binary:
 			try:
 				# write mode = binary
-				self._data_dump = open(r'./tmp/%s'%self.type,'wb')
+				#self._data_dump = open(r'./tmp/%s'%self.type,'wb')
+				self._data_dump = open(self.dump_path + self.type,'wb')
 			except:
 				e = sys.exc_info()
 				pprint(e)
@@ -28,7 +30,7 @@ class data_dump:
 			# Todo: in case of non-binary object the object my change
 			# object may even need to be user-defined
 			try:
-				with open(r'./tmp/%s'%self.type,'w') as self._data_dump:
+				with open(self.dump_path + self.type,'w') as self._data_dump:
 					self._data_dump.write(self.to_dump)
 			except:
 				e = sys.exc_info()
