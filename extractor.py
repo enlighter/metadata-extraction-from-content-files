@@ -2,7 +2,6 @@
 	such as python-dev, python-all-dev, python3-dev et al]
 	sudo [-E] pip install lxml
 	sudo [-E] pip install pprintpp
-	sudo [-E] pip install beautifulsoup4
 	In case of python2 as system default, use pip3 instead
 
 	__author__: "Sushovan Mandal"
@@ -62,7 +61,7 @@ class epub_data(metadata):
 
 	def write_xml(self, xml_string):
 		xml_writer = xml_dump(xml_string)
-		print(xml_writer.to_dump)
+		#print(xml_writer.to_dump)
 		xml_writer.dump()
 
 	def create_xml(self):
@@ -72,16 +71,25 @@ class epub_data(metadata):
 					if v:
 						for element in v:
 							attr = '"' + element + '", element="' + key + '", qualifier="' + k + '",'
-							print(attr)
+							#print(attr)
 							self._append_element_(attr)
 			elif value:
 				# value is a tuple here
 				for element in value:
 					attr = '"' + element + '", element="' + key + '", qualifier="none",'
-					print(attr)
+					#print(attr)
 					self._append_element_(attr)
 
 		return self._create_xml_()
+
+class sipData():
+	"""docstring for sipData : 
+	Creates SIP format directory
+	structure with data from required
+	metadata classes"""
+	def __init__(self, arg):
+		self.arg = arg
+		
 
 
 mt = epub_data()

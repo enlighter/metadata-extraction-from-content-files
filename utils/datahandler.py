@@ -52,3 +52,7 @@ class xml_dump(data_dump):
 	def __init__(self, to_dump):
 		data_dump.__init__(self, to_dump, 'dublin_core.xml')
 		self._is_binary = False
+
+# class html_dump(data_dump):
+# 	''' wrapper class around data_dump class above '''
+# 	# fo
