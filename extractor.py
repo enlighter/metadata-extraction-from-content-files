@@ -35,15 +35,15 @@ class metadata:
 		if body:
 			ret += body
 		ret += self._xml_wrapper_tail
-		print("whole xml structure:")
-		print(ret)
+		#print("whole xml structure:")
+		#print(ret)
 		return ret
 
 	def _append_element_(self, args=''):
 		if self._xml_body:
 			self._xml_body += ','
 		self._xml_body += self._xml_element_head + args + self._xml_element_tail
-		print(self._xml_body)
+		#print(self._xml_body)
 
 	def _create_xml_(self):
 		self.xml = eval(self._xml_bind_(self._xml_body))
@@ -107,7 +107,7 @@ class sipData():
 
 	def execute(self):
 		dc_xml = self.met.execute()
-		print(dc_xml)
+		#print(dc_xml)
 		sub_path = 100001 # sip sub-directory id
 		for i in range(9999):
 			full_path = './import/' + str(sub_path) + '/'
@@ -132,5 +132,9 @@ class sipData():
 		self.contents.dump()
 
 
-mySip = sipData("extras/sample1.epub", 'epub')
-mySip.execute()
+def create_sip(filename):
+	mySip = sipData(filename, 'epub')
+	mySip.execute()
+
+create_sip('extras/sample0.epub')
+create_sip('extras/sample1.epub')
