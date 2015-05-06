@@ -63,6 +63,15 @@ class xml_dump(data_dump):
 			pprint(e)
 		self._is_binary = False
 
-# class html_dump(data_dump):
-# 	''' wrapper class around data_dump class above '''
-# 	# fo
+class empty_contents(data_dump):
+	''' wrapper class around data_dump class above '''
+	def __init__(self, to_dump, import_subpath):
+		data_dump.__init__(self, to_dump, 'contents')
+		self.dump_path = './import/' + import_subpath
+		try:
+			if not os.path.exists(self.dump_path):
+				os.makedirs(self.dump_path)
+		except:
+			e = sys.exc_info()
+			pprint(e)
+		self._is_binary = False
