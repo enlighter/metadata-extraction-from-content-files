@@ -82,6 +82,15 @@ class epub_data(metadata):
 
 		return self._create_xml_()
 
+class sipData():
+	"""docstring for sipData : 
+	Creates SIP format directory
+	structure with data from required
+	metadata classes"""
+	def __init__(self, arg):
+		self.arg = arg
+		
+
 
 mt = epub_data()
 mt.load()
