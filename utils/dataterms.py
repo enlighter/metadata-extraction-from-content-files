@@ -63,6 +63,3 @@ first = ["author","editor","illustrator","graphics","cover","coordinator","index
 headers = {
       '1' : first
 }
-
-toc_ncx_id = 'ncxtoc'
-toc_html_id = 'toc'

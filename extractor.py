@@ -131,12 +131,6 @@ class sipData():
 		self.contents = empty_contents('', sub_directory)
 		self.contents.dump()
 
-# mt = epub_data("extras/sample1.epub")
-# mt.load()
-# pprint(mt.epub_extractor.extracted_elements)
-# XML = mt.create_xml()
-# print(XML)
-# mt.write_xml(XML)
 
 mySip = sipData("extras/sample1.epub", 'epub')
 mySip.execute()

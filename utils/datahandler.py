@@ -19,7 +19,6 @@ class data_dump:
 		if self._is_binary:
 			try:
 				# write mode = binary
-				#self._data_dump = open(r'./tmp/%s'%self.type,'wb')
 				self._data_dump = open(self.dump_path + self.type,'wb')
 			except:
 				e = sys.exc_info()
