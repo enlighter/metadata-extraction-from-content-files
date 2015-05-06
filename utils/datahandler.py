@@ -1,4 +1,5 @@
 import sys
+import os
 from pprintpp import pprint  # pretty-print
 try:
 	import cPickle as pickle
@@ -6,9 +7,9 @@ except:
 	import pickle
 
 class data_dump:
-	def __init__(self, to_dump, data_type='extract', dump_path='./tmp/'):
+	def __init__(self, to_dump, data_type='extract'):
 		self.to_dump = to_dump
-		self.dump_path = dump_path
+		self.dump_path = './tmp/'
 		self.type = data_type
 		self._data_dump = None
 		self._data_load = None
@@ -51,8 +52,15 @@ class data_dump:
 
 class xml_dump(data_dump):
 	''' wrapper class around data_dump class above '''
-	def __init__(self, to_dump):
+	def __init__(self, to_dump, import_subpath):
 		data_dump.__init__(self, to_dump, 'dublin_core.xml')
+		self.dump_path = './import/' + import_subpath
+		try:
+			if not os.path.exists(self.dump_path):
+				os.makedirs(self.dump_path)
+		except:
+			e = sys.exc_info()
+			pprint(e)
 		self._is_binary = False
 
 # class html_dump(data_dump):

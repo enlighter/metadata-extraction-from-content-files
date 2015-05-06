@@ -64,7 +64,7 @@ class epub_data(metadata):
 		self.epub_extractor.extracted_elements = dict(self.epub_extractor.load_from_file())
 
 	def write_xml(self, xml_string):
-		xml_writer = xml_dump(xml_string)
+		xml_writer = xml_dump(xml_string, '100001/')
 		#print(xml_writer.to_dump)
 		xml_writer.dump()
 
