@@ -64,7 +64,8 @@ class xml_dump(data_dump):
 		self._is_binary = False
 
 class empty_contents(data_dump):
-	''' wrapper class around data_dump class above '''
+	''' wrapper class around data_dump class above, 
+	for creating empty 'contents' file in SIP sub-directory'''
 	def __init__(self, to_dump, import_subpath):
 		data_dump.__init__(self, to_dump, 'contents')
 		self.dump_path = './import/' + import_subpath
