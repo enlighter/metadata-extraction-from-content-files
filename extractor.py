@@ -14,11 +14,14 @@
 #!/usr/bin/python3
 
 import sys
+import os
+import posixpath
+from pip._vendor.distlib.compat import raw_input
 from pprintpp import pprint  # pretty-print
 from lxml.etree import tostring
 from lxml.builder import E
 from extractFromEpub import metadata_extraction as epub_extraction
-from utils.datahandler import xml_dump
+from utils.datahandler import xml_dump, empty_contents
 
 class metadata:
 	def __init__(self):
@@ -34,15 +37,15 @@ class metadata:
 		if body:
 			ret += body
 		ret += self._xml_wrapper_tail
-		print("whole xml structure:")
-		print(ret)
+		#print("whole xml structure:")
+		#print(ret)
 		return ret
 
 	def _append_element_(self, args=''):
 		if self._xml_body:
 			self._xml_body += ','
 		self._xml_body += self._xml_element_head + args + self._xml_element_tail
-		print(self._xml_body)
+		#print(self._xml_body)
 
 	def _create_xml_(self):
 		self.xml = eval(self._xml_bind_(self._xml_body))
@@ -52,15 +55,19 @@ class metadata:
 		return tostring( self.xml, pretty_print=True, xml_declaration=True, encoding='UTF-8').decode()
 
 class epub_data(metadata):
-	def __init__(self):
+	def __init__(self, epub_file):
 		metadata.__init__(self)
-		self.epub_extractor = epub_extraction('extras/sample1.epub')
+		self.epub_extractor = epub_extraction(epub_file)
+
+	def execute(self):
+		self.epub_extractor.extract()
+		return self.create_xml()
 
 	def load(self):
 		self.epub_extractor.extracted_elements = dict(self.epub_extractor.load_from_file())
 
-	def write_xml(self, xml_string):
-		xml_writer = xml_dump(xml_string)
+	def write_xml(self, xml_string, sub_directory='100001/'):
+		xml_writer = xml_dump(xml_string, sub_directory)
 		#print(xml_writer.to_dump)
 		xml_writer.dump()
 
@@ -87,14 +94,76 @@ class sipData():
 	Creates SIP format directory
 	structure with data from required
 	metadata classes"""
-	def __init__(self, arg):
-		self.arg = arg
-		
+	def __init__(self, filename, mode=''):
+		if 'epub' in mode.lower():
+			self.met = epub_data(filename)
+		elif 'pdf' in mode.lower():
+			self.met = None
+			# Todo: pdf_data class to be made
+			# and instantiated here
+		else:
+			return False
+
+		self.filename = filename
+		self.contents = None
+
+	def execute(self):
+		dc_xml = self.met.execute()
+		#print(dc_xml)
+		sub_path = 100001 # sip sub-directory id
+		for i in range(9999):
+			full_path = './import/' + str(sub_path) + '/'
+			try:
+				if os.path.exists(full_path):
+					sub_path = sub_path + 1
+					continue
+				else:
+					os.makedirs(full_path)
+					break
+			except:
+				e = sys.exc_info()
+				pprint(e)
+				print("Aborting...")
+				return False
+
+		sub_directory = str(sub_path) + '/'
+		# write the dublin_core.xml
+		self.met.write_xml(dc_xml, sub_directory)
+		# write the empty contents file
+		self.contents = empty_contents('', sub_directory)
+		self.contents.dump()
 
 
-mt = epub_data()
-mt.load()
-pprint(mt.epub_extractor.extracted_elements)
-XML = mt.create_xml()
-print(XML)
-mt.write_xml(XML)
+def create_sip(filename, mode):
+	mySip = sipData(filename, mode)
+	mySip.execute()
+
+def isepub(filename):
+	_, ext = posixpath.splitext(filename)
+	#print(ext)
+	if ext.lower() == '.epub':
+		return True
+	else:
+		return False
+
+def get_files(directory_path):
+	files_list = [f for f in os.listdir(directory_path) if os.path.isfile( os.path.join(directory_path,f) )]
+	#print(files_list)
+
+	# sort epub files
+	epub_files_list = []
+	for f in files_list:
+		if isepub(f):
+			epub_files_list.extend([f])
+	#print(epub_files_list)
+
+	# process epub files
+	for f in epub_files_list:
+		file_path = os.path.join(directory_path,f)
+		create_sip(file_path, 'epub')
+
+# create_sip('extras/sample0.epub')
+# create_sip('extras/sample1.epub')
+# get_files('extras')
+path = raw_input('Which folder is your files in? ')
+get_files(path)

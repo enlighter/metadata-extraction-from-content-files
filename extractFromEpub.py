@@ -20,10 +20,6 @@ from ebooklib import epub  # for epub
 # from lxml import etree #for xml, html fast parser
 from pprintpp import pprint  # pretty-print
 from bs4 import BeautifulSoup as bs  # for html
-# try:
-# 	import cPickle as pickle
-# except:
-# 	import pickle
 # from dependencies.semanticpy.semanticpy.vector_space import VectorSpace as vs
 import utils.dataterms as dataterms
 from utils.datahandler import data_dump
@@ -108,8 +104,6 @@ class metadata_extraction(epub.EpubReader):
 	def _finishing_touches_(self):
 		if self.extracted_elements['creator'] not in self.extracted_elements['contributor']['author']:
 			self.extracted_elements['contributor']['author'] += self.extracted_elements['creator']
-		# if element_dict['creator'] not in element_dict['contributor']['author']:
-		# 	element_dict['contributor']['author'] += element_dict['creator']
 		self.extracted_elements.__delitem__('creator')
 
 	def default_metadata(self):
@@ -152,7 +146,6 @@ class metadata_extraction(epub.EpubReader):
 	def _get_toc_(self):
 		toc = ''
 		# get table of contents
-		#pprint(self.book.toc)
 
 		def _get_components_(given_list=[]):
 			#pprint(given_list)
@@ -160,10 +153,8 @@ class metadata_extraction(epub.EpubReader):
 			for item in given_list:
 				if item:
 					# item is not empty
-					#pprint(item)
 					if type(item) == tuple:
 						item = list(item)
-					#print(item)
 					if type(item) == list:
 						components.extend(_get_components_(item))
 					if isinstance(item, epub.Section):
@@ -197,7 +188,7 @@ class metadata_extraction(epub.EpubReader):
 	def _parse_credits_(self):
 		cred = self.book.get_item_with_href(self._credits_href)
 		if cred:
-			# ack is an epub.EpubHtml type object
+			# cred is an epub.EpubHtml type object
 			contents = cred.get_content().decode()
 			contents = contents[contents.find('<html'):]
 			self.html_soup = bs( contents, "lxml")
@@ -248,9 +239,6 @@ class metadata_extraction(epub.EpubReader):
 
 
 def get_epub_info(filename):
-	book = epub.read_epub(filename)
-	# metadata = book.metadata
-	# pprint(metadata)
 	met = metadata_extraction(filename)
 	print(met)
 	print(repr(met))
@@ -259,7 +247,24 @@ def get_epub_info(filename):
 	met.save_to_file(met.extracted_elements)
 	print(met.manifest)
 
+def count_total_metadata_fields():
+	dc_elems = dataterms.dc_elems()
+	count = 0
+	for key, value in dc_elems.dublin_core_elements.items():
+		if key == 'creator':
+			# creator is merged to author
+			continue
+		if type(value) == dict:
+			for k,v in value.items():
+				if k != 'none':
+					# count is just a filler
+					count += 1
+		else:
+			count += 1
+
+	return count
+
 
 # get_epub_info("extras/sample0.epub")
 # get_epub_info("extras/sample1.epub")
-#pprint(list(("aby","get")))
+# print(count_total_metadata_fields())
