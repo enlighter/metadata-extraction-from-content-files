@@ -15,6 +15,7 @@
 
 import sys
 import os
+import posixpath
 from pprintpp import pprint  # pretty-print
 from lxml.etree import tostring
 from lxml.builder import E
@@ -132,9 +133,34 @@ class sipData():
 		self.contents.dump()
 
 
-def create_sip(filename):
-	mySip = sipData(filename, 'epub')
+def create_sip(filename, mode):
+	mySip = sipData(filename, mode)
 	mySip.execute()
 
-create_sip('extras/sample0.epub')
-create_sip('extras/sample1.epub')
+def isepub(filename):
+	_, ext = posixpath.splitext(filename)
+	#print(ext)
+	if ext.lower() == '.epub':
+		return True
+	else:
+		return False
+
+def get_files(directory_path):
+	files_list = [f for f in os.listdir(directory_path) if os.path.isfile( os.path.join(directory_path,f) )]
+	#print(files_list)
+
+	# sort epub files
+	epub_files_list = []
+	for f in files_list:
+		if isepub(f):
+			epub_files_list.extend([f])
+	#print(epub_files_list)
+
+	# process epub files
+	for f in epub_files_list:
+		file_path = os.path.join(directory_path,f)
+		create_sip(file_path, 'epub')
+
+# create_sip('extras/sample0.epub')
+# create_sip('extras/sample1.epub')
+get_files('extras')
