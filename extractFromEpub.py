@@ -247,6 +247,24 @@ def get_epub_info(filename):
 	met.save_to_file(met.extracted_elements)
 	print(met.manifest)
 
+def count_total_metadata_fields():
+	dc_elems = dataterms.dc_elems()
+	count = 0
+	for key, value in dc_elems.dublin_core_elements.items():
+		if key == 'creator':
+			# creator is merged to author
+			continue
+		if type(value) == dict:
+			for k,v in value.items():
+				if k != 'none':
+					# count is just a filler
+					count += 1
+		else:
+			count += 1
+
+	return count
+
 
 # get_epub_info("extras/sample0.epub")
 # get_epub_info("extras/sample1.epub")
+# print(count_total_metadata_fields())

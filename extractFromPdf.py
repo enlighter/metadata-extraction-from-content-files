@@ -1,5 +1,5 @@
 ''' Run the following command from your shell before running this python code file
-    sudo -E pip install --upgrade --ignore-installed pdfminer==20140328 or higher version
+    sudo [-E] pip install --upgrade --ignore-installed pdfminer==20140328 or higher version
     
     __author__: "Sushovan Mandal"
     __license__: "GPLv2"
@@ -25,5 +25,5 @@ if not document.is_extractable:
 #doc.set_parser(parser)
 #document.initialize()
 
-print document.info # The "Info" metadata
+print(document.info) # The "Info" metadata
 #print document.catalog

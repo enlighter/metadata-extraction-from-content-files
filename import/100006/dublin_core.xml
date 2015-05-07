@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dublin_core schema="dc">
+  <dcvalue element="identifier" qualifier="none" language="en">http://www.gutenberg.org/ebooks/12236</dcvalue>
+  <dcvalue element="language" qualifier="none" language="en">en</dcvalue>
+  <dcvalue element="date" qualifier="none" language="en">2004-05-01</dcvalue>
+  <dcvalue element="date" qualifier="none" language="en">2010-02-15T17:50:02.335756+00:00</dcvalue>
+  <dcvalue element="description" qualifier="toc" language="en">INDEX OF CHAPTERS -- INDEX OF ILLUSTRATIONS -- CHAPTER I. -- CHAPTER II. -- CHAPTER III. -- CHAPTER IV. -- CHAPTER V. -- CHAPTER VI. -- CHAPTER VII. -- CHAPTER VIII. -- CHAPTER IX. -- CHAPTER X. -- CHAPTER XI. -- THE OXEN GET FRISKY -- PULLING THE OXEN DOWN THE PRECIPICE. -- CHAPTER XII. -- CHAPTER XIII. -- CHAPTER XIV. -- CHAPTER XV. -- CHAPTER XVI. -- CHAPTER XVII.</dcvalue>
+  <dcvalue element="rights" qualifier="none" language="en">Public domain in the USA.</dcvalue>
+  <dcvalue element="title" qualifier="none" language="en">Death Valley in '49</dcvalue>
+  <dcvalue element="source" qualifier="none" language="en">http://www.gutenberg.org/files/12236/12236-h/12236-h.htm</dcvalue>
+  <dcvalue element="contributor" qualifier="author" language="en">William Lewis Manly</dcvalue>
+</dublin_core>

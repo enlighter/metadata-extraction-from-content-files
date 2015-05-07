@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dublin_core schema="dc">
+  <dcvalue element="identifier" qualifier="none" language="en">urn:uuid:2c3272a4-731b-4348-909d-6f38b97b18eb</dcvalue>
+  <dcvalue element="language" qualifier="none" language="en">en</dcvalue>
+  <dcvalue element="description" qualifier="toc" language="en">Calibre Quick Start Guide -- Table of Contents -- Introduction -- Installing calibre -- The Main Library Window, aka the GUI -- Common Tasks -- Task 1: Organizing -- Task 2: Conversion -- 2.1: Background -- 2.2: Why are there different e-book formats? -- 2.3: Conversion basics -- 2.4 Auto Conversion -- 2.5: More robust conversion -- 2.6: Limitations of conversion -- 2.7: DRM: the bane of conversion -- Task 3: The e-book editor -- Task 4: Downloading News -- Task 5: Interacting with e-book readers -- 5.1: Putting an e-book on your e-book reader -- 5.2: E-book reader optional configuration -- Task 6: The e-book viewer -- Where to get help</dcvalue>
+  <dcvalue element="description" qualifier="none" language="en">calibre Quick Start Guide</dcvalue>
+  <dcvalue element="title" qualifier="none" language="en">Quick Start Guide</dcvalue>
+  <dcvalue element="contributor" qualifier="author" language="en">John Schember</dcvalue>
+</dublin_core>
