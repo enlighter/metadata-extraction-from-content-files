@@ -114,7 +114,7 @@ class sipData():
 			full_path = './import/' + str(sub_path) + '/'
 			try:
 				if os.path.exists(full_path):
-					sub_path = sub_path + i
+					sub_path = sub_path + 1
 					continue
 				else:
 					os.makedirs(full_path)
