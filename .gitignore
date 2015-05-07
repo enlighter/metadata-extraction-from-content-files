@@ -5,9 +5,12 @@ __pycache__/
 # C extensions
 *.so
 
-#IDE & development
+# IDE & development
 .idea/
 third-party/
+
+# Testing Files
+temp/
 
 # Distribution / packaging
 .Python
