@@ -12,6 +12,9 @@ third-party/
 # Testing Files
 temp/
 
+# Project log files
+log/
+
 # Distribution / packaging
 .Python
 env/
