@@ -147,7 +147,13 @@ def isepub(filename):
 		return False
 
 def get_files(directory_path):
-	files_list = [f for f in os.listdir(directory_path) if os.path.isfile( os.path.join(directory_path,f) )]
+	#files_list = [f for f in os.listdir(directory_path) if os.path.isfile( os.path.join(directory_path,f) )]
+	#print(files_list)
+
+	files_list = []
+	for root, dirnames, filenames in os.walk(directory_path):
+		for filename in filenames:
+			files_list.append(os.path.join(root, filename))
 	#print(files_list)
 
 	# sort epub files
@@ -155,11 +161,11 @@ def get_files(directory_path):
 	for f in files_list:
 		if isepub(f):
 			epub_files_list.extend([f])
-	#print(epub_files_list)
+	pprint(epub_files_list)
 
 	# process epub files
-	for f in epub_files_list:
-		file_path = os.path.join(directory_path,f)
+	for file_path in epub_files_list:
+		#print(file_path)
 		create_sip(file_path, 'epub')
 
 # create_sip('extras/sample0.epub')
