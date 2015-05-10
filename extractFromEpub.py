@@ -27,7 +27,7 @@ from utils.datahandler import data_dump
 
 class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
-		print("Creating new instance")
+		print("Creating new metadata_extraction instance")
 		epub.EpubReader.__init__(self, filename)
 		self.book = self.load()
 		self.process()

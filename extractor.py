@@ -25,6 +25,7 @@ from utils.datahandler import xml_dump, empty_contents
 
 class metadata:
 	def __init__(self):
+		print("creating new metadata instance")
 		self._xml_wrapper_head = 'E.dublin_core('
 		self._xml_wrapper_tail = ',schema="dc")'
 		self._xml_element_head = 'E.dcvalue('
@@ -56,6 +57,7 @@ class metadata:
 
 class epub_data(metadata):
 	def __init__(self, epub_file):
+		print("Creating new epub_data instance")
 		metadata.__init__(self)
 		self.epub_extractor = epub_extraction(epub_file)
 
@@ -95,6 +97,7 @@ class sipData():
 	structure with data from required
 	metadata classes"""
 	def __init__(self, filename, mode=''):
+		print("Creating new sipdata instance")
 		if 'epub' in mode.lower():
 			self.met = epub_data(filename)
 		elif 'pdf' in mode.lower():
