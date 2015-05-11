@@ -22,7 +22,7 @@ from pprintpp import pprint  # pretty-print
 from lxml.etree import tostring
 from lxml.builder import E
 from extractFromEpub import metadata_extraction as epub_extraction
-from utils.datahandler import xml_dump, empty_contents
+from utils.datahandler import xml_dump, empty_contents, logger
 
 class metadata:
 	def __init__(self):
@@ -126,8 +126,8 @@ class sipData():
 					break
 			except:
 				e = sys.exc_info()
-				pprint(e)
-				print("Aborting...")
+				print(e, file=sys.stderr)
+				print("Aborting...", file=sys.stderr)
 				return False
 
 		sub_directory = str(sub_path) + '/'
@@ -166,19 +166,21 @@ def get_files(directory_path):
 		for f in files_list:
 			if isepub(f):
 				epub_files_list.extend([f])
-		pprint(epub_files_list)
+		#pprint(epub_files_list)
 
 		# process epub files
 		for file_path in epub_files_list:
-			#print(file_path)
+			print(file_path)
 			create_sip(file_path, 'epub')
 	except:
 			e = sys.exc_info()
-			pprint(e)
+			print(e, file=sys.stderr)
 
 	log = my_stdout.getvalue()
 	sys.stdout = old_stdout
-	print(log)
+	# write log file
+	writelog = logger(log)
+	writelog.dump()
 
 # create_sip('extras/sample0.epub')
 # create_sip('extras/sample1.epub')

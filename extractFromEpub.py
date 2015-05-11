@@ -98,7 +98,7 @@ class metadata_extraction(epub.EpubReader):
 						if synonym in token:
 							self.extractor = True
 				except KeyError:
-					print("no synonym, continuing...")
+					print("no synonym, continuing...", file=sys.stderr)
 		return ret
 
 	def _finishing_touches_(self):
