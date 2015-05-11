@@ -114,6 +114,19 @@ class sipData():
 	def execute(self):
 		dc_xml = self.met.execute()
 		#print(dc_xml)
+
+		try:
+			# create import folder if it doesn't exist
+			if not os.path.exists('./import'):
+				os.makedirs('./import')
+				print("Created import folder")
+		except:
+			e = sys.exc_info()
+			trace = traceback.format_exc()
+			print( trace + '\nAborting...', file=sys.stdout)
+			print( str(e) + '\nAborting...', file=sys.stderr)
+			return False
+
 		sub_path = 100001 # sip sub-directory id
 		for i in range(9999):
 			full_path = './import/' + str(sub_path) + '/'
@@ -122,25 +135,41 @@ class sipData():
 					sub_path = sub_path + 1
 					continue
 				else:
+					print('sub_folder : ' + str(sub_path))
 					os.makedirs(full_path)
+					print("Created " + full_path)
 					break
 			except:
 				e = sys.exc_info()
-				print(e, file=sys.stderr)
-				print("Aborting...", file=sys.stderr)
+				trace = traceback.format_exc()
+				print( trace + '\nAborting...', file=sys.stdout)
+				print( str(e) + '\nAborting...', file=sys.stderr)
 				return False
 
 		sub_directory = str(sub_path) + '/'
-		# write the dublin_core.xml
-		self.met.write_xml(dc_xml, sub_directory)
-		# write the empty contents file
-		self.contents = empty_contents('', sub_directory)
-		self.contents.dump()
+		try:
+			# write the dublin_core xml
+			self.met.write_xml(dc_xml, sub_directory)
+		except:
+			e = sys.exc_info()
+			print( str(e) + '\nAborting...', file=sys.stdout)
+			print( str(e) + '\nAborting...', file=sys.stderr)
+			return False
+		try:
+			# create the empty 'contents' file
+			self.contents = empty_contents('', sub_directory)
+			self.contents.dump()
+		except:
+			e = sys.exc_info()
+			print( str(e) + '\nAborting...', file=sys.stdout)
+			print( str(e) + '\nAborting...', file=sys.stderr)
+			return False
+		return True
 
 
 def create_sip(filename, mode):
 	mySip = sipData(filename, mode)
-	mySip.execute()
+	return mySip.execute()
 
 def isepub(filename):
 	_, ext = posixpath.splitext(filename)
@@ -171,16 +200,25 @@ def get_files(directory_path):
 		# process epub files
 		for file_path in epub_files_list:
 			print(file_path)
-			create_sip(file_path, 'epub')
+			if not create_sip(file_path, 'epub'):
+				print("Error creating SIP structure, gracefully exiting...", file=sys.stderr)
+				print("Error creating SIP structure, gracefully exiting...", file=sys.stderr)
 	except:
 			e = sys.exc_info()
-			print(e, file=sys.stderr)
+			trace = traceback.format_exc()
+			print( trace + '\ngracefully exiting...', file=sys.stdout)
+			print( str(e) + '\ngracefully exiting...', file=sys.stderr)
 
 	log = my_stdout.getvalue()
 	sys.stdout = old_stdout
-	# write log file
-	writelog = logger(log)
-	writelog.dump()
+	try:
+		# write log file
+		writelog = logger(log)
+		writelog.dump()
+	except:
+		e = sys.exc_info()
+		print( str(e) + "\nCouldn't log", file=sys.stdout)
+		print( str(e) + "\nCouldn't log", file=sys.stderr)
 
 # create_sip('extras/sample0.epub')
 # create_sip('extras/sample1.epub')

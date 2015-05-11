@@ -15,6 +15,7 @@
 #!/usr/bin/python3
 
 import sys
+import traceback
 #import os
 from ebooklib import epub  # for epub
 # from lxml import etree #for xml, html fast parser
@@ -29,7 +30,13 @@ class metadata_extraction(epub.EpubReader):
 	def __init__(self, filename=''):
 		print("Creating new metadata_extraction instance")
 		epub.EpubReader.__init__(self, filename)
-		self.book = self.load()
+		try:
+			self.book = self.load() # could raise KeyError
+		except:
+			e = sys.exc_info()
+			trace = traceback.format_exc()
+			print( trace + '\nContinuing...', file=sys.stdout)
+			print( str(e) + '\nContinuing...', file=sys.stderr)
 		self.process()
 		self.__reset__()
 
