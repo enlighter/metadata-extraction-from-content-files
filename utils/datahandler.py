@@ -1,6 +1,7 @@
 import sys
 import os
-from pprintpp import pprint  # pretty-print
+import datetime
+#from pprintpp import pprint  # pretty-print
 try:
 	import cPickle as pickle
 except:
@@ -22,7 +23,10 @@ class data_dump:
 				self._data_dump = open(self.dump_path + self.type,'wb')
 			except:
 				e = sys.exc_info()
-				pprint(e)
+				trace = traceback.format_exc()
+				print( trace + "\nCouldn't dump file...", file=sys.stdout)
+				print( str(e) + "\nCouldn't dump file...", file=sys.stderr)
+				raise Exception("Couldn't dump file")
 			pickle.dump( self.to_dump, self._data_dump, -1)
 			self._data_dump.close()
 		else:
@@ -34,16 +38,20 @@ class data_dump:
 					self._data_dump.write(self.to_dump)
 			except:
 				e = sys.exc_info()
-				pprint(e)
-
-		# self._data_dump.close()
+				trace = traceback.format_exc()
+				print( trace + "\nCouldn't dump file...", file=sys.stdout)
+				print( str(e) + "\nCouldn't dump file...", file=sys.stderr)
+				raise Exception("Couldn't dump file")
 
 	def load(self):
 		try:
 			self._data_load = open(r'./tmp/%s'%self.type,'rb')
 		except:
 			e = sys.exc_info()
-			pprint(e)
+			trace = traceback.format_exc()
+			print( trace + "\nCouldn't load file...", file=sys.stdout)
+			print( str(e) + "\nCouldn't load file...", file=sys.stderr)
+			raise Exception("Couldn't load file")
 		ret = pickle.load(self._data_load)
 		self._data_load.close()
 
@@ -59,7 +67,10 @@ class xml_dump(data_dump):
 				os.makedirs(self.dump_path)
 		except:
 			e = sys.exc_info()
-			pprint(e)
+			trace = traceback.format_exc()
+			print( trace + "\nPlease fix this issue\nAborting...", file=sys.stdout)
+			print( str(e) + "\nPlease fix this issue\nAborting...", file=sys.stderr)
+			raise Exception("Could't make directory")
 		self._is_binary = False
 
 class empty_contents(data_dump):
@@ -71,7 +82,30 @@ class empty_contents(data_dump):
 		try:
 			if not os.path.exists(self.dump_path):
 				os.makedirs(self.dump_path)
+				print("Created " + self.dump_path)
 		except:
 			e = sys.exc_info()
-			pprint(e)
+			trace = traceback.format_exc()
+			print( trace + "\nPlease fix this issue\nAborting...", file=sys.stdout)
+			print( str(e) + "\nPlease fix this issue\nAborting...", file=sys.stderr)
+			raise Exception("Could't make directory " + self.dump_path)
+		self._is_binary = False
+
+class logger(data_dump):
+	''' wrapper class around data_dump class above, 
+	for creating log files '''
+	def __init__(self, to_dump):
+		try:
+			if not os.path.exists('./log'):
+				os.makedirs('./log')
+		except:
+			e = sys.exc_info()
+			trace = traceback.format_exc()
+			print( trace + "\nPlease fix this issue\nAborting...", file=sys.stdout)
+			print( str(e) + "\nPlease fix this issue\nAborting...", file=sys.stderr)
+			raise Exception("Could't make directory ./log")
+
+		current_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+		data_dump.__init__(self, to_dump, current_time+'.log')
+		self.dump_path = './log/'
 		self._is_binary = False
