@@ -1,6 +1,7 @@
 import sys
 import os
-from pprintpp import pprint  # pretty-print
+import datetime
+#from pprintpp import pprint  # pretty-print
 try:
 	import cPickle as pickle
 except:
@@ -22,7 +23,7 @@ class data_dump:
 				self._data_dump = open(self.dump_path + self.type,'wb')
 			except:
 				e = sys.exc_info()
-				pprint(e)
+				print(e, file=sys.stderr)
 			pickle.dump( self.to_dump, self._data_dump, -1)
 			self._data_dump.close()
 		else:
@@ -34,7 +35,7 @@ class data_dump:
 					self._data_dump.write(self.to_dump)
 			except:
 				e = sys.exc_info()
-				pprint(e)
+				print(e, file=sys.stderr)
 
 		# self._data_dump.close()
 
@@ -43,7 +44,7 @@ class data_dump:
 			self._data_load = open(r'./tmp/%s'%self.type,'rb')
 		except:
 			e = sys.exc_info()
-			pprint(e)
+			print(e, file=sys.stderr)
 		ret = pickle.load(self._data_load)
 		self._data_load.close()
 
@@ -59,7 +60,7 @@ class xml_dump(data_dump):
 				os.makedirs(self.dump_path)
 		except:
 			e = sys.exc_info()
-			pprint(e)
+			print(e, file=sys.stderr)
 		self._is_binary = False
 
 class empty_contents(data_dump):
@@ -73,5 +74,14 @@ class empty_contents(data_dump):
 				os.makedirs(self.dump_path)
 		except:
 			e = sys.exc_info()
-			pprint(e)
+			print(e, file=sys.stderr)
+		self._is_binary = False
+
+class logger(data_dump):
+	''' wrapper class around data_dump class above, 
+	for creating log files '''
+	def __init__(self, to_dump):
+		current_time = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+		data_dump.__init__(self, to_dump, current_time+'.log')
+		self.dump_path = './log/'
 		self._is_binary = False
