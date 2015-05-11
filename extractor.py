@@ -16,6 +16,7 @@
 import sys
 import os
 import posixpath
+from io import StringIO
 from pip._vendor.distlib.compat import raw_input
 from pprintpp import pprint  # pretty-print
 from lxml.etree import tostring
@@ -150,26 +151,34 @@ def isepub(filename):
 		return False
 
 def get_files(directory_path):
-	#files_list = [f for f in os.listdir(directory_path) if os.path.isfile( os.path.join(directory_path,f) )]
-	#print(files_list)
+	old_stdout = sys.stdout
+	sys.stdout = my_stdout = StringIO()
 
-	files_list = []
-	for root, dirnames, filenames in os.walk(directory_path):
-		for filename in filenames:
-			files_list.append(os.path.join(root, filename))
-	#print(files_list)
+	try:
+		files_list = []
+		for root, dirnames, filenames in os.walk(directory_path):
+			for filename in filenames:
+				files_list.append(os.path.join(root, filename))
+		#print(files_list)
 
-	# sort epub files
-	epub_files_list = []
-	for f in files_list:
-		if isepub(f):
-			epub_files_list.extend([f])
-	pprint(epub_files_list)
+		# sort epub files
+		epub_files_list = []
+		for f in files_list:
+			if isepub(f):
+				epub_files_list.extend([f])
+		pprint(epub_files_list)
 
-	# process epub files
-	for file_path in epub_files_list:
-		#print(file_path)
-		create_sip(file_path, 'epub')
+		# process epub files
+		for file_path in epub_files_list:
+			#print(file_path)
+			create_sip(file_path, 'epub')
+	except:
+			e = sys.exc_info()
+			pprint(e)
+
+	log = my_stdout.getvalue()
+	sys.stdout = old_stdout
+	print(log)
 
 # create_sip('extras/sample0.epub')
 # create_sip('extras/sample1.epub')
