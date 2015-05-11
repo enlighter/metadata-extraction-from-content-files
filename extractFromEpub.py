@@ -105,6 +105,7 @@ class metadata_extraction(epub.EpubReader):
 						if synonym in token:
 							self.extractor = True
 				except KeyError:
+					print("no synonym, continuing...", file=sys.stdout)
 					print("no synonym, continuing...", file=sys.stderr)
 		return ret
 
@@ -155,7 +156,7 @@ class metadata_extraction(epub.EpubReader):
 		# get table of contents
 
 		def _get_components_(given_list=[]):
-			#pprint(given_list)
+			pprint(given_list)
 			components = []
 			for item in given_list:
 				if item:
