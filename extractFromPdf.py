@@ -25,5 +25,9 @@ if not document.is_extractable:
 #doc.set_parser(parser)
 #document.initialize()
 
-print(document.info) # The "Info" metadata
+metadata = document.info # The "Info" metadata
 #print document.catalog
+for d in metadata:
+	if type(d) == dict:
+		for key, value in d.iteritems():
+			print ("%s, %s"%(unicode(key),unicode(value, errors='ignore')))
