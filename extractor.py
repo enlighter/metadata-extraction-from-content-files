@@ -16,8 +16,8 @@
 import sys
 import os
 import posixpath
+import traceback
 from io import StringIO
-from pip._vendor.distlib.compat import raw_input
 from pprintpp import pprint  # pretty-print
 from lxml.etree import tostring
 from lxml.builder import E
@@ -223,5 +223,5 @@ def get_files(directory_path):
 # create_sip('extras/sample0.epub')
 # create_sip('extras/sample1.epub')
 # get_files('extras')
-path = raw_input('Which folder is your files in? ')
+path = input('Which folder is your files in? ')
 get_files(path)
